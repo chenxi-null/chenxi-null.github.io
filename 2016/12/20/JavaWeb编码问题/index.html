@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="浏览器端 url中的编码。分为两种情况：url路径和url参数（这里指的是手动在地址栏敲击中文等非ASCII字符）。采用何种字符集由浏览器决定。  form表单提交内容的编码。不论是get还是post请求，采用的都是“页面指定的编码”。指定页面编码有两种方式：  html中的meta标签: &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt; 返回本页面时服务端的返回头:">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaWeb编码问题">
+<meta property="og:url" content="http://yoursite.com/2016/12/20/JavaWeb编码问题/index.html">
+<meta property="og:site_name" content="David&#39;s Blog">
+<meta property="og:description" content="浏览器端 url中的编码。分为两种情况：url路径和url参数（这里指的是手动在地址栏敲击中文等非ASCII字符）。采用何种字符集由浏览器决定。  form表单提交内容的编码。不论是get还是post请求，采用的都是“页面指定的编码”。指定页面编码有两种方式：  html中的meta标签: &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt; 返回本页面时服务端的返回头:">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-21T05:43:34.362Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaWeb编码问题">
+<meta name="twitter:description" content="浏览器端 url中的编码。分为两种情况：url路径和url参数（这里指的是手动在地址栏敲击中文等非ASCII字符）。采用何种字符集由浏览器决定。  form表单提交内容的编码。不论是get还是post请求，采用的都是“页面指定的编码”。指定页面编码有两种方式：  html中的meta标签: &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt; 返回本页面时服务端的返回头:">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/20/JavaWeb编码问题/">
+
+
+
+
+
+  <title>JavaWeb编码问题 | David's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">David's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/20/JavaWeb编码问题/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ChenXi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="David's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaWeb编码问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-20T21:49:00+08:00">
+                2016-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="浏览器端"><a href="#浏览器端" class="headerlink" title="浏览器端"></a>浏览器端</h2><ul>
+<li><p>url中的编码。<br>分为两种情况：url路径和url参数（这里指的是手动在地址栏敲击中文等非ASCII字符）。采用何种字符集由浏览器决定。</p>
+</li>
+<li><p>form表单提交内容的编码。<br>不论是get还是post请求，采用的都是<strong>“页面指定的编码”</strong>。<br>指定页面编码有两种方式：</p>
+<ul>
+<li>html中的meta标签: <code>&lt;meta charset=&quot;utf-8&quot;&gt;</code></li>
+<li>返回本页面时服务端的返回头: <code>Content-Type:text/html;charset=gbk</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>ajax请求<br>实验证明ajax默认使用的是utf-8编码，和页面默认编码方式无关。<br>至少对于<strong>JQuery的ajax</strong>请求来说，在IE和Chrome上测试:<ul>
+<li>通过post请求提交的数据，服务端不做特殊处理也不会产生乱码；<br>  contentType: “application/x-www-form-urlencoded; charset=utf-8”  两种浏览器都会在加上这一请求头。</li>
+<li>而对于get请求的话，两个浏览器的处理方式就不同了:<br>   chrome中默认使用utf-8编码；而IE的编码方式未知     </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>JS编码：<ul>
+<li>encodeURI两次编码，对应服务端的两次解码：tomcat解码一次加代码中解码一次。</li>
+<li>+号消失问题：http协议遗留问题，服务端将+号当作空格的编码，解决办法：将加号用%2B替换或者使用encodeURIComponent解码部分内容</li>
+<li>$.ajax的“data”参数，<code>data: param</code><br>如果param是js个对象，发送post请求的时候会以encodeURIComponent形式进行编码</li>
+</ul>
+</li>
+</ul>
+<h2 id="HTTP服务器端（以Tomcat为例）"><a href="#HTTP服务器端（以Tomcat为例）" class="headerlink" title="HTTP服务器端（以Tomcat为例）"></a>HTTP服务器端（以Tomcat为例）</h2><p>浏览器向服务器提交请求内容，无非是使用get或者post两种方式（根据HTTP协议，还存在head，put等请求方式，这里先不讨论），所以服务端的解码方式自然也分两块，一是对于url中参数(queryString)的解码方式，二是对于请求体(postData)中内容的解码方式。</p>
+<ul>
+<li><p>Tomcat中对于requestBody中的内容(<strong>PostData</strong>)采用的默认编码为ISO-8859-1，<br>可在Servlet中设置：<code>request.setCharacterEncoding(&quot;utf-8&quot;);·</code><br>或者在提交时通过请求头指定编码类型：<code>Content-Type: application/x-www-form-urlencoded; charset=UTF-8</code><br>通过这两种方式让Tomcat以我们指定的字符集来解码。</p>
+</li>
+<li><p>对于URI中携带的参数，Tomcat会采用其默认编码字符集先对<strong>QueryString</strong>进行一次解码， Tomcat7及其之前的版本采用的编码集为ISO-8859-1 ，而到了Tomcat8I默认字符集改成了UTF-8。<br>可在tomcat的server.xml中配置，修改成自己想要的字符集。</p>
+</li>
+</ul>
+<h3 id="JSP及Servlet-API的使用"><a href="#JSP及Servlet-API的使用" class="headerlink" title="JSP及Servlet API的使用"></a>JSP及Servlet API的使用</h3><ul>
+<li><p>通常我们在JSP文件的Page指令标签中看到这样的声明：<br><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</code><br>指定了contentType属性，其效果是客户端如果请求这个jsp，服务器返回的响应报文会添加contentType这一响应头，通过这种方式可是指定当前页面的编码，这样浏览器既会以预期的编码来解析html，也会在提交form表单时使用这一字符集进行编码。</p>
+</li>
+<li><p>如何在Servlet里正确的设置ContentType</p>
+<ul>
+<li><p>服务端什么都不做<br>结果：没有Content-Type这一个http响应头</p>
+</li>
+<li><p>response.setContentType(“text/html”);  // 没有指定charset<br>结果：Content-Type:text/html;charset=ISO-8859-1，默认指定编码为IOS-8859-1，这样包含中文字符的话会出现乱码</p>
+</li>
+<li><p>response.setCharacterEncoding(“utf-8”);  // 没有调用HttpServletResponse#setContentType方法<br>结果：也没有Content-Type这一个http响应头</p>
+</li>
+<li><p>要想返回预期的Content-Type，如：”Content-Type:text/html;charset=UTF-8”, 有两种方式:<br>1.<br>response.setContentType(“text/html”);<br>response.setCharacterEncoding(“utf-8”);<br>2.<br>response.setContentType(“text/html;utf-8”);</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/11/代理模式和装饰器模式的区别/" rel="next" title="代理模式和装饰器模式的区别">
+                <i class="fa fa-chevron-left"></i> 代理模式和装饰器模式的区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/23/使用hexo-Coding-Pages搭建个人博客/" rel="prev" title="使用hexo+Coding Pages搭建个人博客">
+                使用hexo+Coding Pages搭建个人博客 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ChenXi</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器端"><span class="nav-number">1.</span> <span class="nav-text">浏览器端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP服务器端（以Tomcat为例）"><span class="nav-number">2.</span> <span class="nav-text">HTTP服务器端（以Tomcat为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP及Servlet-API的使用"><span class="nav-number">2.1.</span> <span class="nav-text">JSP及Servlet API的使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenXi</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

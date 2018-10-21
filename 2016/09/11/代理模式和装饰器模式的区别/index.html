@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OOP,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="之前了解过“代理模式”，最经典的例子就是“房屋中介”，房东是被代理对象（也称为真实对象），中介公司是代理对象，共同实现同一个接口，而租房子的家伙就是客户端调用者。租房狗调用一个租房接口，实现自己的租房业务，而中介公司作为租房接口的实现类，成为租房狗实际调用的对象（这就是面向接口编程的一种实践），租房狗是接触不到真正的房东的，但房子毕竟还是房东的啊，这意味着这核心的业务还是属于被代理对象的，代理对象">
+<meta name="keywords" content="OOP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代理模式和装饰器模式的区别">
+<meta property="og:url" content="http://yoursite.com/2016/09/11/代理模式和装饰器模式的区别/index.html">
+<meta property="og:site_name" content="David&#39;s Blog">
+<meta property="og:description" content="之前了解过“代理模式”，最经典的例子就是“房屋中介”，房东是被代理对象（也称为真实对象），中介公司是代理对象，共同实现同一个接口，而租房子的家伙就是客户端调用者。租房狗调用一个租房接口，实现自己的租房业务，而中介公司作为租房接口的实现类，成为租房狗实际调用的对象（这就是面向接口编程的一种实践），租房狗是接触不到真正的房东的，但房子毕竟还是房东的啊，这意味着这核心的业务还是属于被代理对象的，代理对象">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-21T05:43:34.363Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="代理模式和装饰器模式的区别">
+<meta name="twitter:description" content="之前了解过“代理模式”，最经典的例子就是“房屋中介”，房东是被代理对象（也称为真实对象），中介公司是代理对象，共同实现同一个接口，而租房子的家伙就是客户端调用者。租房狗调用一个租房接口，实现自己的租房业务，而中介公司作为租房接口的实现类，成为租房狗实际调用的对象（这就是面向接口编程的一种实践），租房狗是接触不到真正的房东的，但房子毕竟还是房东的啊，这意味着这核心的业务还是属于被代理对象的，代理对象">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/11/代理模式和装饰器模式的区别/">
+
+
+
+
+
+  <title>代理模式和装饰器模式的区别 | David's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">David's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/11/代理模式和装饰器模式的区别/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ChenXi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="David's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">代理模式和装饰器模式的区别</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-11T20:51:00+08:00">
+                2016-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前了解过“代理模式”，最经典的例子就是“房屋中介”，房东是<strong>被代理对象（也称为真实对象）</strong>，中介公司是<strong>代理对象</strong>，共同实现同一个接口，而租房子的家伙就是<strong>客户端调用者</strong>。租房狗调用一个租房接口，实现自己的租房业务，而中介公司作为租房接口的实现类，成为租房狗实际调用的对象（这就是面向接口编程的一种实践），租房狗是接触不到真正的房东的，但房子毕竟还是房东的啊，这意味着这核心的业务还是属于被代理对象的，代理对象只是在别人调用真实对象时，增加一些自己的方法，比如收点手续费什么的。这里就不上代码了，网上有很多相关的例子讲的很清楚。</p>
+<p>作为java程序员，最经典的关于的代理例子，当然是Spring的AOP啦！Spring AOP为真实对象注入切面，包括日志、权限检验，方法拦截等。</p>
+<p>之前对“装饰器模式”的理解很模糊，知道java的IO框架大量地用到这个模式，今天上午看了几篇讲“装饰器模式”的文章，发现：咦？<strong>装饰器</strong>和<strong>被装饰对象</strong>怎么也是实现同一个接口？怎么也是在增强被装饰对象的真实方法？突然有点糊涂了。</p>
+<p>随即在网上搜了几篇讲两者区别的文章，归纳起来大致是这样的：</p>
+<ol>
+<li>使用代理模式，代理和真实对象之间的的关系通常在编译时就已经确定了，而对于装饰器模式，被装饰对象的引用通常是作为装饰器的构造函数的参数传入的，这种关系在运行期才能确定。<br><code>这个说法还真的有待商榷，那怎么解释Spring AOP运行期的动态代理机制呢，就算抛开这个不谈，我觉得这并不是两者的核心区别</code></li>
+<li>代理模式是控制<strong>控制访问</strong>，而装饰器模式是<strong>新增行为</strong>。<br><code>相比较而言，这个说法还是比较靠谱的，可问题又来了，如何区分“控制访问”和“新增行为呢”，这个问题确实不好回答，AOP里的方法拦截算不算一种“新增行为”呢？某些时候单从字面去理解的话，确实不太好判定</code></li>
+</ol>
+<p>其实我对这两个模式的理解也不是很深刻，例如“装饰器模式”里提高，它是使用“组合”来代替“继承”以拓展父类的方法，对于“组合”和“继承”的区别优劣还不是特别理解。<br>总而言之，要想理解某个设计模式单靠看概念肯定是不够的，还必须结合自己的编程实际以及源码阅读还提升自己的理解能力。<br>这篇文章也只是记录我对这两个模式的一点思考，自然是不够系统全面的，先在这里立一个flag，等以后知识水平提高了再来谈笑风生，全面地介绍关于设计模式的人生经验。</p>
+<p>参考链接：<br><a href="http://blog.csdn.net/ljl157011/article/details/17882253" target="_blank" rel="noopener">http://blog.csdn.net/ljl157011/article/details/17882253</a><br><a href="http://www.iteye.com/topic/830861" target="_blank" rel="noopener">http://www.iteye.com/topic/830861</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OOP/" rel="tag"># OOP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/04/java枚举类初探-反编译-语法糖/" rel="next" title="java枚举类初探: 反编译&语法糖">
+                <i class="fa fa-chevron-left"></i> java枚举类初探: 反编译&语法糖
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/20/JavaWeb编码问题/" rel="prev" title="JavaWeb编码问题">
+                JavaWeb编码问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ChenXi</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ChenXi</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
