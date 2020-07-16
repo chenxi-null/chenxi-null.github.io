@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="null">
+  <meta name="author" content="Chenxi">
+  <meta name="keywords" content="undefined">
+  <title>成为 1.1 倍程序员 - 实用效能工具分享 - Chenxi&#39;s Blog</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css">
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script src="/js/utils.js"></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>🐱</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+                成为 1.1 倍程序员 - 实用效能工具分享
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2018-10-21 15:52">
+      2018年10月21日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      962 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <blockquote>
+<p>10 倍程序员一直是一个经久不衰的话题，然而 10 倍程序员对于很多人来说是一个遥不可及的目标，不过我们可以通过各种实用工具🔧提高自己的生产效率，先让自己成为一个 1.1 倍程序员。</p>
+<p>乘以十太困难了, 那就先加百分之十吧！</p>
+<p>下面分享几款我日常使用的实用工具, 因为本人 win 和 mac 都用过，所以对于同一类型的功能需求我会对两种平台下的工具都做一下介绍。</p>
+</blockquote>
+<h2 id="文件快速搜索"><a href="#文件快速搜索" class="headerlink" title="文件快速搜索"></a>文件快速搜索</h2><h3 id="Listary-win"><a href="#Listary-win" class="headerlink" title="Listary (win)"></a>Listary (win)</h3><p>和everything相比, 提供可视化界面, 全局快捷键呼出应用，必不可少的一款应用</p>
+<h3 id="Alfred-mac"><a href="#Alfred-mac" class="headerlink" title="Alfred (mac)"></a>Alfred (mac)</h3><p>功能丰富，除了文件搜索功能，还提供了其他功能，如:</p>
+<ul>
+<li>snippets: 一键呼出常用文本</li>
+<li>clipboard: mac下无需再去寻找其他剪切板加强工具，一款Alfred就足够了  </li>
+</ul>
+<p>这两款都是提高工具效率的利器</p>
+<h3 id="autojump-cmd"><a href="#autojump-cmd" class="headerlink" title="autojump (cmd)"></a>autojump (cmd)</h3><p>非常好用的一款 Unix 命令行工具, 快速跳转到目录, 使用Mac时我极少使用Finder，而是通过命令行访问目录，操作文件, 这样更高效。<br>可以使用很多命令行工具，这也是 Mac-OS 优于 Win 的地方。<br><img src="https://user-gold-cdn.xitu.io/2019/12/15/16f0822378d6487d?w=2846&amp;h=304&amp;f=png&amp;s=193291" srcset="/img/loading.gif" alt=""></p>
+<h2 id="剪切板历史"><a href="#剪切板历史" class="headerlink" title="剪切板历史"></a>剪切板历史</h2><blockquote>
+<p>为了复制粘贴几段信息，来回切换窗口？<br>已经复制过的信息，还要跑到原始窗口再复制一遍?<br>连手机(比如锤子)都支持”剪切板历史”这一功能了，你还在用这么低效的方式办公？</p>
+<p>尤其是面对运维性质比较浓的一些工作，这款工具可以分享明显地提高效率。</p>
+</blockquote>
+<h3 id="Ditto-win"><a href="#Ditto-win" class="headerlink" title="Ditto (win)"></a>Ditto (win)</h3><h3 id="Alfred-clipboard-mac"><a href="#Alfred-clipboard-mac" class="headerlink" title="Alfred-clipboard (mac)"></a>Alfred-clipboard (mac)</h3><p>显示所有剪切板📋历史，甚至可以预览之前复制过的图片<br><img src="https://user-gold-cdn.xitu.io/2019/12/15/16f082b6e3c71436?w=1156&amp;h=852&amp;f=png&amp;s=970561" srcset="/img/loading.gif" alt=""></p>
+<h2 id="键位映射-修改"><a href="#键位映射-修改" class="headerlink" title="键位映射/修改"></a>键位映射/修改</h2><p>系统原生的键位总是那么不尽如人意，比如: </p>
+<ul>
+<li>默认的输入法方式; </li>
+<li>MacBook反人类的<code>fn</code>键的位置; </li>
+<li>mac外接键盘时<code>command</code>键的位置很尴尬;</li>
+</ul>
+<p>一些需求：</p>
+<ul>
+<li>一键切换指定输入法</li>
+<li>方向键映射（不用让手离开主键盘移动到右下方的方向键然后再回来，节省零点几秒）</li>
+</ul>
+<p><strong>vimer</strong> 必备：</p>
+<ul>
+<li><code>esc</code>键位置太远，可以映射为<code>cap</code>键</li>
+<li>vim 切换为”普通模式”时如何自动切换为英文输入法,<br>  解决方案：将按下<code>cap</code>键映射为：按下<code>esc</code>+ {切换到英文输入法}</li>
+</ul>
+<h3 id="AHK-win"><a href="#AHK-win" class="headerlink" title="AHK (win)"></a>AHK (win)</h3><h3 id="Karabiner-mac"><a href="#Karabiner-mac" class="headerlink" title="Karabiner (mac)"></a>Karabiner (mac)</h3><p>TODO: 具体配置之后再分享</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/12/15/16f0816818b7bd9c?w=2000&amp;h=1144&amp;f=png&amp;s=234692" srcset="/img/loading.gif" alt=""></p>
+<h2 id="窗口切换"><a href="#窗口切换" class="headerlink" title="窗口切换"></a>窗口切换</h2><h3 id="Contexts-mac"><a href="#Contexts-mac" class="headerlink" title="Contexts (mac)"></a>Contexts (mac)</h3><p>mac原生的窗口切换方式有点反人类, 竟然不支持同一个应用内多个窗口的情况! 比如我IDEA开多个工程时，用原生的切换方式会很麻烦。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/12/15/16f080cea44a1121?w=1914&amp;h=882&amp;f=png&amp;s=336556" srcset="/img/loading.gif" alt=""></p>
+<h2 id="网盘下载"><a href="#网盘下载" class="headerlink" title="网盘下载"></a>网盘下载</h2><h3 id="panDownload-win"><a href="#panDownload-win" class="headerlink" title="panDownload (win)"></a>panDownload (win)</h3><p>亲测可用</p>
+<h3 id="Aria2-mac-chrome插件-Exporter"><a href="#Aria2-mac-chrome插件-Exporter" class="headerlink" title="Aria2 (mac) + chrome插件 Exporter"></a>Aria2 (mac) + chrome插件 Exporter</h3><h2 id="鼠标手势"><a href="#鼠标手势" class="headerlink" title="鼠标手势"></a>鼠标手势</h2><h3 id="WGesture-win"><a href="#WGesture-win" class="headerlink" title="WGesture (win)"></a>WGesture (win)</h3><p>全局鼠标手势工具, Chrome浏览器也有鼠标手势插件, 但是有了这个全局的工具, 就可以取代它了。 </p>
+<h2 id="RunAsDate-win"><a href="#RunAsDate-win" class="headerlink" title="RunAsDate (win)"></a>RunAsDate (win)</h2><p>破解软件时可以用，通过这个命令行工具启动目标软件，这个软件拿到的是假的系统时间，可以实现无限试用。</p>
+<h2 id="TripMode-win-amp-mac"><a href="#TripMode-win-amp-mac" class="headerlink" title="TripMode (win &amp; mac)"></a>TripMode (win &amp; mac)</h2><p>所有应用的网络访问控制开关，我在用手机热点时，会开这个软件，只让部分应用可以使用网络，防止有些应用在后台消耗过多流量。<br>mac下需要收费</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/12/15/16f080b45de48a34?w=642&amp;h=798&amp;f=png&amp;s=557709" srcset="/img/loading.gif" alt=""></p>
+<h2 id="在线代码浏览"><a href="#在线代码浏览" class="headerlink" title="在线代码浏览"></a>在线代码浏览</h2><h3 id="sourcegraph"><a href="#sourcegraph" class="headerlink" title="sourcegraph"></a>sourcegraph</h3><p>快速搜索、浏览代码，功能强大。<br><img src="https://user-gold-cdn.xitu.io/2019/12/15/16f08116e16066f8?w=2878&amp;h=1610&amp;f=png&amp;s=705119" srcset="/img/loading.gif" alt=""></p>
+<h3 id="gitpod"><a href="#gitpod" class="headerlink" title="gitpod"></a>gitpod</h3><p>实际上就是一个在线版的 vs-code，可以在线编程， 支持代码跳转，依赖解析，命令行运行等功能，有了它在网吧编程不是梦想～</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/12/15/16f080a56e108352?w=2868&amp;h=1716&amp;f=png&amp;s=719867" srcset="/img/loading.gif" alt=""></p>
+<hr>
+<p>以上是我平时用的各种工具，欢迎大家交流分享～</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/productivity/">productivity</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/11/17/奇葩说第五季17期-我想到的反方杀手锏/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">奇葩说第五季17期 - 我想到的反方杀手锏</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2018/06/26/Java-Integer的自动装箱和缓存机制-一道面试题引出的有趣问题/">
+                        <span class="hidden-mobile">Java Integer的自动装箱和缓存机制 -- 一道面试题引出的有趣问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/lazyload.js"></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+  <script src="/js/clipboard-use.js"></script>
+
+
+
+
+
+
+
+  <script src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

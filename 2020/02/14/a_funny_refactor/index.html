@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="null">
+  <meta name="author" content="Chenxi">
+  <meta name="keywords" content="undefined">
+  <title>记一次有趣的代码重构 - Chenxi&#39;s Blog</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css">
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script src="/js/utils.js"></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>🐱</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+                记一次有趣的代码重构
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-02-14 23:40">
+      2020年2月14日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <blockquote>
+<p>我等采石之人，当心怀建造大教堂之愿景。<br>——《程序员修炼之道》</p>
+</blockquote>
+<p>发现代码重构和灭霸的响指有一个共同点，两者的出发点都是为了消除系统之中的一部分，让剩下的另一部分存活得更好，从而使得整个系统运更为有序。  </p>
+<p>不同之处就是灭霸是无差别清除，而重构对于代码的清除却是经过深思熟虑精心设计的。  </p>
+<p>闲话少说，下面开始正题。</p>
+<h2 id="重构前"><a href="#重构前" class="headerlink" title="重构前"></a>重构前</h2><p>背景是足球比赛的项目，需要处理各种类型的比赛数据。</p>
+<p>比赛数据的展示维度如图：<br><img src="https://user-gold-cdn.xitu.io/2020/2/13/1703ef2678ba061f?w=1640&amp;h=332&amp;f=png&amp;s=61336" srcset="/img/loading.gif" alt=""></p>
+<p>用代码表示是这样的：<br><pre><code class="hljs java"><span class="hljs-comment">// 表示一场比赛里两支球队各个阶段的数据</span>
+<span class="hljs-meta">@Data</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MatchStat</span> </span>&#123;
+    <span class="hljs-keyword">private</span> TeamStat homeTeamStat;
+    <span class="hljs-keyword">private</span> TeamStat guestTeamStat;
+&#125;
+
+<span class="hljs-comment">// 一支球队各个阶段的数据</span>
+<span class="hljs-meta">@Data</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TeamStat</span> </span>&#123;
+    <span class="hljs-comment">/** 上半场的数据 */</span>
+    <span class="hljs-keyword">private</span> Stat firstStageStat;   
+    <span class="hljs-comment">/** 下半场的数据 */</span>
+    <span class="hljs-keyword">private</span> Stat secondStageStat;   
+    <span class="hljs-comment">/** 全场的数据 */</span>
+    <span class="hljs-keyword">private</span> Stat fullStageStat;   
+&#125;
+
+<span class="hljs-comment">// 这个是表示比赛数据的 Model</span>
+<span class="hljs-meta">@Data</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stat</span> </span>&#123;
+    <span class="hljs-comment">/** 得分 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> score;
+    <span class="hljs-comment">/** 传球数 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> pass;
+    <span class="hljs-comment">/** 抢断数 */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> steal;
+    <span class="hljs-comment">// ...</span>
+&#125;</code></pre></p>
+<p>另外，项目中存在很多种比赛数据类型，如：  </p>
+<blockquote>
+<p>HeartIntensity 心率强度;<br>ExerciseLoad 负荷强度;<br>DistanceSpeed 跑动距离-速度分布;<br>DistanceTime 跑动距离-速度分布;<br>……</p>
+</blockquote>
+<p>对于每种数据类型 Model，如 <code>ExerciseLoad</code>，都要再定义一个 TeamModel，如 <code>TeamExerciseLoad</code>，表示一只球队比赛各阶段的数据，<br>然后再定义一个 MatchModel, 如 <code>MatchExerciseLoad</code>，表示一场比赛中两队各阶段的数据。  </p>
+<p>那么，N 种数据类型的话，一共就要定义 3 * N 个 Model 类。</p>
+<p><strong>问题一：是不是有办法减少 Model 类的数量呢？</strong></p>
+<p>我们暂时先不管这个问题，继续往下看，如果有这样一个需求，我们拿到一个 <code>MatchStat</code> 对象，要把两队所有阶段的传球数都设为 0：<br><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">processMatchStat</span><span class="hljs-params">(MatchStat matchStat)</span> </span>&#123;
+    <span class="hljs-comment">// 如何实现这个需求呢？</span>
+&#125;</code></pre></p>
+<p>之前在项目里一般是这样处理的：<br><pre><code class="hljs java"><span class="hljs-comment">// 1. 定义一个方法处理单队的数据</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">processTeamStat</span><span class="hljs-params">(TeamStat teamStat)</span> </span>&#123;
+    teamStat.getFirstStageStat().setPass(<span class="hljs-number">0</span>);
+    teamStat.getSecondStageStat().setPass(<span class="hljs-number">0</span>);
+    teamStat.getFullStageStat().setPass(<span class="hljs-number">0</span>);
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">processMatchStat</span><span class="hljs-params">(MatchStat matchStat)</span> </span>&#123;
+    <span class="hljs-comment">// 2. 分别传入主客队的 TeamModel 作为入参, 调用上面那个方法</span>
+    processTeamStat(matchStat.getHomeStat());
+    processTeamStat(matchStat.getGuestStat());
+&#125;</code></pre></p>
+<p>上面的代码看似没有问题，也没有一行重复代码，这种类似的需求（处理两队各个阶段的比赛数据）在项目里还是不少的，可是每次都这样写一遍不免有些枯燥。<br>显示的重复代码确实找不到，但是“隐式”的重复代码呢？</p>
+<p><strong>问题二：有没有办法简化项目里的这种模版代码?</strong></p>
+<h2 id="重构后"><a href="#重构后" class="headerlink" title="重构后"></a>重构后</h2><p>下面揭示答案，直接贴出重构后的处理方式：<br><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">processMatchStat</span><span class="hljs-params">(TwoTeamNestedAllStageModel&lt;Stat&gt; matchStat)</span> </span>&#123;
+    <span class="hljs-comment">// 一行代码解决问题!</span>
+    ModelUtils.handleTwoTeamNestedAllStageModel(matchStat, (stat) -&gt; stat.setPass(<span class="hljs-number">0</span>));
+&#125;</code></pre></p>
+<p>是不是简洁了很多，枯燥指数大大降低。</p>
+<p><strong>实现细节</strong>： </p>
+<h3 id="减少-model-类的数量"><a href="#减少-model-类的数量" class="headerlink" title="减少 model 类的数量"></a>减少 model 类的数量</h3><p>定义两个通用的 Model：<br><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TwoTeamNestedAllStageModel</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    <span class="hljs-keyword">private</span> AllStageModel&lt;T&gt; home;
+    <span class="hljs-keyword">private</span> AllStageModel&lt;T&gt; guest;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TwoTeamNestedAllStageModel</span><span class="hljs-params">(AllStageModel&lt;T&gt; home, AllSatgeModel&lt;T&gt; guest)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.home = home;
+        <span class="hljs-keyword">this</span>.guest = guest;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> AllStageModel&lt;T&gt; <span class="hljs-title">getHome</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> home;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> AllStageModel&lt;T&gt; <span class="hljs-title">getGuest</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> guest;
+    &#125;
+&#125;
+
+<span class="hljs-meta">@Value</span> <span class="hljs-comment">// lombok will generate consructor and getters</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AllStagetModel</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+    <span class="hljs-keyword">private</span> T firstStage;
+    <span class="hljs-keyword">private</span> T secondStage;
+    <span class="hljs-keyword">private</span> T fullStage;
+&#125;</code></pre></p>
+<p><code>TwoTeamNestedAllStageModel</code> 和 <code>AllStageModel</code> 可以看成是一种容器类，有点类似于 JDK 里的 <code>List</code> 和 <code>Map</code>。  </p>
+<p>以 <code>ExerciseLoad</code> 这个 Model 为例，我们原先需要定义 <code>TeamExerciseLoad</code> 和 <code>MatchExerciseLoad</code> 两个类。   </p>
+<p>现在有了这两个“容器 Model”，我们就只需要声明一个 <code>TwoTeamNestedAllStageModel&lt;ExerciseLoad&gt;</code> 就行了，<br>这样项目里一下子就减少了 2 * N 个 Model 类，省去了重复定义这些 Model 的枯燥工作。</p>
+<p>这就回答了刚才提出的问题一。</p>
+<p>下面我们来接着回答问题二：</p>
+<h3 id="消除“隐式”的重复代码"><a href="#消除“隐式”的重复代码" class="headerlink" title="消除“隐式”的重复代码"></a>消除“隐式”的重复代码</h3><p>借助“容器 Model”我们把这些模版代码都提取到一个工具类里了，通过这种方式消除了”隐式“的重复代码<br><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ModelUtils</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>&lt;T&gt; <span class="hljs-keyword">void</span> <span class="hljs-title">processTwoTeamNestedAllStageModel</span><span class="hljs-params">(
+        TwoTeamNestedAllStageModel&lt;T&gt; m, java.util.function.Consumer&lt;T&gt; action)</span> </span>&#123;
+        processAllStageModel(m.getHome(), action)
+        processAllStageModel(m.getGuest(), action)
+    &#125;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> &lt;T&gt; processAllStageModel(
+        AllStageModel&lt;T&gt; m, java.util.function.Consumer&lt;T&gt; action) &#123;
+        action.accept(m.getFirstStage());
+        action.accept(m.getSecondStage());
+        action.accept(m.getFirstStage());
+    &#125;
+&#125;</code></pre></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>业务开发不仅仅是简单的 CURD，我们在开发的过程中，针对不同的业务场景其实有很多地方是可以归纳提炼的，让自己的代码更加简洁优雅，<br>切记不要惰于思考，只是凭直觉简单地堆砌代码、面向任务编程。   好的代码都是设计出来的。  </p>
+<p>我们要以工程师和设计师的身份自居，培养自己对于坏代码、重复代码的敏锐嗅觉，逐步提升自己的代码品味。</p>
+<p>好处:</p>
+<ul>
+<li>Model 类的数量减少了 2 / 3，处理这些 model 类的方式也更简单了，提升了代码的简洁度，提高了编码效率</li>
+</ul>
+<p>坏处：</p>
+<ul>
+<li>比起之前的代码，重构后的 Model 定义和使用方式具有一定的学习成本</li>
+<li>如果 Model 类不是很多的话，重构的收益其实有限，有过度设计的嫌疑</li>
+<li>代码量变少了，“每千行 Bug 数”提升了，老板可能觉得你的工作效率和质量下降了（手动狗头）</li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/clean-code/">clean-code</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/02/24/collection_of_utility_class/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">提高代码简洁度的工具类合集</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/07/02/about-code-comment/">
+                        <span class="hidden-mobile">编程随想录 - 代码注释</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Plugins -->
+
+
+  
+    <script src="/js/lazyload.js"></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+  <script src="/js/clipboard-use.js"></script>
+
+
+
+
+
+
+
+  <script src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

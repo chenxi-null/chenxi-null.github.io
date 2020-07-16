@@ -1,1370 +1,619 @@
 <!DOCTYPE html>
+<html lang="zh-CN">
 
 
 
-  
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="null">
+  <meta name="author" content="Chenxi">
+  <meta name="keywords" content="undefined">
+  <title>Chenxi&#39;s Blog</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
 
 
 
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
 
 
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="Hexo, NexT">
-
-
-
-
-
-
-
-
-
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="David&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="David&#39;s Blog">
-<meta property="og:locale" content="zh-Hans">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="David&#39;s Blog">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Muse',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/">
-
-
-
-
-
-  <title>David's Blog</title>
-  
-
-
-
-
-
-
-
-
+  <script src="/js/utils.js"></script>
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-  
-  
-    
-  
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">&nbsp;<strong>🐱</strong>&nbsp;</a>
 
-  <div class="container sidebar-position-left 
-  page-home">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">David's Blog</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-      
-        <p class="site-subtitle"></p>
-      
-  </div>
-
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
   </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            归档
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
 </nav>
 
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-  <section id="posts" class="posts-expand">
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/17/奇葩说第五季17期-我想到的反方杀手锏/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ChenXi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="David's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/17/奇葩说第五季17期-我想到的反方杀手锏/" itemprop="url">奇葩说第五季17期-我想到的反方杀手锏</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
               
-                <span class="post-meta-item-text">发表于</span>
+                Hello World
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-17T23:44:43+08:00">
-                2018-11-17
-              </time>
-            
+            </span>
 
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天中午看完了奇葩说，感觉反方好难辩呀，除了薛教授以外很难再找到什么强有力的点.<br>和一个兄弟在电话里也讨论过, 发现仔细想的话这个题目本身就是一个悖论在逻辑上是很奇怪的一件事(这个就像梁文道最后说的).<br>晚上在回家的路上突然想到反方的一些点, 其实是可以从题目本身的荒谬性入手延展出一些东西来的， 一时兴起把这些想法记下来了，类似于草稿, 有些细节因为打字太累就懒的写了, 明白大意就好啦，下面是具体内容:   </p>
-<h4 id="明确定义"><a href="#明确定义" class="headerlink" title="明确定义"></a>明确定义</h4><p>首先要把这里”知识”的定义讨论清楚，题目中的”知识”到底是什么，这里所指的知识肯定不是书本上的, 网络上的”静态知识”, 不然这个芯片就仅仅是加强版的搜索引擎，放到脑子里只是让我们搜索更方便而已.<br>如果这里知识的定义仅仅是这样的话，那我是不是可以说我虽然没有掌握全人类的知识，<br>但是我已经掌握了高等物理学的知识，相对论的知识，因为我已经可以凭借各种手段获取到所有物理学的文献资料，所以我就获取了所有物理学的知识，只是我没有芯片需要人工查找这些知识而已.<br>是这样吗？ 并没有！这个说法看来很荒谬是吧？我实际上获取的只是资料，不是知识。<br>一个不会编程的人就算可以拿到全世界的编程资料，这也无法使他学会编程, 因为他拥有的只是编程的资料，而不是编程的知识，即便那叫知识，那也是他人的知识结果, 而非自己的知识。<br>所以芯片给我们带来的不是全世界的资料，而是知识，我们加一个限定词，它是一种习得的知识，一种芯片持有人自己拥有的知识.<br>不仅仅是我脑海中有无数个方程式而是我真正理解了这些方程式.<br>我们先对知识的定义达成共识, 把这个拎清楚非常重要！<br>节目里正方双方一直似乎没有尝试过拎清这个定义, 而这个定义正是下面我的所有论点的前提条件。  </p>
-<h4 id="改变人格"><a href="#改变人格" class="headerlink" title="改变人格"></a>改变人格</h4><p>所以，翻译一下，题目表达的意思是：全人类一瞬间获取掌握所有知识，如果知道目前我们人类仅仅是学习一门知识就需要耗费我们一个辈子甚至是几辈子的时间，  举例….(balabala)<br>知识对于人格的塑造 –&gt; 拥有芯片会改变人格 (…简单论证下), 不仅仅是更博学这么简单.   </p>
-<p>在一个人没有同意的前提下，我们有权利按照自己的意愿直接在他脸上动刀子, 给他做整容手术吗？<br>这显然是一种侵犯对吧？违背了他的自由意志是吧?<br>但是换成我私自给全世界人的人格动手术, 怎么就变成理所当然了呢？  </p>
-<h4 id="诅咒"><a href="#诅咒" class="headerlink" title="诅咒"></a>诅咒</h4><p>拥有所有知识，在我看来是不可想象的，就好像是获得全知之眼, 就在我看来已经不是人了，而是接近神的存在，也许这就是新世界的神吧.<br>作为新世界的神我们无法像真正的神一样全知全能，但至少我们可以做到<em>全知</em>,<br>神可以看见世界的全貌，人世间的每一个角落，而”新世界的神”可以触探到所有的知识边界，明白每一个知识的细节.<br>全知的代价：看到太多我们不想看到的细节，甚至是黑暗的东西 (….balabala)  </p>
-<p>中学老师例子(在每年学校组织参观大屠杀遇难同胞纪念馆的时候，她会找一些理由请假不去，… 她说我们有义务了解历史，但是我身为一个个体我也有回避残忍的权利) ……<br>历史上有多少和大屠杀一样黑暗甚至更黑暗的东西，可这些在历史上都发生过，这些都是实实在在的历史知识，不是所有人都用勇气掌握这些知识的！<br>(历史学只是我目前想到一个例子，也可以据其他领域的例子，用来论证不是所有人都想掌握某个领域的知识)   </p>
-<p>这边举这个例子不是对历史学家有什么偏见，而是想说明每个人的性格特质都是不同的，有些东西不适合他，他会承受不了，<br>好比有人晕血害怕尸体，所以不去学医，而现在你们强行赋予了他所有医学领域的知识, 这对他的心灵可能是一种负担。<br>他曾经恐惧过逃避过的东西, 现在事无巨细的呈现在他的眼前，挥之不去。</p>
-<p>强行给人们装上全知之眼，对很多人而言不是祝福而是诅咒!<br>还想到一个例子，是一篇科幻小说, 讲的是如果人类的记忆可以延续，婴儿可以获取父辈祖辈的记忆，…… 结果是婴儿直接在母胎里自杀了，因为看到了身而为人太多的痛苦,<br>所以完全失去了降临人世的勇气。  </p>
-<p>没有正方(陈铭)描绘的那么美好: 我拥有了所有的大门, 我可以选择开启任意一扇大门，去探索一个全新的世界.<br>全知的代价是对于你而言这个世界上已经没有什么紧闭的大门了，你对门里发生的事情一清二楚, 了解所有的状况，也包括自己不愿意了解的，  自己无法承受的东西，一下子一瞬间都汇入你的脑海，这是你生命不可承受之重。  </p>
-<p>天堂：我可以获取全人类智慧的结晶<br>地狱：我了解到太多丑陋黑暗畸形痛苦扭曲的东西，背负全人类的罪恶感.   </p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>回到题目，它说的是：按下一个按钮，让<strong>所有</strong>人掌握<strong>所有</strong>知识,<br>题目不是让某个人自由选择自己是否可以掌握某些领域的知识, 其实这个已经出现在刘慈欣的短片小说《朝闻道》里了 (….略去介绍)。  </p>
-<p>和我们目前接触到的所有技术都不同，这项技术会让全人类都脱胎换骨，拥有所有知识之后全人类到底是会变的一样还是每个人都不一样, 我不知道，就像我不知道宇宙的边界,  是什么以及宇宙是否有边界，但是我所能预见到就是人类将不再是人类了，而是会进化成为一种新的生命体，这种生命体在我们这些旧人类看来很接近神.<br>问题是不是所有人都想成为新世界的神，你凭什么为所有人做决定？  </p>
-<p>植入芯片我们不仅会变得面目全非，刚才论证了拥有”全知”这种能力对很多人来说是一件很痛苦的事，是一种诅咒.<br>拥有”全知”的能力对有些人来说可能是一种无间地狱，你按下一个按钮，把一个人推入地狱, 这是谁给你的权利？</p>
-<p>关键字：改变人格/思想; 黑暗面；自由意志  </p>
-<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>自我感觉这几个点还是蛮有力的，欢迎讨论拍砖.   </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/21/实用工具分享-不高效-毋宁死/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ChenXi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="David's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/21/实用工具分享-不高效-毋宁死/" itemprop="url">实用工具分享 (不高效, 毋宁死)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-21T15:52:00+08:00">
-                2018-10-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这片文章分享几款我日常使用的几款实用工具, 因为本人win和mac都用过，所以对于同一类型的功能需求我分别介绍两种平台下的工具。</p>
-<h3 id="文件快速搜索"><a href="#文件快速搜索" class="headerlink" title="文件快速搜索"></a>文件快速搜索</h3><h4 id="Listary-win"><a href="#Listary-win" class="headerlink" title="Listary (win)"></a>Listary (win)</h4><p>和everything相比, 提供可视化界面, 全局快捷键呼出应用，必不可少的一款应用</p>
-<h4 id="Alfred-mac"><a href="#Alfred-mac" class="headerlink" title="Alfred (mac)"></a>Alfred (mac)</h4><p>功能丰富，除了文件搜索功能，还提供了其他功能，如:</p>
-<ul>
-<li>snippets: 一键呼出常用文本</li>
-<li>clipboard: mac下无需再去寻找其他剪切板加强工具，一款Alfred就足够了  </li>
-</ul>
-<p>这两款都是提高工具效率的利器</p>
-<h4 id="autojump-cmd"><a href="#autojump-cmd" class="headerlink" title="autojump (cmd)"></a>autojump (cmd)</h4><p>非常好用的一款Unix命令行工具, 快速跳转到目录, 使用Mac时我极少使用Finder，而是通过命令行访问目录，操作文件, 这样更高效.<br>可以使用很多命令行工具，这也是Mac-OS优于Win的地方。  </p>
-<h3 id="剪切板历史"><a href="#剪切板历史" class="headerlink" title="剪切板历史"></a>剪切板历史</h3><p>为了复制粘贴几段信息，来回切换窗口？<br>已经复制过的信息，还要跑到原始窗口再复制一遍?<br>连手机(比如锤子)都支持”剪切板历史”这一功能了，你还在用这么低效的方式办公？</p>
-<h4 id="Ditto-win"><a href="#Ditto-win" class="headerlink" title="Ditto (win)"></a>Ditto (win)</h4><h4 id="Alfred-clipboard-mac"><a href="#Alfred-clipboard-mac" class="headerlink" title="Alfred-clipboard (mac)"></a>Alfred-clipboard (mac)</h4><h3 id="键位映射-修改"><a href="#键位映射-修改" class="headerlink" title="键位映射/修改"></a>键位映射/修改</h3><p>系统原生的键位总是那么不尽如人意，比如: </p>
-<ul>
-<li>默认的输入法方式; </li>
-<li>MacBook反人类的fn建的位置; </li>
-<li>mac外接键盘时command键的位置很尴尬;</li>
-</ul>
-<p>一些需求：</p>
-<ul>
-<li>一键切换指定输入法;</li>
-<li>vim切换为”普通模式”时如何自动切换为英文输入法,<br>  解决方案：将cap键改为esc+{切换到英文输入法}; </li>
-</ul>
-<h4 id="AHK-win"><a href="#AHK-win" class="headerlink" title="AHK (win)"></a>AHK (win)</h4><h4 id="Karabiner-mac"><a href="#Karabiner-mac" class="headerlink" title="Karabiner (mac)"></a>Karabiner (mac)</h4><h3 id="窗口切换"><a href="#窗口切换" class="headerlink" title="窗口切换"></a>窗口切换</h3><h4 id="Contexts-mac"><a href="#Contexts-mac" class="headerlink" title="Contexts (mac)"></a>Contexts (mac)</h4><p>mac原生的窗口切换方式有点反人类, 竟然不支持同一个应用内多个窗口的情况! 比如我IDEA开多个工程时，用原生的切换方式会很麻烦。</p>
-<h3 id="网盘下载"><a href="#网盘下载" class="headerlink" title="网盘下载"></a>网盘下载</h3><h4 id="panDownload-win"><a href="#panDownload-win" class="headerlink" title="panDownload (win)"></a>panDownload (win)</h4><p>亲测可用</p>
-<h4 id="Aria2-mac-chrome插件-Exporter"><a href="#Aria2-mac-chrome插件-Exporter" class="headerlink" title="Aria2 (mac) + chrome插件 Exporter"></a>Aria2 (mac) + chrome插件 Exporter</h4><h3 id="鼠标手势"><a href="#鼠标手势" class="headerlink" title="鼠标手势"></a>鼠标手势</h3><h4 id="WGesture-win"><a href="#WGesture-win" class="headerlink" title="WGesture (win)"></a>WGesture (win)</h4><p>全局鼠标手势工具, Chrome浏览器也有鼠标手势插件, 但是有了这个全局的工具, 就可以取代它了. </p>
-<h3 id="RunAsDate-win"><a href="#RunAsDate-win" class="headerlink" title="RunAsDate (win)"></a>RunAsDate (win)</h3><p>破解软件时可以用，通过这个命令行工具启动目标软件，这个软件拿到的是假的系统时间，可以实现无限试用。</p>
-<h3 id="TripMode-win"><a href="#TripMode-win" class="headerlink" title="TripMode (win)"></a>TripMode (win)</h3><p>所有应用的网络访问控制开关，我在用手机热点时，会开这个软件，只让部分应用可以使用网络，防止有些应用在后台消耗过多流量。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/26/Java-Integer的自动装箱和缓存机制-一道面试题引出的有趣问题/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ChenXi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="David's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/26/Java-Integer的自动装箱和缓存机制-一道面试题引出的有趣问题/" itemprop="url">Java Integer的自动装箱和缓存机制 -- 一道面试题引出的有趣问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-26T14:38:09+08:00">
-                2018-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近遇到一道Java面试题, 感觉很有意思, 和大家分享一下.<br>是远程在线做题的, 可以使用自己的IDE. </p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private static void swap(Integer a, Integer b) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Integer a = 1;</span><br><span class="line">    Integer b = 2;</span><br><span class="line">    System.out.println(&quot;before:a=&quot; + a + &quot;,b=&quot; + b);</span><br><span class="line">    swap(a, b);//实现此swap函数；交换位置</span><br><span class="line">    System.out.println(&quot;after:a=&quot; + a + &quot;,b=&quot; + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="实际过程中-错误的-解法"><a href="#实际过程中-错误的-解法" class="headerlink" title="实际过程中(错误的)解法"></a>实际过程中(错误的)解法</h3><h4 id="分析"><a href="#分析" class="headerlink" title="分析:"></a>分析:</h4><p>第一感觉还是比较简单的, 由于Integer是不可变对象, 所以利用反射修改他们内部维护的那个’value’字段. </p>
-<h4 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下:"></a>代码如下:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private static void swap(Integer a, Integer b) &#123;</span><br><span class="line">    int valueA = b;</span><br><span class="line">    int valueB = a;</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        final String innerFieldName = &quot;value&quot;;</span><br><span class="line">        Field field = Integer.class.getDeclaredField(innerFieldName);</span><br><span class="line">        field.setAccessible(true);</span><br><span class="line"></span><br><span class="line">        modifyViaReflection(a, valueA, field);</span><br><span class="line">        modifyViaReflection(b, valueB, field);</span><br><span class="line">    &#125; catch (NoSuchFieldException | IllegalAccessException e) &#123;</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    field.set(obj, val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="运行结果-a可以修改成功而b不可以"><a href="#运行结果-a可以修改成功而b不可以" class="headerlink" title="运行结果: a可以修改成功而b不可以."></a>运行结果: a可以修改成功而b不可以.</h4><h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><p>当发现下面的调试输出结果时我是有点崩溃的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 传入的val为1</span><br><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    log.debug(&quot;before obj = &#123;&#125;&quot;, obj); // print 2</span><br><span class="line">    log.debug(&quot;val = &quot; + val); // print 1</span><br><span class="line">    field.set(obj, val);</span><br><span class="line">    log.debug(&quot;after obj = &#123;&#125;&quot;, obj); // print 2 !!! (使用反射修改字段值失败)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当时调了好久, 明明传入的val是1, 为什么会修改不成功呢?</p>
-<ul>
-<li>第一次修改是成功的, 第二次就不行, 调换了a和b的次序, 同样如此;</li>
-<li>甚至怀疑是JDK版本的原因, 还从JDK8切换到了JDK6: 无果;</li>
-</ul>
-<p>面试完之后, 继续探索:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 传入的val为1</span><br><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    log.debug(&quot;before obj = &#123;&#125;&quot;, obj); // print 2</span><br><span class="line">    log.debug(&quot;val = &quot; + val); // print 1</span><br><span class="line">    log.debug(&quot;val = &#123;&#125;&quot;, val); // print 2 !!!  (加了这一行调试语句后后发现了新大陆)</span><br><span class="line">    field.set(obj, val);</span><br><span class="line">    log.debug(&quot;after obj = &#123;&#125;&quot;, obj); // print 2 !!! (使用反射修改字段值失败)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="正确的解法"><a href="#正确的解法" class="headerlink" title="正确的解法"></a>正确的解法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    log.debug(&quot;val = &quot; + val); // when val == 1, print 1</span><br><span class="line">    log.debug(&quot;val = &#123;&#125;&quot;, val); // when val ==1, print 2 (很奇怪吧, 看下面的解释)</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">    如果按照下面那行&quot;错误写法&quot;那样写的话, 当入参val为1时, 它会被解糖为&quot;Integer.value(1)&quot;,</span><br><span class="line">    由于Integer的cache机制, &quot;Integer.value(1)&quot;和a会是同一个对象, 指向的都是&quot;Integer Cache&quot;中的那个对象.</span><br><span class="line">    然而这个对象的value字段已经被我们改成2了!</span><br><span class="line">    所以就会出现明明传入的val为1, 但是调用完field#set方法之后, obj还是2的奇怪现象.</span><br><span class="line">    */</span><br><span class="line">    // field.set(obj, val); // 错误的写法! 会被解糖为: field.set(obj, Integer.valueOf(val));</span><br><span class="line">    field.set(obj, new Integer(val));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h3><ul>
-<li>心态: 限时一小时, 总共两题, 第一题就卡主了, 有点紧张, 有点慌了. </li>
-<li>知识储备: Integer的自动拆装箱, 前258位的缓存机制, 这些其实都懂, 但是做题的时候没有把这两个联系到一起; </li>
-<li>调试原则: 遇到问题需要最先怀疑还是自己写的代码, 其次怀疑编译器, 操作系统, 社会环境之类的问题;<br>  比如当时应该重点关注<code>field.set(obj, val);</code>这句代码, set方法第二个参数是Object, 不是int, 是会发生自动装箱的,<br>  当时要是能意识到这个就能很快定位到问题了. </li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/23/使用hexo-Coding-Pages搭建个人博客/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ChenXi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="David's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/01/23/使用hexo-Coding-Pages搭建个人博客/" itemprop="url">使用hexo+Coding Pages搭建个人博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-23T21:41:00+08:00">
-                2017-01-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>话说程序员应该有一个自己的博客，我是从2016年9月——也就是四个月前开始写尝试写博客的，那时是在csdn上写的，最近接触了<strong>coding</strong>，它和github一样提供了“静态页面网站托管”的功能，觉得有搞头，这有一个好处就是相当于给了我一个免费的域名，例如我现在博客的域名就是cxfree.coding.me，乍一看还真像那么回事，来起比自己买vps，搭建维护web应用，购买域名等等之一系列操作简单多了！<br>刚好最近接触了<strong>nodejs</strong>，<strong>hexo</strong>是基于nodejs开发的，使用得挺广泛的，所以最终决定<strong>hexo+Coding Pages</strong>搭建个人博客的方案。下面介绍自己搭建过程中遇到的一些问题及解决思路。</p>
-<h2 id="关于静态资源404的问题"><a href="#关于静态资源404的问题" class="headerlink" title="关于静态资源404的问题"></a>关于静态资源404的问题</h2><p>由于hexo生成的html引用静态资源时是以这种形式的：<code>&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/style.css&quot;&gt;</code><br>用的是绝对路径，是相对于主机地址的，coding上是 <code>${user_name}.coding.me</code><br>而我们部署的项目的地址却是<code>${user_name}.coding.me/${project_name}</code><br>这就很尴尬了。</p>
-<p><strong>解决办法：</strong></p>
-<ol>
-<li><p>还能怎么办，修改html文件呗，批量修改静态资源标签。<br>  一种办法是等hexo生成完毕之后，用程序批量修改html文件，太麻烦了。<br>  还有一种是学习hexo的生成机制，修改其默认generate方式，让它能够生成我们预期的html文件形式，学习成本也比较高。</p>
-</li>
-<li><p>网上早有现成的解决办法了，把项目名改成和用户名一样就可以了。<br>为什么呢？<br>因为这是利用了coding本身的一种特性：<br>经实验发现<br><code>${user_name}.coding.me</code></p>
-<pre><code>等价于
-</code></pre><p><code>${user_name}.coding.me/${user_name}</code><br>所以，显然<br><code>${user_name}.coding.me/css/style.css</code></p>
-<pre><code>也等价于
-</code></pre><p><code>${user_name}.coding.me/${user_name}/css/style.css</code><br>这是最简单直接的解决办法了，唯一不好的是没法像这样再搭建第二个博客（因为项目名要和用户名相同嘛），不过这些不算什么事，毕竟只是现在只是为了快速搭建，快速上手在coding上体验一下个人博客。等将来学有所成，可以更灵活地部署静态网页，或者使用Coding Pages 内定的jekyll。</p>
-</li>
-</ol>
-<h2 id="markdow引用的图片放在哪？"><a href="#markdow引用的图片放在哪？" class="headerlink" title="markdow引用的图片放在哪？"></a>markdow引用的图片放在哪？</h2><ol>
-<li><p><strong>使用相对路径</strong>，也就是使用本地图片，好处是不依赖第三方服务，hexo也提供了相应的插件，允许插入本地图片，并且提供了相应的标签，可就坏在这里，这样子用md编辑器编辑时就没法看到图片了，不能做到所见即所得，比较不友好，对于这一点别人可能有解决办法吧，我还没去研究。</p>
-</li>
-<li><p><strong>引入远程的图片资源</strong>，使用<strong>“图床”</strong>，把图片放在第三方公共存储服务提供商那里，例如网上推荐比较多的<strong>“七牛”</strong>，因为是国内的服务，所以不用考虑被墙的风险，使用这种方案最大的好处是markdown文件的”可移植性“非常强，因为图片是远程的，所以在任何地方打开md文件都能看到图片。我用的是<strong>马克飞象</strong>，这样还可以把md文件（也就是博客）同步到印象笔记上，方便我使用印象笔记时随时能够查看博客文章。</p>
-</li>
-</ol>
-<p>刚开始的时候犹豫采取什么方案，后来想到这个好处之后果断使用七牛来存放图片，花了两个小时，摸索了七牛的文件上传工具和它提供的api，七牛官方内定的命令行工具“<strong>qshell</strong>”，功能貌似强大的，但要想高效引用文件的话还得自己加入一些个性化需求，打算开发个命令行程序，功能是这样的：</p>
-<blockquote>
-<p>配置一个本地文件目录，把想要上传的文件丢到里面，程序支持“增量同步功能”，也就是说只上传新增的文件。<br>把文件丢进指定目录后，使用命令行运行指令，程序去调用qshell的命令把文件上传到七牛，然后把文件的外链写入剪切板。</p>
-</blockquote>
-<blockquote>
-<p>写博客时引用图片大多是使用的截图，下面以截图然后引入图片为例，梳理一下操作步骤：<br>  第一步：使用截取软件（我用的是qq截图），图片另存为到指定目录。<br>  第二步：运行命令行程序，程序会自动把图片上传到七牛，然后把外链写入系统剪切板<br>  第三步：回到markdown编辑器（如我用的马克飞象）执行ctrl+v 就得到图片的链接了，搞定！</p>
-</blockquote>
-<p>现在已经把这个工具写好了，github地址：<a href="https://github.com/cxfree/qiniu-sync-tool" target="_blank" rel="noopener">https://github.com/cxfree/qiniu-sync-tool</a></p>
-<p>力求最高效地引入图片，提高写作效率。如何大家还有更好的方法欢迎交流。</p>
-<p>想要注册七牛云的可以点击下面的链接（实际上是我邀请链接，你们注册成功的话可以给我加每月5G的流量，嘿嘿）<br><a href="https://portal.qiniu.com/signup?code=3lito3c5lu2qa" target="_blank" rel="noopener">https://portal.qiniu.com/signup?code=3lito3c5lu2qa</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/12/20/JavaWeb编码问题/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ChenXi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="David's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/12/20/JavaWeb编码问题/" itemprop="url">JavaWeb编码问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-20T21:49:00+08:00">
-                2016-12-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="浏览器端"><a href="#浏览器端" class="headerlink" title="浏览器端"></a>浏览器端</h2><ul>
-<li><p>url中的编码。<br>分为两种情况：url路径和url参数（这里指的是手动在地址栏敲击中文等非ASCII字符）。采用何种字符集由浏览器决定。</p>
-</li>
-<li><p>form表单提交内容的编码。<br>不论是get还是post请求，采用的都是<strong>“页面指定的编码”</strong>。<br>指定页面编码有两种方式：</p>
-<ul>
-<li>html中的meta标签: <code>&lt;meta charset=&quot;utf-8&quot;&gt;</code></li>
-<li>返回本页面时服务端的返回头: <code>Content-Type:text/html;charset=gbk</code></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>ajax请求<br>实验证明ajax默认使用的是utf-8编码，和页面默认编码方式无关。<br>至少对于<strong>JQuery的ajax</strong>请求来说，在IE和Chrome上测试:<ul>
-<li>通过post请求提交的数据，服务端不做特殊处理也不会产生乱码；<br>  contentType: “application/x-www-form-urlencoded; charset=utf-8”  两种浏览器都会在加上这一请求头。</li>
-<li>而对于get请求的话，两个浏览器的处理方式就不同了:<br>   chrome中默认使用utf-8编码；而IE的编码方式未知     </li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>JS编码：<ul>
-<li>encodeURI两次编码，对应服务端的两次解码：tomcat解码一次加代码中解码一次。</li>
-<li>+号消失问题：http协议遗留问题，服务端将+号当作空格的编码，解决办法：将加号用%2B替换或者使用encodeURIComponent解码部分内容</li>
-<li>$.ajax的“data”参数，<code>data: param</code><br>如果param是js个对象，发送post请求的时候会以encodeURIComponent形式进行编码</li>
-</ul>
-</li>
-</ul>
-<h2 id="HTTP服务器端（以Tomcat为例）"><a href="#HTTP服务器端（以Tomcat为例）" class="headerlink" title="HTTP服务器端（以Tomcat为例）"></a>HTTP服务器端（以Tomcat为例）</h2><p>浏览器向服务器提交请求内容，无非是使用get或者post两种方式（根据HTTP协议，还存在head，put等请求方式，这里先不讨论），所以服务端的解码方式自然也分两块，一是对于url中参数(queryString)的解码方式，二是对于请求体(postData)中内容的解码方式。</p>
-<ul>
-<li><p>Tomcat中对于requestBody中的内容(<strong>PostData</strong>)采用的默认编码为ISO-8859-1，<br>可在Servlet中设置：<code>request.setCharacterEncoding(&quot;utf-8&quot;);·</code><br>或者在提交时通过请求头指定编码类型：<code>Content-Type: application/x-www-form-urlencoded; charset=UTF-8</code><br>通过这两种方式让Tomcat以我们指定的字符集来解码。</p>
-</li>
-<li><p>对于URI中携带的参数，Tomcat会采用其默认编码字符集先对<strong>QueryString</strong>进行一次解码， Tomcat7及其之前的版本采用的编码集为ISO-8859-1 ，而到了Tomcat8I默认字符集改成了UTF-8。<br>可在tomcat的server.xml中配置，修改成自己想要的字符集。</p>
-</li>
-</ul>
-<h3 id="JSP及Servlet-API的使用"><a href="#JSP及Servlet-API的使用" class="headerlink" title="JSP及Servlet API的使用"></a>JSP及Servlet API的使用</h3><ul>
-<li><p>通常我们在JSP文件的Page指令标签中看到这样的声明：<br><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;</code><br>指定了contentType属性，其效果是客户端如果请求这个jsp，服务器返回的响应报文会添加contentType这一响应头，通过这种方式可是指定当前页面的编码，这样浏览器既会以预期的编码来解析html，也会在提交form表单时使用这一字符集进行编码。</p>
-</li>
-<li><p>如何在Servlet里正确的设置ContentType</p>
-<ul>
-<li><p>服务端什么都不做<br>结果：没有Content-Type这一个http响应头</p>
-</li>
-<li><p>response.setContentType(“text/html”);  // 没有指定charset<br>结果：Content-Type:text/html;charset=ISO-8859-1，默认指定编码为IOS-8859-1，这样包含中文字符的话会出现乱码</p>
-</li>
-<li><p>response.setCharacterEncoding(“utf-8”);  // 没有调用HttpServletResponse#setContentType方法<br>结果：也没有Content-Type这一个http响应头</p>
-</li>
-<li><p>要想返回预期的Content-Type，如：”Content-Type:text/html;charset=UTF-8”, 有两种方式:<br>1.<br>response.setContentType(“text/html”);<br>response.setCharacterEncoding(“utf-8”);<br>2.<br>response.setContentType(“text/html;utf-8”);</p>
-</li>
-</ul>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/11/代理模式和装饰器模式的区别/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ChenXi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="David's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/11/代理模式和装饰器模式的区别/" itemprop="url">代理模式和装饰器模式的区别</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-11T20:51:00+08:00">
-                2016-09-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>之前了解过“代理模式”，最经典的例子就是“房屋中介”，房东是<strong>被代理对象（也称为真实对象）</strong>，中介公司是<strong>代理对象</strong>，共同实现同一个接口，而租房子的家伙就是<strong>客户端调用者</strong>。租房狗调用一个租房接口，实现自己的租房业务，而中介公司作为租房接口的实现类，成为租房狗实际调用的对象（这就是面向接口编程的一种实践），租房狗是接触不到真正的房东的，但房子毕竟还是房东的啊，这意味着这核心的业务还是属于被代理对象的，代理对象只是在别人调用真实对象时，增加一些自己的方法，比如收点手续费什么的。这里就不上代码了，网上有很多相关的例子讲的很清楚。</p>
-<p>作为java程序员，最经典的关于的代理例子，当然是Spring的AOP啦！Spring AOP为真实对象注入切面，包括日志、权限检验，方法拦截等。</p>
-<p>之前对“装饰器模式”的理解很模糊，知道java的IO框架大量地用到这个模式，今天上午看了几篇讲“装饰器模式”的文章，发现：咦？<strong>装饰器</strong>和<strong>被装饰对象</strong>怎么也是实现同一个接口？怎么也是在增强被装饰对象的真实方法？突然有点糊涂了。</p>
-<p>随即在网上搜了几篇讲两者区别的文章，归纳起来大致是这样的：</p>
-<ol>
-<li>使用代理模式，代理和真实对象之间的的关系通常在编译时就已经确定了，而对于装饰器模式，被装饰对象的引用通常是作为装饰器的构造函数的参数传入的，这种关系在运行期才能确定。<br><code>这个说法还真的有待商榷，那怎么解释Spring AOP运行期的动态代理机制呢，就算抛开这个不谈，我觉得这并不是两者的核心区别</code></li>
-<li>代理模式是控制<strong>控制访问</strong>，而装饰器模式是<strong>新增行为</strong>。<br><code>相比较而言，这个说法还是比较靠谱的，可问题又来了，如何区分“控制访问”和“新增行为呢”，这个问题确实不好回答，AOP里的方法拦截算不算一种“新增行为”呢？某些时候单从字面去理解的话，确实不太好判定</code></li>
-</ol>
-<p>其实我对这两个模式的理解也不是很深刻，例如“装饰器模式”里提高，它是使用“组合”来代替“继承”以拓展父类的方法，对于“组合”和“继承”的区别优劣还不是特别理解。<br>总而言之，要想理解某个设计模式单靠看概念肯定是不够的，还必须结合自己的编程实际以及源码阅读还提升自己的理解能力。<br>这篇文章也只是记录我对这两个模式的一点思考，自然是不够系统全面的，先在这里立一个flag，等以后知识水平提高了再来谈笑风生，全面地介绍关于设计模式的人生经验。</p>
-<p>参考链接：<br><a href="http://blog.csdn.net/ljl157011/article/details/17882253" target="_blank" rel="noopener">http://blog.csdn.net/ljl157011/article/details/17882253</a><br><a href="http://www.iteye.com/topic/830861" target="_blank" rel="noopener">http://www.iteye.com/topic/830861</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/04/java枚举类初探-反编译-语法糖/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ChenXi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="David's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/04/java枚举类初探-反编译-语法糖/" itemprop="url">java枚举类初探: 反编译&语法糖</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-04T20:55:00+08:00">
-                2016-09-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近接触了“<strong>语法糖”</strong>这个概念，今天又看了一下<strong>枚举类</strong>的知识点，主要还是看它的用法，之前一直没有怎么用过java枚举类，看了李刚那本《疯狂java讲义》的枚举类章节，算是把它的用法弄明白了。</p>
-<p>可是枚举类是一种“语法糖”，也就是说<strong>只有编译器知道“enum”关键字，jvm是不知道的，字节码文件中没有枚举这一概念</strong>。实际上，书中一开头就提到了在枚举出现前，程序员需要自己编程实现枚举（具体就不展开了），比较复杂，JDK1.5之后出现了enum枚举类（可以看做是一种特殊的java类）——作为一种“语法糖”让程序员更方便地实现枚举，对程序员更加友好、“甜蜜”了，哈哈。</p>
-<p>我对java语法糖的理解是这样的：可以看做编译器先把原来的enum类编译成“正常的java类”，然后再以正常的方式编译成字节码，所以字节码当然不知道有“语法糖”的存在啦，不知道我的理解有没有错，应该是没有什么大问题，如果有的话还请各位大神指正。<br>为了更好的理解枚举类是怎么实现的，我先是按照书中对枚举类的定义写了一个对应于enum类的“正常的java类”，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.Enum;</span><br><span class="line">/*</span><br><span class="line">public enum TrueEnum &#123;</span><br><span class="line">	WHITE, BLACK;</span><br><span class="line">&#125;</span><br><span class="line">*/</span><br><span class="line">public class MyEnum extends Enum &#123; // 这样写肯定是通不过编译的，因为编译器不允许我们的类显示的继承Enum类</span><br><span class="line">	</span><br><span class="line">	private MyEnum() &#123;&#125;</span><br><span class="line">	</span><br><span class="line">	public static final MyEnum e1 = new MyEnum(&quot;WHITE&quot;, 0);</span><br><span class="line">	public static final MyEnum e2 = new MyEnum(&quot;BLACK&quot;, 1);</span><br><span class="line">	</span><br><span class="line">	public MyEnum[] values() &#123;</span><br><span class="line">		return new MyEnum[]&#123;e1, e2&#125;; // 这个地方有问题，等下指出</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>后来想反编译一下TrueEum.class(这个是enum类），和自己写的代码对比一下看对不对，就下了一个反编译程序jd-gui，没想到这个程序太高级了，直接反编译成enum类了（囧），又不知道怎么弄成“低级”的，就直接上网搜了别人的博客，看他们贴出的反编译代码，发现自己的猜想还是基本正确的，除了values()方法，正确的实现应该是返回数组的一个浅拷贝（return array.clone()），而不是像我这样简单的返回一个数组引用，后来想想：如果调用者搞破坏怎么办？比如通过数据引用把某个数据元素换成其他值不就破坏了原对象的封装性了吗。看来自己还是too young。</p>
-<p>看了两三篇博客，这篇写的不错：<a href="http://blog.jrwang.me/2016/java-enum/" target="_blank" rel="noopener">Java 枚举源码分析</a>主要是排版看起来比较舒服，分析的也比较全面。</p>
-<p>不过还有一点值得注意的是，这篇文章没有指出enum类实现接口和添加抽象方法这两种情况，这样的话，枚举值就不是作为枚举类的实例了，而是作为枚举类的匿名子类的实现类。<br>也就是说枚举值要么是Enum的直接子类要么是Enum的“孙子类”（这个词是我发明的，理解意思就好，蛤蛤），知道这点的话，下面这段Enum的源码就很好理解了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 得到枚举常量所属枚举类型的Class对象  </span><br><span class="line">public final Class&lt;E&gt; getDeclaringClass() &#123;  </span><br><span class="line">    Class clazz = getClass();  </span><br><span class="line">    Class zuper = clazz.getSuperclass();  </span><br><span class="line">    return (zuper == Enum.class) ? clazz : zuper;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是我基于刚才提到的那篇博客做的一点补充，做了一点微薄的贡献，谢谢大家。<br>第一次发表博客，就先这样吧，献丑了，欢迎各位朋友批评指正。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-
-
-          </div>
-          
-
-
-          
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">ChenXi</p>
-              <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">7</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">3</span>
-                  <span class="site-state-item-name">标签</span>
-                
-              </div>
-            
-
-          </nav>
-
           
-
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
           
-
-          
-          
-
-          
-          
-
-          
-
         </div>
-      </section>
-
-      
-
-      
-
+      </div>
     </div>
-  </aside>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
 
 
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/06/05/seata-src-code-graceful-shutdown/">Seata 分布式事务框架 源码解析——优雅停机</a>
+
+      <a href="/2020/06/05/seata-src-code-graceful-shutdown/" class="index-excerpt">
+        
+        
+          
+        
+        <div>前言Seata 是什么？
+
+Seata 是一款开源的分布式事务解决方案，致力于提供高性能和简单易用的分布式事务服务。Seata 将为用户提供了 AT、TCC、SAGA 和 XA 事务模式，为用户打造一站式的分布式解决方案。
+
+Github 地址: https://github.com/seata/seata
+文章概述：
+
+基于源码分析了 Seata 优雅停机的实现方式
+
+同时分析了 Spring </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-05
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/seata/">seata</a>
+            
+              <a href="/tags/distributed/">distributed</a>
+            
+          </div>
         
       </div>
-    </main>
+    </div>
+  </div>
 
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">ChenXi</span>
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/02/24/collection_of_utility_class/">提高代码简洁度的工具类合集</a>
+
+      <a href="/2020/02/24/collection_of_utility_class/" class="index-excerpt">
+        
+        
+          
+        
+        <div>日常开发中整理的一些开箱即用的开源工具类，帮助减少冗余代码和项目中的重复轮子，主要提供商包括 Spring, Apache common-lang3, Lombok, Guava。
+Assert// original code
+if (input == null) &#123;
+    throw new IllegalArgument("given argument must not be nu</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-02-24
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/clean-code/">clean-code</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/02/14/a_funny_refactor/">记一次有趣的代码重构</a>
+
+      <a href="/2020/02/14/a_funny_refactor/" class="index-excerpt">
+        
+        
+          
+        
+        <div>
+我等采石之人，当心怀建造大教堂之愿景。——《程序员修炼之道》
+
+发现代码重构和灭霸的响指有一个共同点，两者的出发点都是为了消除系统之中的一部分，让剩下的另一部分存活得更好，从而使得整个系统运更为有序。  
+不同之处就是灭霸是无差别清除，而重构对于代码的清除却是经过深思熟虑精心设计的。  
+闲话少说，下面开始正题。
+重构前背景是足球比赛的项目，需要处理各种类型的比赛数据。
+比赛数据的展示维度如图：</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-02-14
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/clean-code/">clean-code</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2019/07/02/about-code-comment/">编程随想录 - 代码注释</a>
+
+      <a href="/2019/07/02/about-code-comment/" class="index-excerpt">
+        
+        
+          
+        
+        <div>关于代码注释应该有不少书籍讨论过了, 比如《Clean Code》, 这里我还是想结合一些个人经验, 简单表达一些关于代码注释最佳实践的看法.关于注释我们在项目中可能会遇到如下几种情况:
+无用的注释
+《Clean Code》里列举了很多种Bad Comments, 其中就包括Noise Comments:
+
+Sometimes you see comments that are nothing b</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2019-07-02
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/clean-code/">clean-code</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2018/11/17/奇葩说第五季17期-我想到的反方杀手锏/">奇葩说第五季17期 - 我想到的反方杀手锏</a>
+
+      <a href="/2018/11/17/奇葩说第五季17期-我想到的反方杀手锏/" class="index-excerpt">
+        
+        
+          
+        
+        <div>
+辩题：奇葩星球新技术可以让全人类大脑一秒知识共享，你支持吗？
+
+今天中午看完了奇葩说，感觉反方好难辩呀，除了薛教授以外很难再找到什么强有力的点.和一个兄弟在电话里也讨论过, 发现仔细想的话这个题目本身就是一个悖论在逻辑上是很奇怪的一件事(这个就像梁文道最后说的).晚上在回家的路上突然想到反方的一些点, 其实是可以从题目本身的荒谬性入手延展出一些东西来的， 一时兴起把这些想法记下来了，类似于草稿,</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2018-11-17
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/funny/">funny</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2018/10/21/productivity-tools-sharing/">成为 1.1 倍程序员 - 实用效能工具分享</a>
+
+      <a href="/2018/10/21/productivity-tools-sharing/" class="index-excerpt">
+        
+        
+          
+        
+        <div>
+10 倍程序员一直是一个经久不衰的话题，然而 10 倍程序员对于很多人来说是一个遥不可及的目标，不过我们可以通过各种实用工具🔧提高自己的生产效率，先让自己成为一个 1.1 倍程序员。
+乘以十太困难了, 那就先加百分之十吧！
+下面分享几款我日常使用的实用工具, 因为本人 win 和 mac 都用过，所以对于同一类型的功能需求我会对两种平台下的工具都做一下介绍。
+
+文件快速搜索Listary (w</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2018-10-21
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/productivity/">productivity</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2018/06/26/Java-Integer的自动装箱和缓存机制-一道面试题引出的有趣问题/">Java Integer的自动装箱和缓存机制 -- 一道面试题引出的有趣问题</a>
+
+      <a href="/2018/06/26/Java-Integer的自动装箱和缓存机制-一道面试题引出的有趣问题/" class="index-excerpt">
+        
+        
+          
+        
+        <div>背景最近遇到一道Java面试题, 感觉很有意思, 和大家分享一下.是远程在线做题的, 可以使用自己的IDE. 
+题目private static void swap(Integer a, Integer b) &#123;
+&#125;
+
+public static void main(String[] args) &#123;
+    Integer a = 1;
+    Integer b =</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2018-06-26
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2017/01/23/使用hexo-Coding-Pages搭建个人博客/">使用hexo+Coding Pages搭建个人博客</a>
+
+      <a href="/2017/01/23/使用hexo-Coding-Pages搭建个人博客/" class="index-excerpt">
+        
+        
+          
+        
+        <div>前言话说程序员应该有一个自己的博客，我是从2016年9月——也就是四个月前开始写尝试写博客的，那时是在csdn上写的，最近接触了coding，它和github一样提供了“静态页面网站托管”的功能，觉得有搞头，这有一个好处就是相当于给了我一个免费的域名，例如我现在博客的域名就是cxfree.coding.me，乍一看还真像那么回事，来起比自己买vps，搭建维护web应用，购买域名等等之一系列操作简单</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2017-01-23
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/blog/">blog</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2016/12/20/JavaWeb编码问题/">JavaWeb编码问题</a>
+
+      <a href="/2016/12/20/JavaWeb编码问题/" class="index-excerpt">
+        
+        
+          
+        
+        <div>浏览器端
+url中的编码。分为两种情况：url路径和url参数（这里指的是手动在地址栏敲击中文等非ASCII字符）。采用何种字符集由浏览器决定。
+
+form表单提交内容的编码。不论是get还是post请求，采用的都是“页面指定的编码”。指定页面编码有两种方式：
+
+html中的meta标签: &lt;meta charset=&quot;utf-8&quot;&gt;
+返回本页面时服务端的返回头: </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2016-12-20
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java/">java</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2016/09/11/代理模式和装饰器模式的区别/">代理模式和装饰器模式的区别</a>
+
+      <a href="/2016/09/11/代理模式和装饰器模式的区别/" class="index-excerpt">
+        
+        
+          
+        
+        <div>之前了解过“代理模式”，最经典的例子就是“房屋中介”，房东是被代理对象（也称为真实对象），中介公司是代理对象，共同实现同一个接口，而租房子的家伙就是客户端调用者。租房狗调用一个租房接口，实现自己的租房业务，而中介公司作为租房接口的实现类，成为租房狗实际调用的对象（这就是面向接口编程的一种实践），租房狗是接触不到真正的房东的，但房子毕竟还是房东的啊，这意味着这核心的业务还是属于被代理对象的，代理对象</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2016-09-11
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/OOP/">OOP</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
 
   
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
 </div>
+  
 
+  
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  
 
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
     
 
     
 
+    
   </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="/js/debouncer.js"></script>
+<script src="/js/main.js"></script>
+
+<!-- Plugins -->
+
 
   
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
+    <script src="/js/lazyload.js"></script>
   
 
 
 
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
+  <script src="/js/clipboard-use.js"></script>
 
 
 
@@ -1374,111 +623,40 @@
 
 
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
 
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
+  <script src="/js/local-search.js"></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
 
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
 
 
-  
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
 
 
-  
-  
 
-  
 
-  
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
 
 
 
-  
 
 
-  
 
 
 
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>
