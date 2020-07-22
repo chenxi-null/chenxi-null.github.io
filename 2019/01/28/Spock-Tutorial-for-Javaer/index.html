@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="null">
+  <meta name="author" content="Chenxi">
+  <meta name="keywords" content="undefined">
+  <title>A Spock Tutorial for Javaer - Chenxi&#39;s Blog</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css">
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script src="/js/utils.js"></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+                A Spock Tutorial for Javaer
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-01-28 17:00">
+      2019年1月28日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      785 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="A-Spock-Tutorial-for-Javaer"><a href="#A-Spock-Tutorial-for-Javaer" class="headerlink" title="A Spock Tutorial for Javaer"></a>A Spock Tutorial for Javaer</h1><h3 id="What-is-it"><a href="#What-is-it" class="headerlink" title="What is it?"></a>What is it?</h3><p><a href="https://github.com/spockframework/spock" target="_blank" rel="noopener"></a></p>
+<p>The description of <a href="https://github.com/spockframework/spock" target="_blank" rel="noopener">its github repository</a>:</p>
+<blockquote>
+<p>The Enterprise-ready testing and specification framework.</p>
+</blockquote>
+<p><br></p>
+<p>A Quote from the <a href="http://spockframework.org/" target="_blank" rel="noopener">office website</a>:</p>
+<blockquote>
+<p>Spock is a testing and specification framework for Java and Groovy applications.</p>
+<p>What makes it stand out from the crowd is its beautiful and highly expressive specification language.</p>
+<p>Thanks to its JUnit runner, Spock is compatible with most IDEs, build tools, and continuous integration servers.</p>
+<p>Spock is inspired from JUnit, RSpec, jMock, Mockito, Groovy, Scala, Vulcans, and other fascinating life forms.</p>
+</blockquote>
+<p><br></p>
+<p><a href="http://spockframework.org/spock/docs/1.2/all_in_one.html" target="_blank" rel="noopener">Spock Framework Reference Documentation</a></p>
+<h3 id="Advantage"><a href="#Advantage" class="headerlink" title="Advantage"></a>Advantage</h3><ul>
+<li><p>Specifications as Documentation (BDD); <code>given-when-then</code> ; generating-report.</p>
+</li>
+<li><p>less code, more readable, some awesome feature:</p>
+<ul>
+<li>blocks, (no)thrown, ‘==’,</li>
+<li>where, table, database,</li>
+<li>with, verifyAll</li>
+<li>more fluent Mock syntax</li>
+</ul>
+</li>
+<li><p>support <code>JUnit</code>, it’s suppot all <code>@Rule</code>s in JUnit.</p>
+</li>
+</ul>
+<h3 id="Comparision"><a href="#Comparision" class="headerlink" title="Comparision"></a>Comparision</h3><ul>
+<li>JUnit, testNG</li>
+<li>Cucumber(Gherkin). <strong>“one file solution”</strong></li>
+<li>Java BDD framework, like: <a href="https://jbehave.org/" target="_blank" rel="noopener">JBehave</a></li>
+<li>RSpec <a href="https://github.com/spockframework/spock/issues/106" target="_blank" rel="noopener">spock/issues/106</a></li>
+</ul>
+<h3 id="Spock-Quick-Start"><a href="#Spock-Quick-Start" class="headerlink" title="Spock Quick Start"></a>Spock Quick Start</h3><p>pom.xml:</p>
+<pre><code class="hljs xml"><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- spock --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.groovy<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>groovy-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.spockframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2-groovy-2.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.spockframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-spring<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2-groovy-2.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.athaydes<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-reports<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.gmavenplus<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmavenplus-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>compileTests<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">includes</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*Test.java<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*Spec.java<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">includes</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span></code></pre>
+<hr>
+<h3 id="Usage-Example"><a href="#Usage-Example" class="headerlink" title="Usage Example"></a>Usage Example</h3><p><a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_comparison_to_junit" target="_blank" rel="noopener">Comparision to JUnit</a></p>
+<h4 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h4><p><img src="http://spockframework.org/spock/docs/1.2/images/Blocks2Phases.png" srcset="/img/loading.gif" alt="Blocks"><br><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> <span class="hljs-string">"events are published to all subscribers"</span>() &#123;
+<span class="hljs-symbol">  given:</span>
+  <span class="hljs-keyword">def</span> subscriber1 = Mock(Subscriber)
+  <span class="hljs-keyword">def</span> subscriber2 = Mock(Subscriber)
+  <span class="hljs-keyword">def</span> publisher = <span class="hljs-keyword">new</span> Publisher()
+  publisher.add(subscriber1)
+  publisher.add(subscriber2)
+<span class="hljs-symbol">
+  when:</span>
+  publisher.fire(<span class="hljs-string">"event"</span>)
+<span class="hljs-symbol">
+  then:</span>
+  <span class="hljs-number">1</span> * subscriber1.receive(<span class="hljs-string">"event"</span>)
+  <span class="hljs-number">1</span> * subscriber2.receive(<span class="hljs-string">"event"</span>)
+&#125;</code></pre></p>
+<h4 id="Conditions"><a href="#Conditions" class="headerlink" title="Conditions"></a>Conditions</h4><p>Within the <code>then</code> and <code>expect</code> blocks, assertions are implicit</p>
+<h4 id="some-Shorthand-syntactic-sugar-in-Groovy"><a href="#some-Shorthand-syntactic-sugar-in-Groovy" class="headerlink" title="some Shorthand (syntactic sugar in Groovy)"></a>some Shorthand (syntactic sugar in Groovy)</h4><p> The test code wrote by Spock are more concise and easier to read.<br> There’s less clutter, boilerplate code, and your test cases can be structured better.</p>
+<p>e.g:</p>
+<blockquote>
+<p>Java’s == is actually Groovy’s is() method, and Groovy’s == is a clever equals()!</p>
+</blockquote>
+<pre><code class="hljs groovy">str == <span class="hljs-string">"content"</span>     <span class="hljs-comment">// assert the equality between strings</span>
+list == [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>] <span class="hljs-comment">// assert the equality between lists</span></code></pre>
+<pre><code class="hljs groovy">publisher.subscribers &lt;&lt; subscriber <span class="hljs-comment">// &lt;&lt; is a Groovy shorthand for List.add()</span>
+publisher.subscribers - subscriber <span class="hljs-comment">// to remove element from List</span></code></pre>
+<p>see also:<br><a href="http://groovy-lang.org/syntax.html" target="_blank" rel="noopener">groovy-lang.org/syntax.html</a><br><a href="https://learnxinyminutes.com/docs/groovy/" target="_blank" rel="noopener">some demos</a></p>
+<h4 id="Exception-Conditions"><a href="#Exception-Conditions" class="headerlink" title="Exception Conditions"></a>Exception Conditions</h4><p><code>thrown, notThrown</code><br><pre><code class="hljs groovy"><span class="hljs-string">when:</span>
+stack.pop()
+<span class="hljs-symbol">
+then:</span>
+thrown(EmptyStackException)
+stack.empty</code></pre></p>
+<h4 id="Support-Java-Testing-Lib"><a href="#Support-Java-Testing-Lib" class="headerlink" title="Support Java Testing Lib"></a>Support Java Testing Lib</h4><p>including JUnit, Mockito, JAssert, Hamcrest, etc.</p>
+<h4 id="Data-Tables"><a href="#Data-Tables" class="headerlink" title="Data Tables"></a>Data Tables</h4><p>A awesome feature!</p>
+<pre><code class="hljs groovy"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MathSpec</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Specification</span> &#123;</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-string">"maximum of two numbers"</span>(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b, <span class="hljs-keyword">int</span> c) &#123;
+<span class="hljs-symbol">    expect:</span>
+    Math.max(a, b) == c
+<span class="hljs-symbol">
+    where:</span>
+    a | b | c
+    <span class="hljs-number">1</span> | <span class="hljs-number">3</span> | <span class="hljs-number">3</span>
+    <span class="hljs-number">7</span> | <span class="hljs-number">4</span> | <span class="hljs-number">7</span>
+    <span class="hljs-number">0</span> | <span class="hljs-number">0</span> | <span class="hljs-number">0</span>
+  &#125;
+&#125;</code></pre>
+<h4 id="Data-Pipes"><a href="#Data-Pipes" class="headerlink" title="Data Pipes"></a>Data Pipes</h4><pre><code class="hljs groovy">...
+<span class="hljs-string">where:</span>
+a &lt;&lt; [<span class="hljs-number">1</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0</span>]
+b &lt;&lt; [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">0</span>]
+c &lt;&lt; [<span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0</span>]</code></pre>
+<hr>
+<h3 id="Migration-from-Java-to-Groovy"><a href="#Migration-from-Java-to-Groovy" class="headerlink" title="Migration from Java to Groovy"></a>Migration from Java to Groovy</h3><h4 id="java-lambda-expression-vs-groovy-closure"><a href="#java-lambda-expression-vs-groovy-closure" class="headerlink" title="java lambda expression vs groovy closure"></a>java lambda expression vs groovy closure</h4><p>java:</p>
+<pre><code class="hljs java">() 
+e.g: Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).map(i -&gt; i * <span class="hljs-number">2</span>)</code></pre>
+<p>groovy:</p>
+<pre><code class="hljs groovy">&#123;&#125;
+e.<span class="hljs-string">g:</span> Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).map &#123; i -&gt; i * <span class="hljs-number">2</span> &#125;</code></pre>
+<h4 id="vs"><a href="#vs" class="headerlink" title="[] vs {}"></a>[] vs {}</h4><p>java:</p>
+<pre><code class="hljs java"><span class="hljs-meta">@ContextConfiguration</span>(classes = &#123;A.class, B.class&#125;)</code></pre>
+<p>groovy:</p>
+<pre><code class="hljs groovy"><span class="hljs-meta">@ContextConfiguration</span>(classes = [A.<span class="hljs-keyword">class</span>, B.<span class="hljs-keyword">class</span>])
+<span class="hljs-meta">@ContextConfiguration</span>(classes = [A, B]) <span class="hljs-comment">// the '.class' suffix can also be ignored</span>
+String[] arr = [<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>, <span class="hljs-string">"c"</span>]</code></pre>
+<h4 id="groovy-handy-no-setter-or-no-getter-syntax"><a href="#groovy-handy-no-setter-or-no-getter-syntax" class="headerlink" title="groovy handy no-setter (or no-getter) syntax"></a>groovy handy no-setter (or no-getter) syntax</h4><p>declare a field without access modifier</p>
+<h4 id="Precaution"><a href="#Precaution" class="headerlink" title="Precaution"></a>Precaution</h4><ul>
+<li>IntelliJ-IDEA: must set test directory otherwise it reports <code>Empty Test Suite</code> error.</li>
+</ul>
+<p><br></p>
+<ul>
+<li>JUnit <code>@ClassRule</code><pre><code class="hljs groovy"><span class="hljs-comment">// it works:</span>
+<span class="hljs-meta">@ClassRule</span>
+<span class="hljs-meta">@Shared</span>
+<span class="hljs-keyword">public</span> MyRule rule = <span class="hljs-keyword">new</span> MyRule()
+
+<span class="hljs-comment">// doesn't work (with static modifier):</span>
+<span class="hljs-meta">@ClassRule</span>
+<span class="hljs-meta">@Shared</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> MyRule rule = <span class="hljs-keyword">new</span> MyRule()</code></pre>
+</li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/tdd/">tdd</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/tdd/">tdd</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/02/about-code-comment/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编程随想录 - 代码注释</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2018/11/17/奇葩说第五季17期-我想到的反方杀手锏/">
+                        <span class="hidden-mobile">奇葩说第五季 17 期 - 我想到的反方杀手锏</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

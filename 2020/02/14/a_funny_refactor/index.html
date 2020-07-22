@@ -5,7 +5,7 @@
 
 
 
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -49,9 +49,12 @@
   <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
@@ -121,7 +124,8 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
           </li>
         
       </ul>
@@ -204,7 +208,7 @@
 <p>不同之处就是灭霸是无差别清除，而重构对于代码的清除却是经过深思熟虑精心设计的。  </p>
 <p>闲话少说，下面开始正题。</p>
 <h2 id="重构前"><a href="#重构前" class="headerlink" title="重构前"></a>重构前</h2><p>背景是足球比赛的项目，需要处理各种类型的比赛数据。</p>
-<p>比赛数据的展示维度如图：<br><img src="https://user-gold-cdn.xitu.io/2020/2/13/1703ef2678ba061f?w=1640&amp;h=332&amp;f=png&amp;s=61336" srcset="/img/loading.gif" alt=""></p>
+<p>比赛数据的展示维度如图：<br><img src="https://user-gold-cdn.xitu.io/2020/2/13/1703ef2678ba061f?w=1640&amp;h=332&amp;f=png&amp;s=61336" srcset="/img/loading.gif" alt></p>
 <p>用代码表示是这样的：<br><pre><code class="hljs java"><span class="hljs-comment">// 表示一场比赛里两支球队各个阶段的数据</span>
 <span class="hljs-meta">@Data</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MatchStat</span> </span>&#123;
@@ -325,6 +329,13 @@
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/clean-code/">clean-code</a>
+                    
+                  </div>
+                
                 
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
@@ -393,7 +404,8 @@
   
 
   
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -405,7 +417,8 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -435,22 +448,22 @@
 </footer>
 
 <!-- SCRIPTS -->
-<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="/js/debouncer.js"></script>
-<script src="/js/main.js"></script>
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
 
 <!-- Plugins -->
 
 
   
-    <script src="/js/lazyload.js"></script>
+    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
-  <script src="/js/clipboard-use.js"></script>
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
 
 
 
@@ -458,7 +471,7 @@
 
 
 
-  <script src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js"></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
       var boardCtn = $('#board-ctn');
@@ -487,7 +500,7 @@
 
 
 
-  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
   <script>
     anchors.options = {
       placement: "right",
@@ -504,7 +517,7 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  <script  src="/js/local-search.js" ></script>
   <script>
     var path = "/local-search.xml";
     var inputArea = document.querySelector("#local-search-input");
@@ -516,8 +529,8 @@
 
 
 
-  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
 
   <script>
     $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(

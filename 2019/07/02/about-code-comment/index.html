@@ -5,7 +5,7 @@
 
 
 
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -49,9 +49,12 @@
   <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
@@ -121,7 +124,8 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
           </li>
         
       </ul>
@@ -198,7 +202,7 @@
             
             <article class="markdown-body">
               <p>关于代码注释应该有不少书籍讨论过了, 比如《Clean Code》, 这里我还是想结合一些个人经验, 简单表达一些关于代码注释最佳实践的看法.<br>关于注释我们在项目中可能会遇到如下几种情况:</p>
-<h2 id="无用的注释"><a href="#无用的注释" class="headerlink" title="无用的注释"></a>无用的注释</h2><p><img src="https://user-gold-cdn.xitu.io/2019/6/25/16b8f1f0a34f7c67?w=1080&amp;h=1119&amp;f=jpeg&amp;s=110638" srcset="/img/loading.gif" alt=""></p>
+<h2 id="无用的注释"><a href="#无用的注释" class="headerlink" title="无用的注释"></a>无用的注释</h2><p><img src="https://user-gold-cdn.xitu.io/2019/6/25/16b8f1f0a34f7c67?w=1080&amp;h=1119&amp;f=jpeg&amp;s=110638" srcset="/img/loading.gif" alt></p>
 <p>《Clean Code》里列举了很多种Bad Comments, 其中就包括Noise Comments:</p>
 <blockquote>
 <p>Sometimes you see comments that are nothing but noise. They restate the obvious and provide no new information.</p>
@@ -209,8 +213,8 @@
 <p>但是很多知名的开源框架还是奉行奉行每个字段和方法都必须有注释的原则, 如<code>Spring</code>, <code>Apache Common</code>, 这样做是考虑到生成 Java Doc 后便于大家阅读文档, 也有它存在的合理性吧. </p>
 <p>总之, 注释的原则是让人更好地理解代码, 如果做不到这点, 就不是好的注释.</p>
 <h2 id="必要的注释"><a href="#必要的注释" class="headerlink" title="必要的注释"></a>必要的注释</h2><p>贴心的注释, 解释代码的动机, 方便后来者阅读, 不需要大家去猜代码, 程序员的沟通原则就是简单直接高效, 编码不是谈恋爱, 有话直说不要靠猜. </p>
-<p>告诉你为什么要加<code>@SuppressWarnings</code>注解:<br><img src="https://user-gold-cdn.xitu.io/2019/7/2/16bb275ead0e0bc0?w=1664&amp;h=576&amp;f=png&amp;s=125259" srcset="/img/loading.gif" alt=""></p>
-<p>告诉你这段代码的意图:<br><img src="https://user-gold-cdn.xitu.io/2019/7/2/16bb281ae2597b11?w=1796&amp;h=1312&amp;f=png&amp;s=222114" srcset="/img/loading.gif" alt=""></p>
+<p>告诉你为什么要加<code>@SuppressWarnings</code>注解:<br><img src="https://user-gold-cdn.xitu.io/2019/7/2/16bb275ead0e0bc0?w=1664&amp;h=576&amp;f=png&amp;s=125259" srcset="/img/loading.gif" alt></p>
+<p>告诉你这段代码的意图:<br><img src="https://user-gold-cdn.xitu.io/2019/7/2/16bb281ae2597b11?w=1796&amp;h=1312&amp;f=png&amp;s=222114" srcset="/img/loading.gif" alt></p>
 <h2 id="几乎不写注释"><a href="#几乎不写注释" class="headerlink" title="几乎不写注释"></a>几乎不写注释</h2><p>我个人就很鄙视这种情况, 包括git commit messeage写得非常很少很简单的情况, 明明修改了很多地方, 却只简单地几个字带过, 这种系统很难维护, 代码意图基本靠猜, 会让接管代码的人很崩溃.   </p>
 <p>我称这种人为时间杀手或者偷时间的人, 这样的代码会让维护者花更多的时间猜测代码的意图, 甚至会让维护者被被过分简单的注释所误导而走不少弯路, 成功地浪费了维护者的工作效率.</p>
 <h3 id="不写注释的一些原因"><a href="#不写注释的一些原因" class="headerlink" title="不写注释的一些原因:"></a>不写注释的一些原因:</h3><ul>
@@ -226,6 +230,13 @@
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/clean-code/">clean-code</a>
+                    
+                  </div>
                 
                 
                   <div class="post-meta">
@@ -254,8 +265,8 @@
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2018/11/17/奇葩说第五季17期-我想到的反方杀手锏/">
-                        <span class="hidden-mobile">奇葩说第五季17期 - 我想到的反方杀手锏</span>
+                      <a href="/2019/01/28/Spock-Tutorial-for-Javaer/">
+                        <span class="hidden-mobile">A Spock Tutorial for Javaer</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -295,7 +306,8 @@
   
 
   
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -307,7 +319,8 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -337,22 +350,22 @@
 </footer>
 
 <!-- SCRIPTS -->
-<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="/js/debouncer.js"></script>
-<script src="/js/main.js"></script>
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
 
 <!-- Plugins -->
 
 
   
-    <script src="/js/lazyload.js"></script>
+    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
-  <script src="/js/clipboard-use.js"></script>
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
 
 
 
@@ -360,7 +373,7 @@
 
 
 
-  <script src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js"></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
       var boardCtn = $('#board-ctn');
@@ -389,7 +402,7 @@
 
 
 
-  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
   <script>
     anchors.options = {
       placement: "right",
@@ -406,7 +419,7 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  <script  src="/js/local-search.js" ></script>
   <script>
     var path = "/local-search.xml";
     var inputArea = document.querySelector("#local-search-input");
@@ -418,8 +431,8 @@
 
 
 
-  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
 
   <script>
     $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(

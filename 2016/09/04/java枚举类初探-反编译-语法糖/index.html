@@ -5,7 +5,7 @@
 
 
 
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -16,7 +16,7 @@
   <meta name="description" content="null">
   <meta name="author" content="Chenxi">
   <meta name="keywords" content="undefined">
-  <title>java枚举类初探: 反编译&amp;语法糖 - Chenxi&#39;s Blog</title>
+  <title>java 枚举类初探: 反编译&amp;语法糖 - Chenxi&#39;s Blog</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -49,9 +49,12 @@
   <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
@@ -121,7 +124,8 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
           </li>
         
       </ul>
@@ -137,7 +141,7 @@
           <div class="container text-center white-text fadeInUp">
             <span class="h2" id="subtitle">
               
-                java枚举类初探: 反编译&语法糖
+                java 枚举类初探: 反编译&语法糖
               
             </span>
 
@@ -200,30 +204,30 @@
               <p>最近接触了“<strong>语法糖”</strong>这个概念，今天又看了一下<strong>枚举类</strong>的知识点，主要还是看它的用法，之前一直没有怎么用过java枚举类，看了李刚那本《疯狂java讲义》的枚举类章节，算是把它的用法弄明白了。</p>
 <p>可是枚举类是一种“语法糖”，也就是说<strong>只有编译器知道“enum”关键字，jvm是不知道的，字节码文件中没有枚举这一概念</strong>。实际上，书中一开头就提到了在枚举出现前，程序员需要自己编程实现枚举（具体就不展开了），比较复杂，JDK1.5之后出现了enum枚举类（可以看做是一种特殊的java类）——作为一种“语法糖”让程序员更方便地实现枚举，对程序员更加友好、“甜蜜”了，哈哈。</p>
 <p>我对java语法糖的理解是这样的：可以看做编译器先把原来的enum类编译成“正常的java类”，然后再以正常的方式编译成字节码，所以字节码当然不知道有“语法糖”的存在啦，不知道我的理解有没有错，应该是没有什么大问题，如果有的话还请各位大神指正。<br>为了更好的理解枚举类是怎么实现的，我先是按照书中对枚举类的定义写了一个对应于enum类的“正常的java类”，代码如下：</p>
-<pre><code class="hljs undefined"><span class="hljs-keyword">import</span> java.lang.<span class="hljs-type">Enum</span>;
+<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.lang.Enum;
 <span class="hljs-comment">/*
 public enum TrueEnum &#123;
 	WHITE, BLACK;
 &#125;
 */</span>
-public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyEnum</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Enum</span> </span>&#123; <span class="hljs-comment">// 这样写肯定是通不过编译的，因为编译器不允许我们的类显示的继承Enum类</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyEnum</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Enum</span> </span>&#123; <span class="hljs-comment">// 这样写肯定是通不过编译的，因为编译器不允许我们的类显示的继承Enum类</span>
 	
-	<span class="hljs-keyword">private</span> <span class="hljs-type">MyEnum</span>() &#123;&#125;
+	<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">MyEnum</span><span class="hljs-params">()</span> </span>&#123;&#125;
 	
-	public static <span class="hljs-keyword">final</span> <span class="hljs-type">MyEnum</span> e1 = <span class="hljs-keyword">new</span> <span class="hljs-type">MyEnum</span>(<span class="hljs-string">"WHITE"</span>, <span class="hljs-number">0</span>);
-	public static <span class="hljs-keyword">final</span> <span class="hljs-type">MyEnum</span> e2 = <span class="hljs-keyword">new</span> <span class="hljs-type">MyEnum</span>(<span class="hljs-string">"BLACK"</span>, <span class="hljs-number">1</span>);
+	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> MyEnum e1 = <span class="hljs-keyword">new</span> MyEnum(<span class="hljs-string">"WHITE"</span>, <span class="hljs-number">0</span>);
+	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> MyEnum e2 = <span class="hljs-keyword">new</span> MyEnum(<span class="hljs-string">"BLACK"</span>, <span class="hljs-number">1</span>);
 	
-	public <span class="hljs-type">MyEnum</span>[] values() &#123;
-		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-type">MyEnum</span>[]&#123;e1, e2&#125;; <span class="hljs-comment">// 这个地方有问题，等下指出</span>
+	<span class="hljs-keyword">public</span> MyEnum[] values() &#123;
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyEnum[]&#123;e1, e2&#125;; <span class="hljs-comment">// 这个地方有问题，等下指出</span>
 	&#125;
 &#125;</code></pre>
 <p>后来想反编译一下TrueEum.class(这个是enum类），和自己写的代码对比一下看对不对，就下了一个反编译程序jd-gui，没想到这个程序太高级了，直接反编译成enum类了（囧），又不知道怎么弄成“低级”的，就直接上网搜了别人的博客，看他们贴出的反编译代码，发现自己的猜想还是基本正确的，除了values()方法，正确的实现应该是返回数组的一个浅拷贝（return array.clone()），而不是像我这样简单的返回一个数组引用，后来想想：如果调用者搞破坏怎么办？比如通过数据引用把某个数据元素换成其他值不就破坏了原对象的封装性了吗。看来自己还是too young。</p>
 <p>看了两三篇博客，这篇写的不错：<a href="http://blog.jrwang.me/2016/java-enum/" target="_blank" rel="noopener">Java 枚举源码分析</a>主要是排版看起来比较舒服，分析的也比较全面。</p>
 <p>不过还有一点值得注意的是，这篇文章没有指出enum类实现接口和添加抽象方法这两种情况，这样的话，枚举值就不是作为枚举类的实例了，而是作为枚举类的匿名子类的实现类。<br>也就是说枚举值要么是Enum的直接子类要么是Enum的“孙子类”（这个词是我发明的，理解意思就好，蛤蛤），知道这点的话，下面这段Enum的源码就很好理解了：</p>
-<pre><code class="hljs undefined">// 得到枚举常量所属枚举类型的<span class="hljs-class"><span class="hljs-keyword">Class</span>对象  </span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">Class</span>&lt;<span class="hljs-title">E</span>&gt; <span class="hljs-title">getDeclaringClass</span>() &#123;  </span>
-    <span class="hljs-class"><span class="hljs-keyword">Class</span> <span class="hljs-title">clazz</span> = <span class="hljs-title">getClass</span>();  </span>
-    <span class="hljs-class"><span class="hljs-keyword">Class</span> <span class="hljs-title">zuper</span> = <span class="hljs-title">clazz</span>.<span class="hljs-title">getSuperclass</span>();  </span>
+<pre><code class="hljs java"><span class="hljs-comment">// 得到枚举常量所属枚举类型的Class对象  </span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Class&lt;E&gt; <span class="hljs-title">getDeclaringClass</span><span class="hljs-params">()</span> </span>&#123;  
+    Class clazz = getClass();  
+    Class zuper = clazz.getSuperclass();  
     <span class="hljs-keyword">return</span> (zuper == Enum.class) ? clazz : zuper;  
 &#125;</code></pre>
 <p>这是我基于刚才提到的那篇博客做的一点补充，做了一点微薄的贡献，谢谢大家。<br>第一次发表博客，就先这样吧，献丑了，欢迎各位朋友批评指正。</p>
@@ -233,6 +237,20 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/java/">java</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                    
+                  </div>
                 
               </div>
               
@@ -288,7 +306,8 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
   
 
   
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -300,7 +319,8 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -330,22 +350,22 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
 </footer>
 
 <!-- SCRIPTS -->
-<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="/js/debouncer.js"></script>
-<script src="/js/main.js"></script>
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
 
 <!-- Plugins -->
 
 
   
-    <script src="/js/lazyload.js"></script>
+    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
-  <script src="/js/clipboard-use.js"></script>
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
 
 
 
@@ -353,7 +373,7 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
 
 
 
-  <script src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js"></script>
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
   <script>
     $(document).ready(function () {
       var boardCtn = $('#board-ctn');
@@ -382,7 +402,7 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
 
 
 
-  <script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script>
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
   <script>
     anchors.options = {
       placement: "right",
@@ -399,7 +419,7 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
 
 
 
-  <script src="/js/local-search.js"></script>
+  <script  src="/js/local-search.js" ></script>
   <script>
     var path = "/local-search.xml";
     var inputArea = document.querySelector("#local-search-input");
@@ -411,8 +431,8 @@ public <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
 
 
 
-  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css">
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
 
   <script>
     $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(

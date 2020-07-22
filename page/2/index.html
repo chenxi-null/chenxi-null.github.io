@@ -5,7 +5,7 @@
 
 
 
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -40,9 +40,12 @@
   <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
@@ -112,7 +115,8 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
           </li>
         
       </ul>
@@ -161,7 +165,47 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2016/09/04/java枚举类初探-反编译-语法糖/">java枚举类初探: 反编译&amp;语法糖</a>
+      <a class="index-header" href="/2016/09/11/代理模式和装饰器模式的区别/">代理模式和装饰器模式的区别</a>
+
+      <a href="/2016/09/11/代理模式和装饰器模式的区别/" class="index-excerpt">
+        
+        
+          
+        
+        <div>之前了解过“代理模式”，最经典的例子就是“房屋中介”，房东是被代理对象（也称为真实对象），中介公司是代理对象，共同实现同一个接口，而租房子的家伙就是客户端调用者。租房狗调用一个租房接口，实现自己的租房业务，而中介公司作为租房接口的实现类，成为租房狗实际调用的对象（这就是面向接口编程的一种实践），租房狗是接触不到真正的房东的，但房子毕竟还是房东的啊，这意味着这核心的业务还是属于被代理对象的，代理对象</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2016-09-11
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/OOP/">OOP</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/OOP/">OOP</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2016/09/04/java枚举类初探-反编译-语法糖/">java 枚举类初探: 反编译&amp;语法糖</a>
 
       <a href="/2016/09/04/java枚举类初探-反编译-语法糖/" class="index-excerpt">
         
@@ -179,6 +223,20 @@
           </div>
         
         
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/java/">java</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/java/">java</a>
+            
+          </div>
         
       </div>
     </div>
@@ -215,7 +273,8 @@
   
 
   
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
@@ -227,7 +286,8 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -257,22 +317,22 @@
 </footer>
 
 <!-- SCRIPTS -->
-<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<script src="/js/debouncer.js"></script>
-<script src="/js/main.js"></script>
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
 
 <!-- Plugins -->
 
 
   
-    <script src="/js/lazyload.js"></script>
+    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script>
-  <script src="/js/clipboard-use.js"></script>
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
 
 
 
@@ -286,7 +346,7 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  <script  src="/js/local-search.js" ></script>
   <script>
     var path = "/local-search.xml";
     var inputArea = document.querySelector("#local-search-input");
