@@ -160,7 +160,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      2k 字
     </span>
   
 
@@ -170,7 +170,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20
+      24
        分钟
     </span>
   
@@ -220,7 +220,7 @@
 <h4 id="测试即文档"><a href="#测试即文档" class="headerlink" title="测试即文档"></a>测试即文档</h4><p>测试是<strong>可执行</strong>的文档<br><strong>doc.txt vs doc.exe</strong></p>
 <p>并且，采用 BDD 风格写的测试用例的可读性更强，代码的可维护性更好</p>
 <h4 id="提高开发效率"><a href="#提高开发效率" class="headerlink" title="提高开发效率"></a>提高开发效率</h4><p>降低代码维护成本 (降低自己在项目中的地位🐶) , 提高后期开发迭代效率</p>
-<h3 id="2-自我提升"><a href="#2-自我提升" class="headerlink" title="2. 自我提升"></a>2. 自我提升</h3><h4 id="测试驱动设计"><a href="#测试驱动设计" class="headerlink" title="测试驱动设计"></a>测试驱动设计</h4><p>写出可测试性的代码, 提升模块化设计的能力，思考功能的边界, 模块的松耦合, 加深对项目的理解</p>
+<h3 id="2-自我提升"><a href="#2-自我提升" class="headerlink" title="2. 自我提升"></a>2. 自我提升</h3><h4 id="测试驱动设计"><a href="#测试驱动设计" class="headerlink" title="测试驱动设计"></a>测试驱动设计</h4><p>写出可测试性的代码, 提升模块化设计的能力，思考功能的边界、模块的松耦合, 加深对项目的理解</p>
 <h4 id="测试驱动成长"><a href="#测试驱动成长" class="headerlink" title="测试驱动成长"></a>测试驱动成长</h4><ul>
 <li>测试是必备技能，是持续集成的基础，几乎所有讲敏捷开发的书都会提到 TDD</li>
 <li>加深对各类技术的理解, 强迫你打开盒子，研究原理, e.g. 加深对 Spring 的理解</li>
@@ -317,7 +317,15 @@
 </ol>
 <p>如果前期就写复杂的集成测试: 违背小步走原则，测试太耗时，影响开发节奏</p>
 <h3 id="测试即文档-1"><a href="#测试即文档-1" class="headerlink" title="测试即文档"></a>测试即文档</h3><p>测试用例的可读性!</p>
-<h3 id="把测试代码当成功能代码来写"><a href="#把测试代码当成功能代码来写" class="headerlink" title="把测试代码当成功能代码来写"></a>把测试代码当成功能代码来写</h3><p>提取重复代码: 测试基类, 工具类<br>重复配置, 重复的 setup 和 cleanup 工具<br>测试架构的设计</p>
+<p>Spock 是一款 BDD 风格的测试框架，语法简洁，借助 <a href="https://martinfowler.com/bliki/GivenWhenThen.html" target="_blank" rel="noopener">Given-When-Then</a> 风格的标签我们可以更清晰地定义测试代码所对应的功能代码，让我们更好地理解代码的意图：<br><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a04d4579c0bb421da34a63743377622f~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" alt></p>
+<p>Spock 来可以通过工具将测试用例导出为报告的形式！<br><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/87e91632cfd14474a74660e50839e0e1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" alt></p>
+<h3 id="把测试代码当成功能代码来写"><a href="#把测试代码当成功能代码来写" class="headerlink" title="把测试代码当成功能代码来写"></a>把测试代码当成功能代码来写</h3><p>测试架构的设计，提升代码的可复用性，Spring 生命周期管理等</p>
+<ul>
+<li>使用对象工厂等方式管理测试数据</li>
+<li>通过工具类、基类等方式提取重复代码和重复配置</li>
+<li>善用工具，避免重复轮子，提高代码简洁度，如 JUnit 的 <code>Rule</code>，Spring-Test 提供的各种测试注解、工具类</li>
+</ul>
+<hr>
 <h2 id="测试场景及实践"><a href="#测试场景及实践" class="headerlink" title="测试场景及实践:"></a>测试场景及实践:</h2><h3 id="善用构建工具🔧"><a href="#善用构建工具🔧" class="headerlink" title="善用构建工具🔧"></a>善用构建工具🔧</h3><p>e.g. 使用 maven pom 文件中的 <code>profile</code> 标签进行多版本测试，比如我们要测试程序在不同 spring 版本下是否运行正常：<br><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">profiles</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">profile</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>spring5<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
@@ -332,7 +340,9 @@
         <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">profile</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">profiles</span>&gt;</span></code></pre></p>
-<h3 id="Spring-容器-🍃"><a href="#Spring-容器-🍃" class="headerlink" title="Spring 容器 🍃"></a>Spring 容器 🍃</h3><h3 id="外部系统调用"><a href="#外部系统调用" class="headerlink" title="外部系统调用"></a>外部系统调用</h3><p>DB, Redis, ZK, MQ, Http-Server</p>
+<h3 id="Spring-容器"><a href="#Spring-容器" class="headerlink" title="Spring 容器"></a>Spring 容器</h3><p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#testcontext-framework" target="_blank" rel="noopener">Spring-Test 官方文档</a><br>基于 Spring 的单元/集成测试也是个很大的话题，今天暂不展开</p>
+<h3 id="外部系统调用"><a href="#外部系统调用" class="headerlink" title="外部系统调用"></a>外部系统调用</h3><p>DB, Redis, ZK, MQ, Http-Server, Dubbo</p>
+<p>在测试中可以使用内存中间件，比如内存 DB (H2)，内存 Redis，内存 ZK (<code>curator-test</code>)</p>
 <p>例如 mock 一个 http server:<br><pre><code class="hljs groovy"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WireMockTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Specification</span> &#123;</span>
 
     <span class="hljs-meta">@Rule</span>
@@ -390,31 +400,40 @@
 &#125;</code></pre></p>
 <h3 id="异步场景"><a href="#异步场景" class="headerlink" title="异步场景"></a>异步场景</h3><ul>
 <li>Java: <a href="https://github.com/awaitility/awaitility" target="_blank" rel="noopener">Awaitility</a></li>
-<li>Spock: <code>PollingConditions</code> </li>
+<li>Spock: <code>PollingConditions</code>, <code>AsyncConditions</code> </li>
 </ul>
-<h3 id="Interaction"><a href="#Interaction" class="headerlink" title="Interaction"></a>Interaction</h3><ul>
-<li>Mock &amp; Stub &amp; Spy <a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_interaction_based_testing" target="_blank" rel="noopener">link</a></li>
-<li>Mock 静态方法: <code>PowerMock</code></li>
-<li>JUnit Rule <code>SystemOutRule</code></li>
-<li>自己实现</li>
+<h3 id="Interaction"><a href="#Interaction" class="headerlink" title="Interaction"></a>Interaction</h3><p><strong>interaction_based_testing</strong> —— 基于交互行为的测试</p>
+<p>assert 对象的某个方法是否被调用过</p>
+<p>实现方式：</p>
+<ul>
+<li><p>Mock 实例方法，比如 Java 的 <code>Mockito</code>, Spock 自带的 Mock API 等</p>
+<ul>
+<li>理解 Mock &amp; Stub &amp; Spy 这三者的定义和区别  <a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_interaction_based_testing" target="_blank" rel="noopener">spock-doc_interaction_based_testing</a></li>
+</ul>
+</li>
+<li><p>Mock 静态方法: 目前只有 <code>PowerMock</code> 支持</p>
+</li>
+<li><p>JUnit Rule <code>SystemOutRule</code>，通过断言控制台日志的方式来判断某个方法是否被调用过，不是很优雅，适合测试旧代码或者实在很难测试的场景</p>
+</li>
+<li><p>或者自己实现</p>
+</li>
 </ul>
 <h3 id="其他场景"><a href="#其他场景" class="headerlink" title="其他场景"></a>其他场景</h3><p><a href="https://docs.qameta.io/allure/#_flaky_tests" target="_blank" rel="noopener">flaky-test</a></p>
 <ul>
 <li>被测试的事件不稳定, 有一定概率失败</li>
 <li>单独运行时正常，一起运行时失败，需要做好对象的清理工作</li>
 </ul>
+<hr>
 <h2 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具:"></a>测试工具:</h2><h3 id="测试框架："><a href="#测试框架：" class="headerlink" title="测试框架："></a>测试框架：</h3><ul>
 <li><a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_spock_primer" target="_blank" rel="noopener">Spock</a></li>
-<li><a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-assertions" target="_blank" rel="noopener">JUnit 5</a>       </li>
+<li><a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-assertions" target="_blank" rel="noopener">JUnit 5</a>，不推荐 <code>JUnit4</code>       </li>
 </ul>
-<p>工具目的：提升写测试的效率；让测试更易读    </p>
-<h3 id="测试执行报告"><a href="#测试执行报告" class="headerlink" title="测试执行报告:"></a>测试执行报告:</h3><ul>
-<li><a href="http://allure.qatools.ru/" target="_blank" rel="noopener">Allure</a>: <code>mvn allure:server</code> </li>
-</ul>
-<p><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e00748a5dad9e7?w=2848&amp;h=1606&amp;f=png&amp;s=451667" srcset="/img/loading.gif" alt="命令行输出的测试结果不好阅读"></p>
-<p><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e00756799f986f?w=2878&amp;h=1544&amp;f=png&amp;s=644674" srcset="/img/loading.gif" alt="Allure 展示执行结果"></p>
+<p>工具目的：提升写测试的效率；让测试代码可读性更强    </p>
+<h3 id="测试执行报告"><a href="#测试执行报告" class="headerlink" title="测试执行报告:"></a>测试执行报告:</h3><p>推荐一款工具 —— <a href="http://allure.qatools.ru/" target="_blank" rel="noopener">Allure</a></p>
+<p>maven 原生的命令行输出不好阅读:<br><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e00748a5dad9e7?w=2848&amp;h=1606&amp;f=png&amp;s=451667" srcset="/img/loading.gif" alt="命令行输出的测试结果不好阅读"></p>
+<p>Allure 提供了 maven 插件的形式，运行 <code>mvn allure:server</code> 命令，可以在本地生成网页，展示测试报告，测试用例的执行结果更清晰、直观：<br><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e00756799f986f?w=2878&amp;h=1544&amp;f=png&amp;s=644674" srcset="/img/loading.gif" alt="Allure 展示执行结果"></p>
+<p>Allure 还可以和 Jenkins 集成，查看测试执行结果的趋势变化，更好地支持持续集成：</p>
 <p><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e0076c87e80345?w=2878&amp;h=1558&amp;f=png&amp;s=225975" srcset="/img/loading.gif" alt="Allure 展示测试用例耗时"></p>
-<p>Allure 还可以和 Jenkins 集成，查看测试执行结果的趋势变化</p>
 
             </article>
             <hr>
