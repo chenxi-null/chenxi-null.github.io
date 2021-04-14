@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="null">
+  <meta name="author" content="Chenxi">
+  <meta name="keywords" content="undefined">
+  <title>写给 Javaer 看的 Spock 快速入门 - Chenxi&#39;s Blog</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css">
+  <link rel="stylesheet" href="/lib/hint/hint.min.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css">
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script src="/js/utils.js"></script>
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Chenxi's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+                写给 Javaer 看的 Spock 快速入门
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-04-14 22:00">
+      2021年4月14日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="写给-Javaer-看的-Spock-快速入门"><a href="#写给-Javaer-看的-Spock-快速入门" class="headerlink" title="写给 Javaer 看的 Spock 快速入门"></a>写给 Javaer 看的 Spock 快速入门</h1><h2 id="Spock-是什么？"><a href="#Spock-是什么？" class="headerlink" title="Spock 是什么？"></a>Spock 是什么？</h2><p>看下它的 <a href="https://github.com/spockframework/spock" target="_blank" rel="noopener">github</a> 描述:</p>
+<blockquote>
+<p>The Enterprise-ready testing and specification framework.</p>
+</blockquote>
+<p><a href="http://spockframework.org/" target="_blank" rel="noopener">官网介绍</a>:</p>
+<blockquote>
+<p>Spock is a testing and specification framework for Java and Groovy applications.</p>
+<p>What makes it stand out from the crowd is its beautiful and highly expressive specification language.</p>
+<p>Thanks to its JUnit runner, Spock is compatible with most IDEs, build tools, and continuous integration servers.</p>
+<p>Spock is inspired from JUnit, RSpec, jMock, Mockito, Groovy, Scala, Vulcans, and other fascinating life forms.</p>
+</blockquote>
+<p>官方文档：<a href="http://spockframework.org/spock/docs/1.2/all_in_one.html" target="_blank" rel="noopener">Spock Framework Reference Documentation</a><br><br></p>
+<p>简而言之，Spock 是一款测试框架，支持 Java 或者 Groovy 应用，是采用 groovy 语言写的，得益于 groovy 的语言特性，Spock 相比较 JUnit 语法更简练、提供更强大的功能。</p>
+<p><br></p>
+<h2 id="和其他-Java-测试框架的对比"><a href="#和其他-Java-测试框架的对比" class="headerlink" title="和其他 Java 测试框架的对比"></a>和其他 Java 测试框架的对比</h2><p>对比其他的 Java 测试框架，包括常见的 JUnit, testNG, 一些 Java BDD 框架, 例如 Cucumber(Gherkin)，<a href="https://jbehave.org/" target="_blank" rel="noopener">JBehave</a>, Spock 有如下优势:</p>
+<ul>
+<li><p>基于它提供的一套 DSL，能更好地实践 BDD —— 测试用例即需求说明书。 (<code>given-when-then</code>)</p>
+</li>
+<li><p>写更少的测试代码，测试用例可读性更强，一些 awesome feature，后面会详细解释:</p>
+<ul>
+<li>blocks, (no)thrown, ‘==’,</li>
+<li>where, table, database,</li>
+<li>with, verifyAll</li>
+<li>更灵活的 Mock/Stub 语法</li>
+</ul>
+</li>
+<li><p>兼容 <code>JUnit</code>, 支持 JUnit 里的所有 <code>@Rule</code>，可以平滑地从 JUnit 迁移到 Spock</p>
+</li>
+</ul>
+<h3 id="Spock-vs-JUnit"><a href="#Spock-vs-JUnit" class="headerlink" title="Spock vs JUnit"></a>Spock vs JUnit</h3><p>通过一个参数化测试的例子直观感受下：</p>
+<p>Spock:<br><pre><code class="hljs groovy"><span class="hljs-keyword">import</span> spock.lang.Specification
+<span class="hljs-keyword">import</span> spock.lang.Unroll
+
+<span class="hljs-meta">@Title</span>(<span class="hljs-string">"Testing file extension validation method"</span>)
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ImageValidatorShould</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Specification</span> &#123;</span>
+  
+   <span class="hljs-meta">@Unroll</span>
+   <span class="hljs-keyword">def</span> <span class="hljs-string">"validate extension of #fileToValidate"</span>() &#123;
+<span class="hljs-symbol">       when:</span> <span class="hljs-string">"validator checks filename"</span>
+       <span class="hljs-keyword">def</span> isValid = validate fileToValidate
+<span class="hljs-symbol">
+       then:</span> <span class="hljs-string">"return appropriate result"</span>
+       isValid == expectedResult
+<span class="hljs-symbol">
+       where:</span> <span class="hljs-string">"input files are"</span>
+       fileToValidate || expectedResult
+       <span class="hljs-string">'some.jpeg'</span>    || <span class="hljs-literal">true</span>
+       <span class="hljs-string">'some.jpg'</span>     || <span class="hljs-literal">true</span>
+       <span class="hljs-string">'some.tiff'</span>    || <span class="hljs-literal">false</span>
+       <span class="hljs-string">'some.bmp'</span>     || <span class="hljs-literal">true</span>
+       <span class="hljs-string">'some.png'</span>     || <span class="hljs-literal">false</span>
+   &#125;
+&#125;</code></pre></p>
+<p>JUnit:<br><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.junit.runners.Parameterized;
+<span class="hljs-keyword">import</span> org.junit.runners.Parameterized.Parameters;
+
+<span class="hljs-keyword">import</span> java.util.Collection;
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> java.util.Arrays.asList;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.junit.Assert.assertEquals;
+
+<span class="hljs-meta">@RunWith</span>(Parameterized.class)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ImageValidator</span> </span>&#123;
+
+   <span class="hljs-meta">@Parameters</span>
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Collection&lt;Object[]&gt; data() &#123;
+       <span class="hljs-keyword">return</span> asList(<span class="hljs-keyword">new</span> Object[][]&#123;
+               &#123;<span class="hljs-string">"some.jpeg"</span>, <span class="hljs-keyword">true</span>&#125;,
+               &#123;<span class="hljs-string">"some.jpg"</span>, <span class="hljs-keyword">true</span>&#125;,
+               &#123;<span class="hljs-string">"some.tiff"</span>, <span class="hljs-keyword">false</span>&#125;,
+               &#123;<span class="hljs-string">"some.bmp"</span>, <span class="hljs-keyword">true</span>&#125;,
+               &#123;<span class="hljs-string">"some.png"</span>, <span class="hljs-keyword">false</span>&#125;
+       &#125;);
+   &#125;
+
+   <span class="hljs-keyword">private</span> String file;
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> isValid;
+
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ImageValidator</span><span class="hljs-params">(String input, <span class="hljs-keyword">boolean</span> expected)</span> </span>&#123;
+       file = input;
+       isValid = expected;
+   &#125;
+
+   <span class="hljs-meta">@Test</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">validateFileExtension</span><span class="hljs-params">()</span> </span>&#123;
+       assertEquals(isValid, validate(file));
+   &#125;
+&#125;</code></pre></p>
+<p>上述例子摘自：<a href="https://www.blazemeter.com/blog/spock-vs-junit-which-one-should-you-choose" target="_blank" rel="noopener">link</a></p>
+<hr>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><h3 id="测试方法的生命周期"><a href="#测试方法的生命周期" class="headerlink" title="测试方法的生命周期"></a>测试方法的生命周期</h3><p>和 JUnit 基本类似，详见：<a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_comparison_to_junit" target="_blank" rel="noopener">对比 JUnit</a></p>
+<p><img src="http://spockframework.org/spock/docs/1.2/images/Blocks2Phases.png" srcset="/img/loading.gif" alt="Blocks"></p>
+<p>e.g.:<br><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> <span class="hljs-string">"events are published to all subscribers"</span>() &#123;
+<span class="hljs-symbol">  given:</span> <span class="hljs-string">"准备数据"</span>
+  <span class="hljs-keyword">def</span> subscriber1 = Mock(Subscriber)
+  <span class="hljs-keyword">def</span> subscriber2 = Mock(Subscriber)
+  <span class="hljs-keyword">def</span> publisher = <span class="hljs-keyword">new</span> Publisher()
+  publisher.add(subscriber1)
+  publisher.add(subscriber2)
+<span class="hljs-symbol">
+  when:</span> <span class="hljs-string">"触发被测试对象的一个行为"</span>
+  publisher.fire(<span class="hljs-string">"event"</span>)
+<span class="hljs-symbol">
+  then:</span> <span class="hljs-string">"验证该行为的结果是否符合预期"</span>
+  <span class="hljs-comment">// 验证 subscriber1 的 receive 方法是否被调用一次，且入参为 "event"</span>
+  <span class="hljs-number">1</span> * subscriber1.receive(<span class="hljs-string">"event"</span>)
+  <span class="hljs-number">1</span> * subscriber2.receive(<span class="hljs-string">"event"</span>)
+&#125;</code></pre></p>
+<h3 id="简洁的-Mock-语法"><a href="#简洁的-Mock-语法" class="headerlink" title="简洁的 Mock 语法"></a>简洁的 Mock 语法</h3><p>Spock 有自带的一套 Mock 框架，提供非常简洁直观的语法，从上面那个例子也能看出它的可读性很强，如果同样的代码用 Java Mock 框架，如 Mockito，来写的话，是这样：<br><pre><code class="hljs java">Mockito.verify(subscriber1, Mockito.times(<span class="hljs-number">1</span>)).sendMail(<span class="hljs-string">"event"</span>);
+Mockito.verify(subscriber2, Mockito.times(<span class="hljs-number">1</span>)).sendMail(<span class="hljs-string">"event"</span>);</code></pre></p>
+<h3 id="隐式断言"><a href="#隐式断言" class="headerlink" title="隐式断言"></a>隐式断言</h3><blockquote>
+<p>Within the <code>then</code> and <code>expect</code> blocks, assertions are implicit</p>
+</blockquote>
+<p>无需显示写 assert，语法简洁</p>
+<pre><code class="hljs groovy"><span class="hljs-string">when:</span>
+<span class="hljs-comment">//...</span>
+<span class="hljs-symbol">
+then:</span>
+<span class="hljs-comment">// `then` 代码块里面直接写条件判断语句，无需显式调用 assert 方法</span>
+<span class="hljs-comment">// 等价于: Assert.assertTrue(mailBox.containsMail(msg))</span>
+mailBox.containsMail(msg)
+
+<span class="hljs-comment">// 等价于: Assert.assertEquals(name, 'value')</span>
+name == <span class="hljs-string">'value'</span></code></pre>
+<h3 id="异常断言"><a href="#异常断言" class="headerlink" title="异常断言"></a>异常断言</h3><p><code>thrown, notThrown</code><br><pre><code class="hljs groovy"><span class="hljs-string">when:</span>
+stack.pop()
+<span class="hljs-symbol">
+then:</span>
+thrown(EmptyStackException)
+stack.empty</code></pre></p>
+<h3 id="各种-Groovy-的语法糖"><a href="#各种-Groovy-的语法糖" class="headerlink" title="各种 Groovy 的语法糖"></a>各种 Groovy 的语法糖</h3><p>Groovy 提供的很多语法糖帮助开发不需要写很多模板代码，使用 Spock 写的测试用例更简洁易读，得益于它提供的这套 DSL，整个测试用例的结构更清晰、看起来更接近自然语言。</p>
+<p>e.g:</p>
+<blockquote>
+<p>Java’s == is actually Groovy’s is() method, and Groovy’s == is a clever equals()!</p>
+</blockquote>
+<pre><code class="hljs groovy">str == <span class="hljs-string">"content"</span>     <span class="hljs-comment">// assert the equality between strings</span>
+list == [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>] <span class="hljs-comment">// assert the equality between lists</span></code></pre>
+<pre><code class="hljs groovy">publisher.subscribers &lt;&lt; subscriber <span class="hljs-comment">// &lt;&lt; is a Groovy shorthand for List.add()</span>
+publisher.subscribers - subscriber <span class="hljs-comment">// to remove element from List</span></code></pre>
+<p>参考:<br><a href="http://groovy-lang.org/syntax.html" target="_blank" rel="noopener">groovy-lang.org/syntax.html</a><br><a href="https://learnxinyminutes.com/docs/groovy/" target="_blank" rel="noopener">更多例子</a></p>
+<h3 id="支持-Java-的各种测试框架"><a href="#支持-Java-的各种测试框架" class="headerlink" title="支持 Java 的各种测试框架"></a>支持 Java 的各种测试框架</h3><p>包括 JUnit, Mockito, JAssert, Hamcrest, 等等</p>
+<h3 id="参数化测试"><a href="#参数化测试" class="headerlink" title="参数化测试"></a>参数化测试</h3><p>杀手级特性</p>
+<h4 id="Data-Tables"><a href="#Data-Tables" class="headerlink" title="Data Tables"></a>Data Tables</h4><pre><code class="hljs groovy"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MathSpec</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Specification</span> &#123;</span>
+  <span class="hljs-keyword">def</span> <span class="hljs-string">"maximum of two numbers"</span>(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b, <span class="hljs-keyword">int</span> c) &#123;
+<span class="hljs-symbol">    expect:</span>
+    Math.max(a, b) == c
+<span class="hljs-symbol">
+    where:</span>
+    a | b | c
+    <span class="hljs-number">1</span> | <span class="hljs-number">3</span> | <span class="hljs-number">3</span>
+    <span class="hljs-number">7</span> | <span class="hljs-number">4</span> | <span class="hljs-number">7</span>
+    <span class="hljs-number">0</span> | <span class="hljs-number">0</span> | <span class="hljs-number">0</span>
+  &#125;
+&#125;</code></pre>
+<h4 id="Data-Pipes"><a href="#Data-Pipes" class="headerlink" title="Data Pipes"></a>Data Pipes</h4><pre><code class="hljs groovy">...
+<span class="hljs-string">where:</span>
+a &lt;&lt; [<span class="hljs-number">1</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0</span>]
+b &lt;&lt; [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">0</span>]
+c &lt;&lt; [<span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0</span>]</code></pre>
+<h3 id="报告生成"><a href="#报告生成" class="headerlink" title="报告生成"></a>报告生成</h3><p><code>given</code> <code>when</code> <code>then</code> 等代码块里的描述是可以导出到文档中的：</p>
+<p><img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/8325479993/2df3/bece/ef4c/83442768d591857df3dc6bbd33a75d2e.png" srcset="/img/loading.gif" width="500"></p>
+<p>测试用例是给开发人员看的文档，BDD 风格的测试用例可读性更强，帮忙阅读者更快地熟悉复杂的业务逻辑。</p>
+<hr>
+<h2 id="从-Java-迁移到-Groovy-的注意事项"><a href="#从-Java-迁移到-Groovy-的注意事项" class="headerlink" title="从 Java 迁移到 Groovy 的注意事项"></a>从 Java 迁移到 Groovy 的注意事项</h2><h3 id="java-lambda-expression-vs-groovy-closure"><a href="#java-lambda-expression-vs-groovy-closure" class="headerlink" title="java lambda expression vs groovy closure"></a>java lambda expression vs groovy closure</h3><p>java:</p>
+<pre><code class="hljs java">() 
+e.g: Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).map(i -&gt; i * <span class="hljs-number">2</span>)</code></pre>
+<p>groovy:</p>
+<pre><code class="hljs groovy">&#123;&#125;
+e.<span class="hljs-string">g:</span> Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).map &#123; i -&gt; i * <span class="hljs-number">2</span> &#125;</code></pre>
+<h3 id="注解当中的：-vs"><a href="#注解当中的：-vs" class="headerlink" title="注解当中的：[] vs{}"></a>注解当中的：<code>[]</code> vs<code>{}</code></h3><p>java:</p>
+<pre><code class="hljs java"><span class="hljs-meta">@ContextConfiguration</span>(classes = &#123;A.class, B.class&#125;)</code></pre>
+<p>groovy:</p>
+<pre><code class="hljs groovy"><span class="hljs-meta">@ContextConfiguration</span>(classes = [A.<span class="hljs-keyword">class</span>, B.<span class="hljs-keyword">class</span>])
+<span class="hljs-meta">@ContextConfiguration</span>(classes = [A, B]) <span class="hljs-comment">// the '.class' suffix can also be ignored</span>
+String[] arr = [<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>, <span class="hljs-string">"c"</span>]</code></pre>
+<h3 id="groovy-更便捷的-getter-amp-setter"><a href="#groovy-更便捷的-getter-amp-setter" class="headerlink" title="groovy 更便捷的 getter &amp; setter"></a>groovy 更便捷的 getter &amp; setter</h3><pre><code class="hljs groovy"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> &#123;</span>
+    String name;
+    <span class="hljs-keyword">int</span> age;
+&#125;
+
+Person person = <span class="hljs-keyword">new</span> Person()
+person.name = <span class="hljs-string">'tom'</span> <span class="hljs-comment">// 等价于 person.setName("tom");</span>
+person.age = <span class="hljs-number">10</span> <span class="hljs-comment">// 等价于 person.setAge(10);</span>
+println person.name <span class="hljs-comment">// 等价于 System.out.println(person.getName())</span>
+println person.age <span class="hljs-comment">// 等价于 System.out.println(person.getAge())</span></code></pre>
+<h2 id="落地实践"><a href="#落地实践" class="headerlink" title="落地实践"></a>落地实践</h2><p><img src="https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/8325266133/7d08/48cb/0fc4/a4d9b708ff9dd8ddb7eea5bfb2ada270.png" srcset="/img/loading.gif" width="500"></p>
+<p>生产代码用 java 写，测试代码用 groovy，享受新语言优势的同时又无需承担线上风险。<br>e.g.<br><img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/8325587220/e46f/595f/de6c/83ff35430e1c5f2c4a6ab0838cb86cf7.png" srcset="/img/loading.gif" width="500"></p>
+<h3 id="学习成本"><a href="#学习成本" class="headerlink" title="学习成本"></a>学习成本</h3><ul>
+<li>groovy 号称是 “Java 的脚本的语言”，Java 程序员学习 groovy 的成本较低。</li>
+<li>Spock 中文资料不是很多，直接阅读<a href="https://github.com/spockframework/spock" target="_blank" rel="noopener">官方文档</a>是最推荐的学习方式</li>
+</ul>
+<h3 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h3><p>如果对 groovy 语法不是太熟悉的话，可以选择在 Spock 里写 Java 代码，groovy 兼容绝大多数的 java 语法。 e.g.:<br><pre><code class="hljs java"><span class="hljs-comment">// 各种 groovy 语法和 Java 语法的混用，</span>
+List list0 = <span class="hljs-keyword">new</span> ArrayList()
+List list = [<span class="hljs-string">'1'</span>, <span class="hljs-string">'2'</span>, <span class="hljs-string">'3'</span>]
+list &lt;&lt; <span class="hljs-string">'4'</span>
+list &lt;&lt; <span class="hljs-string">"5"</span>
+list.add(<span class="hljs-string">"6"</span>)
+println(list[<span class="hljs-number">0</span>])
+println list.get(<span class="hljs-number">0</span>)
+System.out.println(list[<span class="hljs-number">0</span>])</code></pre></p>
+<p>groovy 还兼容 JUnit (Spock 的底层是基于 Junit 引擎实现的)和 maven (因为 maven 构建只认 class 文件)，因此也兼容 CI 平台。</p>
+<h3 id="不足之处"><a href="#不足之处" class="headerlink" title="不足之处"></a>不足之处</h3><ol>
+<li><p>跨语言，有一定学习成本和推广难度</p>
+</li>
+<li><p>社区活跃度和 JUnit 还不是一个数量级，我之前在使用过程中也遇到过一些小问题，不过影响不大</p>
+</li>
+<li><p>习惯 Spock 之后容易厌弃 JUnit ……<br>分享一个之前在 spring-redis 源码里看到的彩蛋，这位老哥可能是写单测写太辛苦了，直接在代码注释里吐槽起了 JUnit，甚至还画了一个表情 (摊手)<br> <img src="https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/8325339447/c6e0/1999/0dd8/2857d4e659391fcb1aefcff280f9b453.png" srcset="/img/loading.gif" width="500"></p>
+</li>
+</ol>
+<h3 id="maven-配置"><a href="#maven-配置" class="headerlink" title="maven 配置"></a>maven 配置</h3><p>pom.xml:<br><pre><code class="hljs xml"><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- spock --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.groovy<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>groovy-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.spockframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2-groovy-2.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.spockframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-spring<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2-groovy-2.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.athaydes<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-reports<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.gmavenplus<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmavenplus-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>compileTests<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">includes</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*Test.java<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*Spec.java<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">includes</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span></code></pre></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/tdd/">tdd</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/tdd/">tdd</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/07/21/tdd-in-action-async-assert/">
+                        <span class="hidden-mobile">TDD 实战 —— 如何测试异步任务</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
