@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 25vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -259,57 +259,9 @@
 <li>测试代码可读性和可维护性</li>
 </ul>
 <h2 id="测试方法论"><a href="#测试方法论" class="headerlink" title="测试方法论:"></a>测试方法论:</h2><h3 id="分类原则"><a href="#分类原则" class="headerlink" title="分类原则"></a>分类原则</h3><p>优先按“主题” (系统模块, Feature, Bug) 分类, 其次才是 Class</p>
-<h3 id="集成测试和单元测试的关系"><a href="#集成测试和单元测试的关系" class="headerlink" title="集成测试和单元测试的关系"></a>集成测试和单元测试的关系</h3><p>举个例子，比如要测试这个方法：<br><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeAndDeliverCake</span><span class="hljs-params">(FlavorEnum flavor)</span> </span>&#123;
-    <span class="hljs-comment">// 耗时短，测试用例复杂</span>
-    Cake cake = makeCake(flavor);
-
-    <span class="hljs-comment">// 耗时长，测试用例简单</span>
-    deliverCake(cake);
-&#125;</code></pre></p>
-<p>test <code>makeCake</code>:<br><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> <span class="hljs-string">"succeed to makeCake"</span>() &#123;
-<span class="hljs-symbol">    when:</span>
-    Cake actualCake = makeCake(falvor)
-<span class="hljs-symbol">    then:</span>
-    expectedCake == actualCake
-<span class="hljs-symbol">
-    where:</span>
-    falovr | expectedCake
-    apple  | appleCake
-    banana | bananaCake
-    orange | orangeCake
-&#125;
-
-<span class="hljs-keyword">def</span> <span class="hljs-string">"failed to makeCake: 库存不足"</span>() &#123;
-<span class="hljs-symbol">    when:</span>
-    Cake actualCake = makeCake(falvor)
-<span class="hljs-symbol">    then:</span>
-    <span class="hljs-keyword">def</span> e = thrown(IllegalArgumentException)
-    e.message == <span class="hljs-string">'库存不足'</span>
-<span class="hljs-symbol">
-    where:</span>
-    falovr &lt;&lt; [mango, grape]  
-&#125;
-
-<span class="hljs-keyword">def</span> <span class="hljs-string">"failed to makeCake: 暂不支持这种口味"</span>() &#123;
-<span class="hljs-symbol">    when:</span>
-    Cake actualCake = makeCake(falvor)
-<span class="hljs-symbol">    then:</span>
-    <span class="hljs-keyword">def</span> e = thrown(IllegalArgumentException)
-    e.message == <span class="hljs-string">'暂不支持这种口味'</span>
-<span class="hljs-symbol">
-    where:</span>
-    falovr &lt;&lt; [dog, cat]  
-&#125;</code></pre></p>
-<p>test <code>makeAndDeliverCake</code>:<br><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> <span class="hljs-string">"test makeAndDeliverCake"</span>() &#123;
-<span class="hljs-symbol">    given:</span>
-    <span class="hljs-comment">// mock cakeShop &amp; prepare some data</span>
-<span class="hljs-symbol">
-    when:</span>
-    makeAndDeliverCake(apple)
-<span class="hljs-symbol">
-    then:</span>
-    <span class="hljs-keyword">new</span> PollingConditions().within(<span class="hljs-number">20</span>, &#123; cakeShop.reveive(appCake)&#125;)
-&#125;</code></pre></p>
+<h3 id="集成测试和单元测试的关系"><a href="#集成测试和单元测试的关系" class="headerlink" title="集成测试和单元测试的关系"></a>集成测试和单元测试的关系</h3><p>举个例子，比如要测试这个方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">makeAndDeliverCake</span><span class="params">(FlavorEnum flavor)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 耗时短，测试用例复杂</span></span><br><span class="line">    Cake cake = makeCake(flavor);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 耗时长，测试用例简单</span></span><br><span class="line">    deliverCake(cake);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>test <code>makeCake</code>:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="string">"succeed to makeCake"</span>() &#123;</span><br><span class="line"><span class="symbol">    when:</span></span><br><span class="line">    Cake actualCake = makeCake(falvor)</span><br><span class="line"><span class="symbol">    then:</span></span><br><span class="line">    expectedCake == actualCake</span><br><span class="line"></span><br><span class="line"><span class="symbol">    where:</span></span><br><span class="line">    falovr | expectedCake</span><br><span class="line">    apple  | appleCake</span><br><span class="line">    banana | bananaCake</span><br><span class="line">    orange | orangeCake</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="string">"failed to makeCake: 库存不足"</span>() &#123;</span><br><span class="line"><span class="symbol">    when:</span></span><br><span class="line">    Cake actualCake = makeCake(falvor)</span><br><span class="line"><span class="symbol">    then:</span></span><br><span class="line">    <span class="keyword">def</span> e = thrown(IllegalArgumentException)</span><br><span class="line">    e.message == <span class="string">'库存不足'</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">    where:</span></span><br><span class="line">    falovr &lt;&lt; [mango, grape]  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="string">"failed to makeCake: 暂不支持这种口味"</span>() &#123;</span><br><span class="line"><span class="symbol">    when:</span></span><br><span class="line">    Cake actualCake = makeCake(falvor)</span><br><span class="line"><span class="symbol">    then:</span></span><br><span class="line">    <span class="keyword">def</span> e = thrown(IllegalArgumentException)</span><br><span class="line">    e.message == <span class="string">'暂不支持这种口味'</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">    where:</span></span><br><span class="line">    falovr &lt;&lt; [dog, cat]  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>test <code>makeAndDeliverCake</code>:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="string">"test makeAndDeliverCake"</span>() &#123;</span><br><span class="line"><span class="symbol">    given:</span></span><br><span class="line">    <span class="comment">// mock cakeShop &amp; prepare some data</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">    when:</span></span><br><span class="line">    makeAndDeliverCake(apple)</span><br><span class="line"></span><br><span class="line"><span class="symbol">    then:</span></span><br><span class="line">    <span class="keyword">new</span> PollingConditions().within(<span class="number">20</span>, &#123; cakeShop.reveive(appCake)&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>单元测试里进行复杂的用例测试;<br>集成测试只做简单的”连通性”测试</p>
 <ol>
 <li><code>CakeDistributionTest</code>: only test <code>makeCake</code>  </li>
@@ -326,78 +278,11 @@
 <li>善用工具，避免重复轮子，提高代码简洁度，如 JUnit 的 <code>Rule</code>，Spring-Test 提供的各种测试注解、工具类</li>
 </ul>
 <hr>
-<h2 id="测试场景及实践"><a href="#测试场景及实践" class="headerlink" title="测试场景及实践:"></a>测试场景及实践:</h2><h3 id="善用构建工具🔧"><a href="#善用构建工具🔧" class="headerlink" title="善用构建工具🔧"></a>善用构建工具🔧</h3><p>e.g. 使用 maven pom 文件中的 <code>profile</code> 标签进行多版本测试，比如我们要测试程序在不同 spring 版本下是否运行正常：<br><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">profiles</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">profile</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>spring5<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.0.10.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-                <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">profile</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">profiles</span>&gt;</span></code></pre></p>
+<h2 id="测试场景及实践"><a href="#测试场景及实践" class="headerlink" title="测试场景及实践:"></a>测试场景及实践:</h2><h3 id="善用构建工具🔧"><a href="#善用构建工具🔧" class="headerlink" title="善用构建工具🔧"></a>善用构建工具🔧</h3><p>e.g. 使用 maven pom 文件中的 <code>profile</code> 标签进行多版本测试，比如我们要测试程序在不同 spring 版本下是否运行正常：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">profiles</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">profile</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>spring5<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.0.10.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="Spring-容器"><a href="#Spring-容器" class="headerlink" title="Spring 容器"></a>Spring 容器</h3><p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#testcontext-framework" target="_blank" rel="noopener">Spring-Test 官方文档</a><br>基于 Spring 的单元/集成测试也是个很大的话题，今天暂不展开</p>
 <h3 id="外部系统调用"><a href="#外部系统调用" class="headerlink" title="外部系统调用"></a>外部系统调用</h3><p>DB, Redis, ZK, MQ, Http-Server, Dubbo</p>
 <p>在测试中可以使用内存中间件，比如内存 DB (H2)，内存 Redis，内存 ZK (<code>curator-test</code>)</p>
-<p>例如 mock 一个 http server:<br><pre><code class="hljs groovy"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WireMockTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Specification</span> &#123;</span>
-
-    <span class="hljs-meta">@Rule</span>
-    WireMockRule wireMockRule = <span class="hljs-keyword">new</span> WireMockRule(<span class="hljs-number">18080</span>)
-
-    <span class="hljs-keyword">def</span> wireMock = <span class="hljs-keyword">new</span> WireMockGroovy(<span class="hljs-number">18080</span>)
-
-    <span class="hljs-keyword">def</span> <span class="hljs-string">"WireMockRule"</span>() &#123;
-<span class="hljs-symbol">        given:</span>
-        wireMockRule.stubFor(any(urlEqualTo(<span class="hljs-string">"/some/thing?k1=v1"</span>))
-                .willReturn(aResponse()
-                        .withHeader(<span class="hljs-string">"Content-Type"</span>, <span class="hljs-string">"text/plain"</span>)
-                        .withBody(<span class="hljs-string">"Hello world!"</span>)));
-<span class="hljs-symbol">
-        when:</span>
-        <span class="hljs-keyword">def</span> res = org.apache.http.client.fluent.Request.Post(<span class="hljs-string">"http://localhost:18080/some/thing?k1=v1"</span>)
-                .execute().returnContent().asString()
-<span class="hljs-symbol">
-        then:</span>
-        <span class="hljs-comment">// assert result ...</span>
-<span class="hljs-symbol">        and:</span>
-        verify(<span class="hljs-number">1</span>, postRequestedFor(urlEqualTo(<span class="hljs-string">"/some/thing?k1=v1"</span>)));
-    &#125;
-
-    <span class="hljs-comment">// http://wiremock.org/docs/stubbing/</span>
-    <span class="hljs-keyword">def</span> <span class="hljs-string">"WireMock (mock http server) | groovy style"</span>() &#123;
-<span class="hljs-symbol">        given:</span>
-        wireMock.stub &#123;
-            request &#123;
-                method <span class="hljs-string">"GET"</span>
-                url <span class="hljs-string">"/book"</span>
-            &#125;
-            response &#123;
-                status <span class="hljs-number">200</span>
-                body <span class="hljs-string">"""[
-                      &#123;"title": "Book 1", "isbn": "4711"&#125;,
-                      &#123;"title": "Book 2", "isbn": "4712"&#125;
-                    ]
-                 """</span>
-                headers &#123; <span class="hljs-string">"Content-Type"</span> <span class="hljs-string">"application/json"</span> &#125;
-            &#125;
-        &#125;
-<span class="hljs-symbol">
-        when:</span> <span class="hljs-string">"we invoke the REST client to find all books"</span>
-        <span class="hljs-keyword">def</span> res = request()
-<span class="hljs-symbol">
-        then:</span> <span class="hljs-string">"we expect two books to be found"</span>
-        <span class="hljs-comment">// assert result ....</span>
-<span class="hljs-symbol">        and:</span> <span class="hljs-string">"the mock to be invoked exactly once"</span>
-        <span class="hljs-number">1</span> == wireMock.count &#123;
-            method <span class="hljs-string">"GET"</span>
-            url <span class="hljs-string">"/book"</span>
-        &#125;
-    &#125;
-&#125;</code></pre></p>
+<p>例如 mock 一个 http server:<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WireMockTest</span> <span class="keyword">extends</span> <span class="title">Specification</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Rule</span></span><br><span class="line">    WireMockRule wireMockRule = <span class="keyword">new</span> WireMockRule(<span class="number">18080</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> wireMock = <span class="keyword">new</span> WireMockGroovy(<span class="number">18080</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="string">"WireMockRule"</span>() &#123;</span><br><span class="line"><span class="symbol">        given:</span></span><br><span class="line">        wireMockRule.stubFor(any(urlEqualTo(<span class="string">"/some/thing?k1=v1"</span>))</span><br><span class="line">                .willReturn(aResponse()</span><br><span class="line">                        .withHeader(<span class="string">"Content-Type"</span>, <span class="string">"text/plain"</span>)</span><br><span class="line">                        .withBody(<span class="string">"Hello world!"</span>)));</span><br><span class="line"></span><br><span class="line"><span class="symbol">        when:</span></span><br><span class="line">        <span class="keyword">def</span> res = org.apache.http.client.fluent.Request.Post(<span class="string">"http://localhost:18080/some/thing?k1=v1"</span>)</span><br><span class="line">                .execute().returnContent().asString()</span><br><span class="line"></span><br><span class="line"><span class="symbol">        then:</span></span><br><span class="line">        <span class="comment">// assert result ...</span></span><br><span class="line"><span class="symbol">        and:</span></span><br><span class="line">        verify(<span class="number">1</span>, postRequestedFor(urlEqualTo(<span class="string">"/some/thing?k1=v1"</span>)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// http://wiremock.org/docs/stubbing/</span></span><br><span class="line">    <span class="keyword">def</span> <span class="string">"WireMock (mock http server) | groovy style"</span>() &#123;</span><br><span class="line"><span class="symbol">        given:</span></span><br><span class="line">        wireMock.stub &#123;</span><br><span class="line">            request &#123;</span><br><span class="line">                method <span class="string">"GET"</span></span><br><span class="line">                url <span class="string">"/book"</span></span><br><span class="line">            &#125;</span><br><span class="line">            response &#123;</span><br><span class="line">                status <span class="number">200</span></span><br><span class="line">                body <span class="string">"""[</span></span><br><span class="line"><span class="string">                      &#123;"title": "Book 1", "isbn": "4711"&#125;,</span></span><br><span class="line"><span class="string">                      &#123;"title": "Book 2", "isbn": "4712"&#125;</span></span><br><span class="line"><span class="string">                    ]</span></span><br><span class="line"><span class="string">                 """</span></span><br><span class="line">                headers &#123; <span class="string">"Content-Type"</span> <span class="string">"application/json"</span> &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="symbol">        when:</span> <span class="string">"we invoke the REST client to find all books"</span></span><br><span class="line">        <span class="keyword">def</span> res = request()</span><br><span class="line"></span><br><span class="line"><span class="symbol">        then:</span> <span class="string">"we expect two books to be found"</span></span><br><span class="line">        <span class="comment">// assert result ....</span></span><br><span class="line"><span class="symbol">        and:</span> <span class="string">"the mock to be invoked exactly once"</span></span><br><span class="line">        <span class="number">1</span> == wireMock.count &#123;</span><br><span class="line">            method <span class="string">"GET"</span></span><br><span class="line">            url <span class="string">"/book"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="异步场景"><a href="#异步场景" class="headerlink" title="异步场景"></a>异步场景</h3><ul>
 <li>Java: <a href="https://github.com/awaitility/awaitility" target="_blank" rel="noopener">Awaitility</a></li>
 <li>Spock: <code>PollingConditions</code>, <code>AsyncConditions</code> </li>

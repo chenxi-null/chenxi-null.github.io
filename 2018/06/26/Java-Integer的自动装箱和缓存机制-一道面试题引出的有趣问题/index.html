@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 25vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -160,7 +160,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      837 字
+      873 字
     </span>
   
 
@@ -202,69 +202,17 @@
             
             <article class="markdown-body">
               <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近遇到一道Java面试题, 感觉很有意思, 和大家分享一下.<br>是远程在线做题的, 可以使用自己的IDE. </p>
-<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><pre><code class="hljs undefined"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">swap</span>(<span class="hljs-params">Integer a, Integer b</span>)</span> &#123;
-&#125;
-
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(<span class="hljs-params">String[] args</span>)</span> &#123;
-    Integer a = <span class="hljs-number">1</span>;
-    Integer b = <span class="hljs-number">2</span>;
-    System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">"before:a="</span> + a + <span class="hljs-string">",b="</span> + b);
-    swap(a, b);<span class="hljs-comment">//实现此swap函数；交换位置</span>
-    System.<span class="hljs-keyword">out</span>.println(<span class="hljs-string">"after:a="</span> + a + <span class="hljs-string">",b="</span> + b);
-&#125;</code></pre>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private static void swap(Integer a, Integer b) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    Integer a = 1;</span><br><span class="line">    Integer b = 2;</span><br><span class="line">    System.out.println(&quot;before:a=&quot; + a + &quot;,b=&quot; + b);</span><br><span class="line">    swap(a, b);//实现此swap函数；交换位置</span><br><span class="line">    System.out.println(&quot;after:a=&quot; + a + &quot;,b=&quot; + b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="实际过程中-错误的-解法"><a href="#实际过程中-错误的-解法" class="headerlink" title="实际过程中(错误的)解法"></a>实际过程中(错误的)解法</h3><h4 id="分析"><a href="#分析" class="headerlink" title="分析:"></a>分析:</h4><p>第一感觉还是比较简单的, 由于Integer是不可变对象, 所以利用反射修改他们内部维护的那个’value’字段. </p>
-<h4 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下:"></a>代码如下:</h4><pre><code class="hljs undefined"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Integer a, Integer b)</span> </span>&#123;
-    <span class="hljs-keyword">int</span> valueA = b;
-    <span class="hljs-keyword">int</span> valueB = a;
-
-    <span class="hljs-keyword">try</span> &#123;
-        <span class="hljs-keyword">final</span> String innerFieldName = <span class="hljs-string">"value"</span>;
-        Field field = Integer.class.getDeclaredField(innerFieldName);
-        field.setAccessible(<span class="hljs-keyword">true</span>);
-
-        modifyViaReflection(a, valueA, field);
-        modifyViaReflection(b, valueB, field);
-    &#125; <span class="hljs-keyword">catch</span> (NoSuchFieldException | IllegalAccessException e) &#123;
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e);
-    &#125;
-&#125;
-
-<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">modifyViaReflection</span><span class="hljs-params">(Integer obj, <span class="hljs-keyword">int</span> val, Field field)</span> <span class="hljs-keyword">throws</span> IllegalAccessException </span>&#123;
-    field.set(obj, val);
-&#125;</code></pre>
-<h4 id="运行结果-a可以修改成功而b不可以"><a href="#运行结果-a可以修改成功而b不可以" class="headerlink" title="运行结果: a可以修改成功而b不可以."></a>运行结果: a可以修改成功而b不可以.</h4><h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><p>当发现下面的调试输出结果时我是有点崩溃的:<br><pre><code class="hljs undefined"><span class="hljs-comment">// 传入的val为1</span>
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">modifyViaReflection</span><span class="hljs-params">(Integer obj, <span class="hljs-keyword">int</span> val, Field field)</span> throws IllegalAccessException </span>&#123;
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"before obj = &#123;&#125;"</span>, obj); <span class="hljs-comment">// print 2</span>
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"val = "</span> + val); <span class="hljs-comment">// print 1</span>
-    field.<span class="hljs-built_in">set</span>(obj, val);
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"after obj = &#123;&#125;"</span>, obj); <span class="hljs-comment">// print 2 !!! (使用反射修改字段值失败)</span>
-&#125;</code></pre></p>
+<h4 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下:"></a>代码如下:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private static void swap(Integer a, Integer b) &#123;</span><br><span class="line">    int valueA = b;</span><br><span class="line">    int valueB = a;</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        final String innerFieldName = &quot;value&quot;;</span><br><span class="line">        Field field = Integer.class.getDeclaredField(innerFieldName);</span><br><span class="line">        field.setAccessible(true);</span><br><span class="line"></span><br><span class="line">        modifyViaReflection(a, valueA, field);</span><br><span class="line">        modifyViaReflection(b, valueB, field);</span><br><span class="line">    &#125; catch (NoSuchFieldException | IllegalAccessException e) &#123;</span><br><span class="line">        throw new RuntimeException(e);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    field.set(obj, val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运行结果-a可以修改成功而b不可以"><a href="#运行结果-a可以修改成功而b不可以" class="headerlink" title="运行结果: a可以修改成功而b不可以."></a>运行结果: a可以修改成功而b不可以.</h4><h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><p>当发现下面的调试输出结果时我是有点崩溃的:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 传入的val为1</span><br><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    log.debug(&quot;before obj = &#123;&#125;&quot;, obj); // print 2</span><br><span class="line">    log.debug(&quot;val = &quot; + val); // print 1</span><br><span class="line">    field.set(obj, val);</span><br><span class="line">    log.debug(&quot;after obj = &#123;&#125;&quot;, obj); // print 2 !!! (使用反射修改字段值失败)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>当时调了好久, 明明传入的val是1, 为什么会修改不成功呢?</p>
 <ul>
 <li>第一次修改是成功的, 第二次就不行, 调换了a和b的次序, 同样如此;</li>
 <li>甚至怀疑是JDK版本的原因, 还从JDK8切换到了JDK6: 无果;</li>
 </ul>
-<p>面试完之后, 继续探索:<br><pre><code class="hljs undefined"><span class="hljs-comment">// 传入的val为1</span>
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">modifyViaReflection</span><span class="hljs-params">(Integer obj, <span class="hljs-keyword">int</span> val, Field field)</span> throws IllegalAccessException </span>&#123;
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"before obj = &#123;&#125;"</span>, obj); <span class="hljs-comment">// print 2</span>
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"val = "</span> + val); <span class="hljs-comment">// print 1</span>
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"val = &#123;&#125;"</span>, val); <span class="hljs-comment">// print 2 !!!  (加了这一行调试语句后后发现了新大陆)</span>
-    field.<span class="hljs-built_in">set</span>(obj, val);
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"after obj = &#123;&#125;"</span>, obj); <span class="hljs-comment">// print 2 !!! (使用反射修改字段值失败)</span>
-&#125;</code></pre></p>
-<h3 id="正确的解法"><a href="#正确的解法" class="headerlink" title="正确的解法"></a>正确的解法</h3><pre><code class="hljs undefined"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">modifyViaReflection</span><span class="hljs-params">(Integer obj, <span class="hljs-keyword">int</span> val, Field field)</span> throws IllegalAccessException </span>&#123;
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"val = "</span> + val); <span class="hljs-comment">// when val == 1, print 1</span>
-    <span class="hljs-built_in">log</span>.debug(<span class="hljs-string">"val = &#123;&#125;"</span>, val); <span class="hljs-comment">// when val ==1, print 2 (很奇怪吧, 看下面的解释)</span>
-
-    <span class="hljs-comment">/*
-    如果按照下面那行"错误写法"那样写的话, 当入参val为1时, 它会被解糖为"Integer.value(1)",
-    由于Integer的cache机制, "Integer.value(1)"和a会是同一个对象, 指向的都是"Integer Cache"中的那个对象.
-    然而这个对象的value字段已经被我们改成2了!
-    所以就会出现明明传入的val为1, 但是调用完field#set方法之后, obj还是2的奇怪现象.
-    */</span>
-    <span class="hljs-comment">// field.set(obj, val); // 错误的写法! 会被解糖为: field.set(obj, Integer.valueOf(val));</span>
-    field.<span class="hljs-built_in">set</span>(obj, <span class="hljs-keyword">new</span> Integer(val));
-&#125;</code></pre>
+<p>面试完之后, 继续探索:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 传入的val为1</span><br><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    log.debug(&quot;before obj = &#123;&#125;&quot;, obj); // print 2</span><br><span class="line">    log.debug(&quot;val = &quot; + val); // print 1</span><br><span class="line">    log.debug(&quot;val = &#123;&#125;&quot;, val); // print 2 !!!  (加了这一行调试语句后后发现了新大陆)</span><br><span class="line">    field.set(obj, val);</span><br><span class="line">    log.debug(&quot;after obj = &#123;&#125;&quot;, obj); // print 2 !!! (使用反射修改字段值失败)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="正确的解法"><a href="#正确的解法" class="headerlink" title="正确的解法"></a>正确的解法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private static void modifyViaReflection(Integer obj, int val, Field field) throws IllegalAccessException &#123;</span><br><span class="line">    log.debug(&quot;val = &quot; + val); // when val == 1, print 1</span><br><span class="line">    log.debug(&quot;val = &#123;&#125;&quot;, val); // when val ==1, print 2 (很奇怪吧, 看下面的解释)</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">    如果按照下面那行&quot;错误写法&quot;那样写的话, 当入参val为1时, 它会被解糖为&quot;Integer.value(1)&quot;,</span><br><span class="line">    由于Integer的cache机制, &quot;Integer.value(1)&quot;和a会是同一个对象, 指向的都是&quot;Integer Cache&quot;中的那个对象.</span><br><span class="line">    然而这个对象的value字段已经被我们改成2了!</span><br><span class="line">    所以就会出现明明传入的val为1, 但是调用完field#set方法之后, obj还是2的奇怪现象.</span><br><span class="line">    */</span><br><span class="line">    // field.set(obj, val); // 错误的写法! 会被解糖为: field.set(obj, Integer.valueOf(val));</span><br><span class="line">    field.set(obj, new Integer(val));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h3><ul>
 <li>心态: 限时一小时, 总共两题, 第一题就卡主了, 有点紧张, 有点慌了. </li>
 <li>知识储备: Integer的自动拆装箱, 前258位的缓存机制, 这些其实都懂, 但是做题的时候没有把这两个联系到一起; </li>

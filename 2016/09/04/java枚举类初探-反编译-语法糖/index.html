@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 25vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -160,7 +160,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      944 字
+      945 字
     </span>
   
 
@@ -204,32 +204,11 @@
               <p>最近接触了“<strong>语法糖”</strong>这个概念，今天又看了一下<strong>枚举类</strong>的知识点，主要还是看它的用法，之前一直没有怎么用过java枚举类，看了李刚那本《疯狂java讲义》的枚举类章节，算是把它的用法弄明白了。</p>
 <p>可是枚举类是一种“语法糖”，也就是说<strong>只有编译器知道“enum”关键字，jvm是不知道的，字节码文件中没有枚举这一概念</strong>。实际上，书中一开头就提到了在枚举出现前，程序员需要自己编程实现枚举（具体就不展开了），比较复杂，JDK1.5之后出现了enum枚举类（可以看做是一种特殊的java类）——作为一种“语法糖”让程序员更方便地实现枚举，对程序员更加友好、“甜蜜”了，哈哈。</p>
 <p>我对java语法糖的理解是这样的：可以看做编译器先把原来的enum类编译成“正常的java类”，然后再以正常的方式编译成字节码，所以字节码当然不知道有“语法糖”的存在啦，不知道我的理解有没有错，应该是没有什么大问题，如果有的话还请各位大神指正。<br>为了更好的理解枚举类是怎么实现的，我先是按照书中对枚举类的定义写了一个对应于enum类的“正常的java类”，代码如下：</p>
-<pre><code class="hljs java"><span class="hljs-keyword">import</span> java.lang.Enum;
-<span class="hljs-comment">/*
-public enum TrueEnum &#123;
-	WHITE, BLACK;
-&#125;
-*/</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyEnum</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Enum</span> </span>&#123; <span class="hljs-comment">// 这样写肯定是通不过编译的，因为编译器不允许我们的类显示的继承Enum类</span>
-	
-	<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">MyEnum</span><span class="hljs-params">()</span> </span>&#123;&#125;
-	
-	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> MyEnum e1 = <span class="hljs-keyword">new</span> MyEnum(<span class="hljs-string">"WHITE"</span>, <span class="hljs-number">0</span>);
-	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> MyEnum e2 = <span class="hljs-keyword">new</span> MyEnum(<span class="hljs-string">"BLACK"</span>, <span class="hljs-number">1</span>);
-	
-	<span class="hljs-keyword">public</span> MyEnum[] values() &#123;
-		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> MyEnum[]&#123;e1, e2&#125;; <span class="hljs-comment">// 这个地方有问题，等下指出</span>
-	&#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.Enum;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">public enum TrueEnum &#123;</span></span><br><span class="line"><span class="comment">	WHITE, BLACK;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyEnum</span> <span class="keyword">extends</span> <span class="title">Enum</span> </span>&#123; <span class="comment">// 这样写肯定是通不过编译的，因为编译器不允许我们的类显示的继承Enum类</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">MyEnum</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> MyEnum e1 = <span class="keyword">new</span> MyEnum(<span class="string">"WHITE"</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> MyEnum e2 = <span class="keyword">new</span> MyEnum(<span class="string">"BLACK"</span>, <span class="number">1</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> MyEnum[] values() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> MyEnum[]&#123;e1, e2&#125;; <span class="comment">// 这个地方有问题，等下指出</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>后来想反编译一下TrueEum.class(这个是enum类），和自己写的代码对比一下看对不对，就下了一个反编译程序jd-gui，没想到这个程序太高级了，直接反编译成enum类了（囧），又不知道怎么弄成“低级”的，就直接上网搜了别人的博客，看他们贴出的反编译代码，发现自己的猜想还是基本正确的，除了values()方法，正确的实现应该是返回数组的一个浅拷贝（return array.clone()），而不是像我这样简单的返回一个数组引用，后来想想：如果调用者搞破坏怎么办？比如通过数据引用把某个数据元素换成其他值不就破坏了原对象的封装性了吗。看来自己还是too young。</p>
 <p>看了两三篇博客，这篇写的不错：<a href="http://blog.jrwang.me/2016/java-enum/" target="_blank" rel="noopener">Java 枚举源码分析</a>主要是排版看起来比较舒服，分析的也比较全面。</p>
 <p>不过还有一点值得注意的是，这篇文章没有指出enum类实现接口和添加抽象方法这两种情况，这样的话，枚举值就不是作为枚举类的实例了，而是作为枚举类的匿名子类的实现类。<br>也就是说枚举值要么是Enum的直接子类要么是Enum的“孙子类”（这个词是我发明的，理解意思就好，蛤蛤），知道这点的话，下面这段Enum的源码就很好理解了：</p>
-<pre><code class="hljs java"><span class="hljs-comment">// 得到枚举常量所属枚举类型的Class对象  </span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> Class&lt;E&gt; <span class="hljs-title">getDeclaringClass</span><span class="hljs-params">()</span> </span>&#123;  
-    Class clazz = getClass();  
-    Class zuper = clazz.getSuperclass();  
-    <span class="hljs-keyword">return</span> (zuper == Enum.class) ? clazz : zuper;  
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 得到枚举常量所属枚举类型的Class对象  </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Class&lt;E&gt; <span class="title">getDeclaringClass</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">    Class clazz = getClass();  </span><br><span class="line">    Class zuper = clazz.getSuperclass();  </span><br><span class="line">    <span class="keyword">return</span> (zuper == Enum.class) ? clazz : zuper;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这是我基于刚才提到的那篇博客做的一点补充，做了一点微薄的贡献，谢谢大家。<br>第一次发表博客，就先这样吧，献丑了，欢迎各位朋友批评指正。</p>
 
             </article>

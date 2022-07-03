@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 25vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -160,7 +160,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      785 字
+      786 字
     </span>
   
 
@@ -237,142 +237,40 @@
 <li>RSpec <a href="https://github.com/spockframework/spock/issues/106" target="_blank" rel="noopener">spock/issues/106</a></li>
 </ul>
 <h3 id="Spock-Quick-Start"><a href="#Spock-Quick-Start" class="headerlink" title="Spock Quick Start"></a>Spock Quick Start</h3><p>pom.xml:</p>
-<pre><code class="hljs xml"><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- spock --&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.groovy<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>groovy-all<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.spockframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2-groovy-2.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.spockframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-spring<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.2-groovy-2.4<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.athaydes<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spock-reports<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
-
-
-<span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.gmavenplus<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>gmavenplus-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.6<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
-                        <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>compileTests<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
-                    <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
-                <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
-
-        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">includes</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*Test.java<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
-                    <span class="hljs-tag">&lt;<span class="hljs-name">include</span>&gt;</span>**/*Spec.java<span class="hljs-tag">&lt;/<span class="hljs-name">include</span>&gt;</span>
-                <span class="hljs-tag">&lt;/<span class="hljs-name">includes</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span></code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- spock --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.groovy<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>groovy-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.spockframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spock-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2-groovy-2.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.spockframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spock-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2-groovy-2.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.athaydes<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spock-reports<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.6.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.gmavenplus<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>gmavenplus-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">executions</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">execution</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">goals</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>compileTests<span class="tag">&lt;/<span class="name">goal</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">goals</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">execution</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">executions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*Test.java<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*Spec.java<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <hr>
 <h3 id="Usage-Example"><a href="#Usage-Example" class="headerlink" title="Usage Example"></a>Usage Example</h3><p><a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_comparison_to_junit" target="_blank" rel="noopener">Comparision to JUnit</a></p>
-<h4 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h4><p><img src="http://spockframework.org/spock/docs/1.2/images/Blocks2Phases.png" srcset="/img/loading.gif" alt="Blocks"><br><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> <span class="hljs-string">"events are published to all subscribers"</span>() &#123;
-<span class="hljs-symbol">  given:</span>
-  <span class="hljs-keyword">def</span> subscriber1 = Mock(Subscriber)
-  <span class="hljs-keyword">def</span> subscriber2 = Mock(Subscriber)
-  <span class="hljs-keyword">def</span> publisher = <span class="hljs-keyword">new</span> Publisher()
-  publisher.add(subscriber1)
-  publisher.add(subscriber2)
-<span class="hljs-symbol">
-  when:</span>
-  publisher.fire(<span class="hljs-string">"event"</span>)
-<span class="hljs-symbol">
-  then:</span>
-  <span class="hljs-number">1</span> * subscriber1.receive(<span class="hljs-string">"event"</span>)
-  <span class="hljs-number">1</span> * subscriber2.receive(<span class="hljs-string">"event"</span>)
-&#125;</code></pre></p>
+<h4 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h4><p><img src="http://spockframework.org/spock/docs/1.2/images/Blocks2Phases.png" srcset="/img/loading.gif" alt="Blocks"><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="string">"events are published to all subscribers"</span>() &#123;</span><br><span class="line"><span class="symbol">  given:</span></span><br><span class="line">  <span class="keyword">def</span> subscriber1 = Mock(Subscriber)</span><br><span class="line">  <span class="keyword">def</span> subscriber2 = Mock(Subscriber)</span><br><span class="line">  <span class="keyword">def</span> publisher = <span class="keyword">new</span> Publisher()</span><br><span class="line">  publisher.add(subscriber1)</span><br><span class="line">  publisher.add(subscriber2)</span><br><span class="line"></span><br><span class="line"><span class="symbol">  when:</span></span><br><span class="line">  publisher.fire(<span class="string">"event"</span>)</span><br><span class="line"></span><br><span class="line"><span class="symbol">  then:</span></span><br><span class="line">  <span class="number">1</span> * subscriber1.receive(<span class="string">"event"</span>)</span><br><span class="line">  <span class="number">1</span> * subscriber2.receive(<span class="string">"event"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h4 id="Conditions"><a href="#Conditions" class="headerlink" title="Conditions"></a>Conditions</h4><p>Within the <code>then</code> and <code>expect</code> blocks, assertions are implicit</p>
 <h4 id="some-Shorthand-syntactic-sugar-in-Groovy"><a href="#some-Shorthand-syntactic-sugar-in-Groovy" class="headerlink" title="some Shorthand (syntactic sugar in Groovy)"></a>some Shorthand (syntactic sugar in Groovy)</h4><p> The test code wrote by Spock are more concise and easier to read.<br> There’s less clutter, boilerplate code, and your test cases can be structured better.</p>
 <p>e.g:</p>
 <blockquote>
 <p>Java’s == is actually Groovy’s is() method, and Groovy’s == is a clever equals()!</p>
 </blockquote>
-<pre><code class="hljs groovy">str == <span class="hljs-string">"content"</span>     <span class="hljs-comment">// assert the equality between strings</span>
-list == [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>] <span class="hljs-comment">// assert the equality between lists</span></code></pre>
-<pre><code class="hljs groovy">publisher.subscribers &lt;&lt; subscriber <span class="hljs-comment">// &lt;&lt; is a Groovy shorthand for List.add()</span>
-publisher.subscribers - subscriber <span class="hljs-comment">// to remove element from List</span></code></pre>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str == <span class="string">"content"</span>     <span class="comment">// assert the equality between strings</span></span><br><span class="line">list == [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] <span class="comment">// assert the equality between lists</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">publisher.subscribers &lt;&lt; subscriber <span class="comment">// &lt;&lt; is a Groovy shorthand for List.add()</span></span><br><span class="line">publisher.subscribers - subscriber <span class="comment">// to remove element from List</span></span><br></pre></td></tr></table></figure>
 <p>see also:<br><a href="http://groovy-lang.org/syntax.html" target="_blank" rel="noopener">groovy-lang.org/syntax.html</a><br><a href="https://learnxinyminutes.com/docs/groovy/" target="_blank" rel="noopener">some demos</a></p>
-<h4 id="Exception-Conditions"><a href="#Exception-Conditions" class="headerlink" title="Exception Conditions"></a>Exception Conditions</h4><p><code>thrown, notThrown</code><br><pre><code class="hljs groovy"><span class="hljs-string">when:</span>
-stack.pop()
-<span class="hljs-symbol">
-then:</span>
-thrown(EmptyStackException)
-stack.empty</code></pre></p>
+<h4 id="Exception-Conditions"><a href="#Exception-Conditions" class="headerlink" title="Exception Conditions"></a>Exception Conditions</h4><p><code>thrown, notThrown</code><br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">when:</span></span><br><span class="line">stack.pop()</span><br><span class="line"></span><br><span class="line"><span class="string">then:</span></span><br><span class="line">thrown(EmptyStackException)</span><br><span class="line">stack.empty</span><br></pre></td></tr></table></figure></p>
 <h4 id="Support-Java-Testing-Lib"><a href="#Support-Java-Testing-Lib" class="headerlink" title="Support Java Testing Lib"></a>Support Java Testing Lib</h4><p>including JUnit, Mockito, JAssert, Hamcrest, etc.</p>
 <h4 id="Data-Tables"><a href="#Data-Tables" class="headerlink" title="Data Tables"></a>Data Tables</h4><p>A awesome feature!</p>
-<pre><code class="hljs groovy"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MathSpec</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Specification</span> &#123;</span>
-  <span class="hljs-keyword">def</span> <span class="hljs-string">"maximum of two numbers"</span>(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b, <span class="hljs-keyword">int</span> c) &#123;
-<span class="hljs-symbol">    expect:</span>
-    Math.max(a, b) == c
-<span class="hljs-symbol">
-    where:</span>
-    a | b | c
-    <span class="hljs-number">1</span> | <span class="hljs-number">3</span> | <span class="hljs-number">3</span>
-    <span class="hljs-number">7</span> | <span class="hljs-number">4</span> | <span class="hljs-number">7</span>
-    <span class="hljs-number">0</span> | <span class="hljs-number">0</span> | <span class="hljs-number">0</span>
-  &#125;
-&#125;</code></pre>
-<h4 id="Data-Pipes"><a href="#Data-Pipes" class="headerlink" title="Data Pipes"></a>Data Pipes</h4><pre><code class="hljs groovy">...
-<span class="hljs-string">where:</span>
-a &lt;&lt; [<span class="hljs-number">1</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0</span>]
-b &lt;&lt; [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">0</span>]
-c &lt;&lt; [<span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">0</span>]</code></pre>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MathSpec</span> <span class="keyword">extends</span> <span class="title">Specification</span> &#123;</span></span><br><span class="line">  <span class="keyword">def</span> <span class="string">"maximum of two numbers"</span>(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> c) &#123;</span><br><span class="line"><span class="symbol">    expect:</span></span><br><span class="line">    Math.max(a, b) == c</span><br><span class="line"></span><br><span class="line"><span class="symbol">    where:</span></span><br><span class="line">    a | b | c</span><br><span class="line">    <span class="number">1</span> | <span class="number">3</span> | <span class="number">3</span></span><br><span class="line">    <span class="number">7</span> | <span class="number">4</span> | <span class="number">7</span></span><br><span class="line">    <span class="number">0</span> | <span class="number">0</span> | <span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Data-Pipes"><a href="#Data-Pipes" class="headerlink" title="Data Pipes"></a>Data Pipes</h4><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="string">where:</span></span><br><span class="line">a &lt;&lt; [<span class="number">1</span>, <span class="number">7</span>, <span class="number">0</span>]</span><br><span class="line">b &lt;&lt; [<span class="number">3</span>, <span class="number">4</span>, <span class="number">0</span>]</span><br><span class="line">c &lt;&lt; [<span class="number">3</span>, <span class="number">7</span>, <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
 <hr>
 <h3 id="Migration-from-Java-to-Groovy"><a href="#Migration-from-Java-to-Groovy" class="headerlink" title="Migration from Java to Groovy"></a>Migration from Java to Groovy</h3><h4 id="java-lambda-expression-vs-groovy-closure"><a href="#java-lambda-expression-vs-groovy-closure" class="headerlink" title="java lambda expression vs groovy closure"></a>java lambda expression vs groovy closure</h4><p>java:</p>
-<pre><code class="hljs java">() 
-e.g: Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).map(i -&gt; i * <span class="hljs-number">2</span>)</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">() </span><br><span class="line">e.g: Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).map(i -&gt; i * <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
 <p>groovy:</p>
-<pre><code class="hljs groovy">&#123;&#125;
-e.<span class="hljs-string">g:</span> Stream.of(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>).map &#123; i -&gt; i * <span class="hljs-number">2</span> &#125;</code></pre>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#125;</span><br><span class="line">e.<span class="string">g:</span> Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).map &#123; i -&gt; i * <span class="number">2</span> &#125;</span><br></pre></td></tr></table></figure>
 <h4 id="vs"><a href="#vs" class="headerlink" title="[] vs {}"></a>[] vs {}</h4><p>java:</p>
-<pre><code class="hljs java"><span class="hljs-meta">@ContextConfiguration</span>(classes = &#123;A.class, B.class&#125;)</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ContextConfiguration</span>(classes = &#123;A.class, B.class&#125;)</span><br></pre></td></tr></table></figure>
 <p>groovy:</p>
-<pre><code class="hljs groovy"><span class="hljs-meta">@ContextConfiguration</span>(classes = [A.<span class="hljs-keyword">class</span>, B.<span class="hljs-keyword">class</span>])
-<span class="hljs-meta">@ContextConfiguration</span>(classes = [A, B]) <span class="hljs-comment">// the '.class' suffix can also be ignored</span>
-String[] arr = [<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>, <span class="hljs-string">"c"</span>]</code></pre>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ContextConfiguration</span>(classes = [A.<span class="keyword">class</span>, B.<span class="keyword">class</span>])</span><br><span class="line"><span class="meta">@ContextConfiguration</span>(classes = [A, B]) <span class="comment">// the '.class' suffix can also be ignored</span></span><br><span class="line">String[] arr = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>]</span><br></pre></td></tr></table></figure>
 <h4 id="groovy-handy-no-setter-or-no-getter-syntax"><a href="#groovy-handy-no-setter-or-no-getter-syntax" class="headerlink" title="groovy handy no-setter (or no-getter) syntax"></a>groovy handy no-setter (or no-getter) syntax</h4><p>declare a field without access modifier</p>
 <h4 id="Precaution"><a href="#Precaution" class="headerlink" title="Precaution"></a>Precaution</h4><ul>
 <li>IntelliJ-IDEA: must set test directory otherwise it reports <code>Empty Test Suite</code> error.</li>
 </ul>
 <p><br></p>
 <ul>
-<li>JUnit <code>@ClassRule</code><pre><code class="hljs groovy"><span class="hljs-comment">// it works:</span>
-<span class="hljs-meta">@ClassRule</span>
-<span class="hljs-meta">@Shared</span>
-<span class="hljs-keyword">public</span> MyRule rule = <span class="hljs-keyword">new</span> MyRule()
-
-<span class="hljs-comment">// doesn't work (with static modifier):</span>
-<span class="hljs-meta">@ClassRule</span>
-<span class="hljs-meta">@Shared</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> MyRule rule = <span class="hljs-keyword">new</span> MyRule()</code></pre>
+<li>JUnit <code>@ClassRule</code><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// it works:</span></span><br><span class="line"><span class="meta">@ClassRule</span></span><br><span class="line"><span class="meta">@Shared</span></span><br><span class="line"><span class="keyword">public</span> MyRule rule = <span class="keyword">new</span> MyRule()</span><br><span class="line"></span><br><span class="line"><span class="comment">// doesn't work (with static modifier):</span></span><br><span class="line"><span class="meta">@ClassRule</span></span><br><span class="line"><span class="meta">@Shared</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> MyRule rule = <span class="keyword">new</span> MyRule()</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 

@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 25vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -160,7 +160,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      234 字
+      226 字
     </span>
   
 
@@ -202,65 +202,14 @@
             
             <article class="markdown-body">
               <p>日常开发中整理的一些开箱即用的开源工具类，帮助减少冗余代码和项目中的重复轮子，主要提供商包括 <code>Spring</code>, <code>Apache common-lang3</code>, <code>Lombok</code>, <code>Guava</code>。</p>
-<h1 id="Assert"><a href="#Assert" class="headerlink" title="Assert"></a>Assert</h1><pre><code class="hljs java"><span class="hljs-comment">// original code</span>
-<span class="hljs-keyword">if</span> (input == <span class="hljs-keyword">null</span>) &#123;
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgument(<span class="hljs-string">"given argument must not be null"</span>);
-&#125;
-
-<span class="hljs-keyword">if</span> (num != <span class="hljs-number">1</span>) &#123;
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgument(<span class="hljs-string">"given number is not 1"</span>);
-&#125;
-
-<span class="hljs-comment">// clean code, powered by spring-core</span>
-Assert.notNull(input, <span class="hljs-string">"input is null"</span>);
-
-Assert.isTrue(num == <span class="hljs-number">1</span>, <span class="hljs-string">"given number is not 1"</span>);</code></pre>
-<h1 id="Safe-equals"><a href="#Safe-equals" class="headerlink" title="Safe equals"></a>Safe equals</h1><pre><code class="hljs java"><span class="hljs-comment">// not null-safe</span>
-!a.equals(b)
-
-<span class="hljs-comment">// better, powered by JDK-7</span>
-!Objects.equals(a, b)</code></pre>
-<h1 id="StringUtils"><a href="#StringUtils" class="headerlink" title="StringUtils"></a>StringUtils</h1><pre><code class="hljs java"><span class="hljs-comment">// common-lang3</span>
-StringUtils.isEmpty(str);
-StringUtils.isBlank(str);</code></pre>
-<h1 id="BooleanUtils"><a href="#BooleanUtils" class="headerlink" title="BooleanUtils"></a>BooleanUtils</h1><pre><code class="hljs java">Boolean b;
-
-<span class="hljs-comment">// original code</span>
-<span class="hljs-keyword">if</span> (b == <span class="hljs-keyword">null</span> || b == <span class="hljs-keyword">false</span>) &#123;
-    <span class="hljs-comment">//...</span>
-&#125;
-
-<span class="hljs-comment">// clean code, powered by common-lang3</span>
-<span class="hljs-keyword">if</span> (BooleanUtils.isNotTrue) &#123;
-    <span class="hljs-comment">//...</span>
-&#125;</code></pre>
-<h1 id="defaultIfNull"><a href="#defaultIfNull" class="headerlink" title="defaultIfNull"></a>defaultIfNull</h1><pre><code class="hljs java"><span class="hljs-comment">// defaultIfNull common-lang3</span>
-<span class="hljs-keyword">int</span> expiration = ObjectUtils.defaultIfNull(
-                Utils.getConfigValueAsInt(PROPERTY_EXPIRATION),
-                DEFAULT_EXPIRATION);</code></pre>
-<h1 id="Ignore-Checked-Exception"><a href="#Ignore-Checked-Exception" class="headerlink" title="Ignore Checked-Exception"></a>Ignore Checked-Exception</h1><p>Lombok <code>@SneakyThrow</code><br><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">normalMethodWithThrowsIdentifier</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException();
-&#125;
-
-<span class="hljs-meta">@SneakyThrows</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">methodWithSneakyThrowsAnnotation</span><span class="hljs-params">()</span> </span>&#123;
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException();
-&#125;</code></pre></p>
+<h1 id="Assert"><a href="#Assert" class="headerlink" title="Assert"></a>Assert</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// original code</span></span><br><span class="line"><span class="keyword">if</span> (input == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgument(<span class="string">"given argument must not be null"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (num != <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgument(<span class="string">"given number is not 1"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// clean code, powered by spring-core</span></span><br><span class="line">Assert.notNull(input, <span class="string">"input is null"</span>);</span><br><span class="line"></span><br><span class="line">Assert.isTrue(num == <span class="number">1</span>, <span class="string">"given number is not 1"</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="Safe-equals"><a href="#Safe-equals" class="headerlink" title="Safe equals"></a>Safe equals</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// not null-safe</span></span><br><span class="line">!a.equals(b)</span><br><span class="line"></span><br><span class="line"><span class="comment">// better, powered by JDK-7</span></span><br><span class="line">!Objects.equals(a, b)</span><br></pre></td></tr></table></figure>
+<h1 id="StringUtils"><a href="#StringUtils" class="headerlink" title="StringUtils"></a>StringUtils</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// common-lang3</span></span><br><span class="line">StringUtils.isEmpty(str);</span><br><span class="line">StringUtils.isBlank(str);</span><br></pre></td></tr></table></figure>
+<h1 id="BooleanUtils"><a href="#BooleanUtils" class="headerlink" title="BooleanUtils"></a>BooleanUtils</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Boolean b;</span><br><span class="line"></span><br><span class="line"><span class="comment">// original code</span></span><br><span class="line"><span class="keyword">if</span> (b == <span class="keyword">null</span> || b == <span class="keyword">false</span>) &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// clean code, powered by common-lang3</span></span><br><span class="line"><span class="keyword">if</span> (BooleanUtils.isNotTrue) &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="defaultIfNull"><a href="#defaultIfNull" class="headerlink" title="defaultIfNull"></a>defaultIfNull</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// defaultIfNull common-lang3</span></span><br><span class="line"><span class="keyword">int</span> expiration = ObjectUtils.defaultIfNull(</span><br><span class="line">                Utils.getConfigValueAsInt(PROPERTY_EXPIRATION),</span><br><span class="line">                DEFAULT_EXPIRATION);</span><br></pre></td></tr></table></figure>
+<h1 id="Ignore-Checked-Exception"><a href="#Ignore-Checked-Exception" class="headerlink" title="Ignore Checked-Exception"></a>Ignore Checked-Exception</h1><p>Lombok <code>@SneakyThrow</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">normalMethodWithThrowsIdentifier</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IOException();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SneakyThrows</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">methodWithSneakyThrowsAnnotation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IOException();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h1 id="Builder-Pattern-with-Lombok"><a href="#Builder-Pattern-with-Lombok" class="headerlink" title="Builder Pattern with Lombok"></a>Builder Pattern with Lombok</h1><p><a href="https://projectlombok.org/features/Builder" target="_blank" rel="noopener">lombok Builder</a></p>
-<h2 id="Required-arguments-with-a-lombok-Builder"><a href="#Required-arguments-with-a-lombok-Builder" class="headerlink" title="Required arguments with a lombok @Builder"></a>Required arguments with a lombok @Builder</h2><pre><code class="hljs java"><span class="hljs-keyword">import</span> lombok.Builder;
-<span class="hljs-keyword">import</span> lombok.ToString;
-
-<span class="hljs-meta">@Builder</span>(builderMethodName = <span class="hljs-string">"hiddenBuilder"</span>)
-<span class="hljs-meta">@ToString</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span> </span>&#123;
-
-    <span class="hljs-keyword">private</span> String name;
-    <span class="hljs-keyword">private</span> String surname;
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> PersonBuilder <span class="hljs-title">builder</span><span class="hljs-params">(String name)</span> </span>&#123;
-        <span class="hljs-keyword">return</span> hiddenBuilder().name(name);
-    &#125;
-&#125;</code></pre>
+<h2 id="Required-arguments-with-a-lombok-Builder"><a href="#Required-arguments-with-a-lombok-Builder" class="headerlink" title="Required arguments with a lombok @Builder"></a>Required arguments with a lombok @Builder</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.Builder;</span><br><span class="line"><span class="keyword">import</span> lombok.ToString;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Builder</span>(builderMethodName = <span class="string">"hiddenBuilder"</span>)</span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String surname;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> PersonBuilder <span class="title">builder</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> hiddenBuilder().name(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Copied from <a href="https://stackoverflow.com/questions/29885428/required-arguments-with-a-lombok-builder/30867286#30867286" target="_blank" rel="noopener">SOF</a></p>
 <h1 id="guava"><a href="#guava" class="headerlink" title="guava"></a>guava</h1><p>TODO</p>
 <h1 id="retry-strategy"><a href="#retry-strategy" class="headerlink" title="retry strategy"></a>retry strategy</h1><p>TODO</p>

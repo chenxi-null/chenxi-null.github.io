@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 25vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -266,21 +266,14 @@
 <p>SDK 中专门开辟了一个线程池用来执行异步任务, 执行线程池的线程数量是开放给用户配置的, SDK 只有在本地存在空闲线程时才去获取任务, 由此可以保证对执行资源的有效分配。</p>
 <h3 id="任务存储"><a href="#任务存储" class="headerlink" title="任务存储"></a>任务存储</h3><p>首先, 为了保障高性能, 我们选择 Redis 作为任务存储层。</p>
 <h4 id="Redis-vs-MySQL"><a href="#Redis-vs-MySQL" class="headerlink" title="Redis vs MySQL"></a>Redis vs MySQL</h4><p>我们观察到市场上的一些开源 Java 异步任务中间件 (如 jmppok/AsyncTask, bojiw/asyncmd) 都是基于 MySQL 的, 选择 MySQL 的好处是, 基于关系型数据库我们可以很方便地实现任务查询和任务状态流转:</p>
-<pre><code class="hljs SQL"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> task <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">status</span> = <span class="hljs-string">'ready'</span>;
-<span class="hljs-keyword">UPDATE</span> task <span class="hljs-keyword">SET</span> <span class="hljs-keyword">status</span> = <span class="hljs-string">'working'</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">id</span> = <span class="hljs-number">1</span>;</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> task <span class="keyword">WHERE</span> <span class="keyword">status</span> = <span class="string">'ready'</span>;</span><br><span class="line"><span class="keyword">UPDATE</span> task <span class="keyword">SET</span> <span class="keyword">status</span> = <span class="string">'working'</span> <span class="keyword">WHERE</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
 <p>像这样通过简单的 SQL 就可以实现, 开发成本较低。</p>
 <p>但如果使用 Redis 的话, 因为 Redis 的数据结构较为简单, 不适合 MySQL 这种条件查询和数据嵌套 (为了让一个 Task 元素包含多个属性字段, 在 Redis 里只能用 JSON 字符串来表示), 为了实现相同的语义, 需要设计更复杂的数据结构 (下文会具体介绍), 开发成本更高。</p>
 <p>但即便如此, 我们依然选择 Redis 而不是 MySQL, 主要还是考虑到 MySQL 对高并发的支持不是很好, 在我们公司的 C 端场景下异步任务的提交频率会很高, 所以高并发场景是我们必须要考虑的。</p>
 <p>此外, 选择 MySQL 的话, 还需要创建额外的表, 对业务数据库有一定的侵入性。</p>
 <h4 id="Redis-vs-MQ"><a href="#Redis-vs-MQ" class="headerlink" title="Redis vs MQ"></a>Redis vs MQ</h4><p>我们没有使用 MQ 作为任务存储层是因为 MQ 的运维流程比较复杂, 需要事先申请 Topic, 消费组等信息, 没有 Redis 那么轻量。</p>
 <p>并且，基于 MQ 实现的任务队列具有一定的功能局限性，例如无法实现任意大小的延时时间、自定义重试策略、复杂的任务调度场景——如依赖任务等。</p>
-<h3 id="Redis-数据结构设计"><a href="#Redis-数据结构设计" class="headerlink" title="Redis 数据结构设计"></a>Redis 数据结构设计</h3><p>一种任务状态对应一个 Redis 集合, 任务数据以 JSON 字符串的形式存储。<br><pre><code class="hljs java">[zset] delayed (延时任务), retry (待重试任务). zset 的 score 是预期执行时间, value 是任务数据
-	
-[hash] working (正在执行中的任务). hash 的 field 代表任务 ID, value 表示任务数据 (json 字符串的形式))
-
-[list] ready (就绪的任务)
-[list] success:&#123;date&#125; (处理完成的任务，每天生成一个 list, value 是任务信息，默认过期时间 <span class="hljs-number">14</span> 天)
-[list] dead:&#123;date&#125; (死亡任务: value 是任务信息，默认过期时间 <span class="hljs-number">14</span> 天)</code></pre></p>
+<h3 id="Redis-数据结构设计"><a href="#Redis-数据结构设计" class="headerlink" title="Redis 数据结构设计"></a>Redis 数据结构设计</h3><p>一种任务状态对应一个 Redis 集合, 任务数据以 JSON 字符串的形式存储。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[zset] delayed (延时任务), retry (待重试任务). zset 的 score 是预期执行时间, value 是任务数据</span><br><span class="line">	</span><br><span class="line">[hash] working (正在执行中的任务). hash 的 field 代表任务 ID, value 表示任务数据 (json 字符串的形式))</span><br><span class="line"></span><br><span class="line">[list] ready (就绪的任务)</span><br><span class="line">[list] success:&#123;date&#125; (处理完成的任务，每天生成一个 list, value 是任务信息，默认过期时间 <span class="number">14</span> 天)</span><br><span class="line">[list] dead:&#123;date&#125; (死亡任务: value 是任务信息，默认过期时间 <span class="number">14</span> 天)</span><br></pre></td></tr></table></figure></p>
 <h3 id="原子性保障"><a href="#原子性保障" class="headerlink" title="原子性保障"></a>原子性保障</h3><p>每次切换任务状态, 至少需要三个步骤:</p>
 <ol>
 <li><p>从原来的集合里删除元素 ;</p>
@@ -290,79 +283,19 @@
 <li><p>将元素加入到新的集合里。</p>
 </li>
 </ol>
-<p>为了保证操作的原子性, 需要使用 lua 脚本来变更任务状态, 例如从 ready 切换到 working 状态, 对应的 lua 伪代码如下:<br><pre><code class="hljs lua"><span class="hljs-comment">-- ready(list) to working(hash)</span>
-<span class="hljs-keyword">local</span> src = KEYS[<span class="hljs-number">1</span>]
-<span class="hljs-keyword">local</span> dest = KEYS[<span class="hljs-number">2</span>]
-<span class="hljs-keyword">local</span> currTime = ARGV[<span class="hljs-number">1</span>]
-<span class="hljs-keyword">local</span> clientId = ARGV[<span class="hljs-number">2</span>]
-
-<span class="hljs-comment">-- get json and delete from 'ready'</span>
-<span class="hljs-keyword">local</span> srcJson = redis.call(<span class="hljs-string">'LPOP'</span>, src)
-<span class="hljs-keyword">if</span> (srcJson == <span class="hljs-literal">false</span>) <span class="hljs-keyword">then</span> <span class="hljs-keyword">return</span> <span class="hljs-keyword">end</span>
-
-<span class="hljs-comment">-- update 'executionTime' and 'clientId' fields of json</span>
-<span class="hljs-keyword">local</span> destTask = &#123;&#125;
-<span class="hljs-keyword">local</span> srcTask = cjson.decode(srcJson)
-<span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> <span class="hljs-built_in">pairs</span>(srcTask) <span class="hljs-keyword">do</span>
-    destTask[k] = v
-<span class="hljs-keyword">end</span>
-destTask[<span class="hljs-string">'executionTime'</span>] = currTime
-destTask[<span class="hljs-string">'clientId'</span>] = clientId
-<span class="hljs-keyword">local</span> destJson = cjson.encode(destTask)
-
-<span class="hljs-comment">-- add into 'working'</span>
-redis.call(<span class="hljs-string">'HSET'</span>, dest, destTask[<span class="hljs-string">'taskId'</span>], destJson)
-
-<span class="hljs-keyword">return</span> destJson</code></pre></p>
+<p>为了保证操作的原子性, 需要使用 lua 脚本来变更任务状态, 例如从 ready 切换到 working 状态, 对应的 lua 伪代码如下:<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- ready(list) to working(hash)</span></span><br><span class="line"><span class="keyword">local</span> src = KEYS[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> dest = KEYS[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">local</span> currTime = ARGV[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> clientId = ARGV[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">-- get json and delete from 'ready'</span></span><br><span class="line"><span class="keyword">local</span> srcJson = redis.call(<span class="string">'LPOP'</span>, src)</span><br><span class="line"><span class="keyword">if</span> (srcJson == <span class="literal">false</span>) <span class="keyword">then</span> <span class="keyword">return</span> <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- update 'executionTime' and 'clientId' fields of json</span></span><br><span class="line"><span class="keyword">local</span> destTask = &#123;&#125;</span><br><span class="line"><span class="keyword">local</span> srcTask = cjson.decode(srcJson)</span><br><span class="line"><span class="keyword">for</span> k, v <span class="keyword">in</span> <span class="built_in">pairs</span>(srcTask) <span class="keyword">do</span></span><br><span class="line">    destTask[k] = v</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">destTask[<span class="string">'executionTime'</span>] = currTime</span><br><span class="line">destTask[<span class="string">'clientId'</span>] = clientId</span><br><span class="line"><span class="keyword">local</span> destJson = cjson.encode(destTask)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- add into 'working'</span></span><br><span class="line">redis.call(<span class="string">'HSET'</span>, dest, destTask[<span class="string">'taskId'</span>], destJson)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> destJson</span><br></pre></td></tr></table></figure></p>
 <p>借助 Redis 的原子性特性, 对于一个任务, 可以保证只有一台机器能够成功获取到该任务, 从而保证该任务不会在多台机器上重复执行。</p>
 <hr>
 <h3 id="高可用保障"><a href="#高可用保障" class="headerlink" title="高可用保障"></a>高可用保障</h3><h4 id="轮询时间间隔"><a href="#轮询时间间隔" class="headerlink" title="轮询时间间隔"></a>轮询时间间隔</h4><p>为了防止机器数量增加导致访问 Redis 过于频繁, 所以根据机器的数量来动态调整轮询的间隔时间, 并且加入随机因子让每次间隔时间都是随机变化的，保证各台机器可以错开访问，防止类似雪崩之类的系统故障。</p>
 <p>设 avgInterval 为 15 秒, random 是随机变量, 取值范围为 [0, 1], size 是客户端机器数<br>每台机器实际的轮询时间间隔为：avgInterval <em> (1/2 + random) </em> size</p>
 <p>在概率统计的意义上, 对整个机器集群来讲，整体的平均轮询间隔时间为 15 秒。</p>
 <h4 id="任务重试的等待时间"><a href="#任务重试的等待时间" class="headerlink" title="任务重试的等待时间"></a>任务重试的等待时间</h4><p>任务失败后需要等一段时间再重试执行, 这里借鉴了 Sidekiq 的实现方式, 等待时间的计算方式如下:</p>
-<pre><code class="hljs java"><span class="hljs-comment">// retryCount 是重试次数, random 是随机变量, 取值范围为 [0, 1]</span>
-retryCount ^ <span class="hljs-number">4</span> + <span class="hljs-number">15</span> + random * <span class="hljs-number">30</span> * (retryCount + <span class="hljs-number">1</span>)</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// retryCount 是重试次数, random 是随机变量, 取值范围为 [0, 1]</span></span><br><span class="line">retryCount ^ <span class="number">4</span> + <span class="number">15</span> + random * <span class="number">30</span> * (retryCount + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 <p>等待时间以指数级的形式增长, 之所以加入了随机变量是为了防止这样一种情况:<br>多个异步任务的执行时间相隔很近, 访问某一个资源, 由于并发访问的原因, 资源提供方的负载过高, 导致这些异步任务都执行失败, 如果任务重试的等待时间里没有加入随机因子的话, 这几个任务又会在相近的时间内一起执行, 并发访问资源, 由于同样的原因导致任务执行失败, 如此反复。<br>加入随机因子可以错开这些任务的执行时间, 避免这种情况的出现。</p>
 <h4 id="状态上报失败后的重试补偿"><a href="#状态上报失败后的重试补偿" class="headerlink" title="状态上报失败后的重试补偿"></a>状态上报失败后的重试补偿</h4><p>任务执行结束后需要上报成功 / 重试 / 死亡的状态, 但由于网络原因可能导致访问 Redis 失败, 当出现上报失败时, SDK 会将此次上报放到一个内存队列里, 通过后台的定时任务, 不断地重试上报过程。</p>
 <hr>
-<h3 id="编程模型"><a href="#编程模型" class="headerlink" title="编程模型"></a>编程模型</h3><h4 id="开发一个异步任务"><a href="#开发一个异步任务" class="headerlink" title="开发一个异步任务:"></a>开发一个异步任务:</h4><pre><code class="hljs java"><span class="hljs-meta">@OpAsyncTask</span>(timeout = <span class="hljs-number">600</span>, maxRetry = <span class="hljs-number">3</span>)
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoAsyncTaskHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BaseAsyncTaskHandler</span>&lt;<span class="hljs-title">CustomPOJO</span>&gt; </span>&#123;
-
-    <span class="hljs-comment">// 可以在 TaskHandler 里注入其他 bean</span>
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> DemoDao demoDao;
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">performAsync</span><span class="hljs-params">(CustomPOJO params)</span> </span>&#123;
-        <span class="hljs-comment">// 任务的执行逻辑</span>
-    &#125;
-
-    <span class="hljs-comment">/**
-     * 业务方需要实现这个回调方法，根据自己传给 perform 方法的 params 参数，返回一个 bizId,
-     * 以实现任务去重: 对于一个 taskHandler, 多次提交 bizId 相同的任务, 框架只会执行一次。
-     *
-     * <span class="hljs-doctag">@param</span> params 调用方传给 perform 方法的参数
-     */</span>
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getBizId</span><span class="hljs-params">(CustomPOJO params)</span> </span>&#123;
-        <span class="hljs-comment">// 基于 params 参数生成 bizId</span>
-    &#125;
-&#125;</code></pre>
-<h4 id="提交异步任务"><a href="#提交异步任务" class="headerlink" title="提交异步任务:"></a>提交异步任务:</h4><p>就像调用一个普通的本地方法 (基于 Spring 动态代理实现)<br><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoService</span> </span>&#123;
-
-    <span class="hljs-comment">// TaskHandler 就是一个 Spring Bean, 你可以像注入其他 Bean 一样注入 TaskHandler</span>
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> DemoAsyncTaskHandler asyncTaskHandler;
-
-    <span class="hljs-comment">/**
-     * 提交普通异步任务
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">invokeAsync</span><span class="hljs-params">()</span> </span>&#123;
-        CustomPOJO param = <span class="hljs-keyword">new</span> CustomPOJO(<span class="hljs-string">"a"</span>, <span class="hljs-string">"b"</span>);
-        asyncTaskHandler.performAsync(param);
-    &#125;
-&#125;</code></pre></p>
+<h3 id="编程模型"><a href="#编程模型" class="headerlink" title="编程模型"></a>编程模型</h3><h4 id="开发一个异步任务"><a href="#开发一个异步任务" class="headerlink" title="开发一个异步任务:"></a>开发一个异步任务:</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@OpAsyncTask</span>(timeout = <span class="number">600</span>, maxRetry = <span class="number">3</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoAsyncTaskHandler</span> <span class="keyword">implements</span> <span class="title">BaseAsyncTaskHandler</span>&lt;<span class="title">CustomPOJO</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可以在 TaskHandler 里注入其他 bean</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DemoDao demoDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">performAsync</span><span class="params">(CustomPOJO params)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 任务的执行逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 业务方需要实现这个回调方法，根据自己传给 perform 方法的 params 参数，返回一个 bizId,</span></span><br><span class="line"><span class="comment">     * 以实现任务去重: 对于一个 taskHandler, 多次提交 bizId 相同的任务, 框架只会执行一次。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> params 调用方传给 perform 方法的参数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBizId</span><span class="params">(CustomPOJO params)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 基于 params 参数生成 bizId</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="提交异步任务"><a href="#提交异步任务" class="headerlink" title="提交异步任务:"></a>提交异步任务:</h4><p>就像调用一个普通的本地方法 (基于 Spring 动态代理实现)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// TaskHandler 就是一个 Spring Bean, 你可以像注入其他 Bean 一样注入 TaskHandler</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DemoAsyncTaskHandler asyncTaskHandler;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 提交普通异步任务</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invokeAsync</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        CustomPOJO param = <span class="keyword">new</span> CustomPOJO(<span class="string">"a"</span>, <span class="string">"b"</span>);</span><br><span class="line">        asyncTaskHandler.performAsync(param);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="Web-控制台"><a href="#Web-控制台" class="headerlink" title="Web 控制台"></a>Web 控制台</h3><p>查看任务的执行状态</p>
 <p><img src="https://static001.infoq.cn/resource/image/48/e3/4822519f57b4d0aae34fd501d5fd29e3.jpg" srcset="/img/loading.gif" alt></p>
 <hr>
@@ -370,20 +303,7 @@ retryCount ^ <span class="hljs-number">4</span> + <span class="hljs-number">15</
 <p>例如 A 任务和 B 任务都是外部系统触发的, 但是 B 任务需要在 A 任务执行结束后才能执行成功, A, B 触发时机的先后次序是不一定的, B 的触发时机可能会先于 A 的, 这个时候 B 任务没法立即执行, 需要等待 A 的完成。</p>
 <p>这些任务执行次序的逻辑控制由业务方实现的话会比较麻烦, 可以交给 OpAsyncTask 来完成:<br>把 A 和 B 声明为依赖任务, 且 B 依赖于 A, 在被外部系统触发时, 分别提交 A 任务和 B 任务, A 和 B 的执行次序交给 OpAsyncTask 来协调, 业务方只要专注于任务本身的处理逻辑就可以了。</p>
 <h3 id="事务支持"><a href="#事务支持" class="headerlink" title="事务支持"></a>事务支持</h3><p>当在 Spring 的事务内调用 TaskHandler 的 perform* 方法 (既提交任务) 时,<br>如果执行出现异常导致事务回滚操作, 那么异步任务提交也会回滚, 既任务不会被提交 ;<br>如果执行正常, 那么事务正常提交后, 异步任务就会被正常提交。</p>
-<p><strong>实现原理:</strong> 在 TaskHandler 的 perform* 方法被调用时, OpAsyncTask 会判断当前线程是否处于 Spring 事务中, 如果不是的话就直接提交异步任务, 如果是的话会“延迟提交异步任务” —— 事务成功提交之后再去提交异步任务。<br><pre><code class="hljs java"><span class="hljs-comment">// delay the submitting if it's in a transaction</span>
-<span class="hljs-keyword">if</span> (TransactionSynchronizationManager.isActualTransactionActive()) &#123;
-    log.info(<span class="hljs-string">"It's in a active transaction, delay the task submitting"</span>);
-    TransactionSynchronizationManager.registerSynchronization(<span class="hljs-keyword">new</span> TransactionSynchronizationAdapter() &#123;
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterCommit</span><span class="hljs-params">()</span> </span>&#123;
-            log.info(<span class="hljs-string">"Submitting async task after committing transaction"</span>);
-            submitAsyncTask();
-        &#125;
-    &#125;);
-&#125; <span class="hljs-keyword">else</span> &#123;
-    log.info(<span class="hljs-string">"It's not in a active transaction, submit task directly"</span>);
-    submitAsyncTask();
-&#125;</code></pre></p>
+<p><strong>实现原理:</strong> 在 TaskHandler 的 perform* 方法被调用时, OpAsyncTask 会判断当前线程是否处于 Spring 事务中, 如果不是的话就直接提交异步任务, 如果是的话会“延迟提交异步任务” —— 事务成功提交之后再去提交异步任务。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// delay the submitting if it's in a transaction</span></span><br><span class="line"><span class="keyword">if</span> (TransactionSynchronizationManager.isActualTransactionActive()) &#123;</span><br><span class="line">    log.info(<span class="string">"It's in a active transaction, delay the task submitting"</span>);</span><br><span class="line">    TransactionSynchronizationManager.registerSynchronization(<span class="keyword">new</span> TransactionSynchronizationAdapter() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCommit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            log.info(<span class="string">"Submitting async task after committing transaction"</span>);</span><br><span class="line">            submitAsyncTask();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    log.info(<span class="string">"It's not in a active transaction, submit task directly"</span>);</span><br><span class="line">    submitAsyncTask();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><strong>注意事项:</strong> 本质上把异步任务的提交行为推迟到事务成功提交之后执行, 所以异步任务的提交这一行为和事务中的行为 (如 DB 操作) 不是原子性的 (要么都成功执行, 要么都不执行), 最终提交异步任务时有可能因为网络原因导致异步任务提交失败, 这时候事务已经提交了, 其他事务行为已经生效了, 例如 DB 操作都已生效, 可异步任务没有成功提交, 所以无法严格保证其同时成功执行:<br>事务行为不成功的话, 异步任务提交一定不成功 ; 但事务行为成功的话, 有一定概率出现异步任务提交不成功的情况。</p>
 
             </article>

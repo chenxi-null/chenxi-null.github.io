@@ -46,7 +46,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 25vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -220,116 +220,22 @@
 <p>下面是正文部分：</p>
 <p>Seata 优雅停机的逻辑主要是放在 <code>io.seata.core.rpc.netty.ShutdownHook</code> 这个类。</p>
 <p>我们先看 <code>io.seata.server.Server</code> 里是如何使用 <code>ShutdownHook</code> 的:</p>
-<p>在 <code>Server</code> 的 main 方法里调用 <code>ShutdownHook</code> 的 addDisposable 方法，注册 disposable 对象<br><pre><code class="hljs java"><span class="hljs-comment">// register ShutdownHook</span>
-ShutdownHook.getInstance().addDisposable(coordinator);
-ShutdownHook.getInstance().addDisposable(rpcServer);</code></pre></p>
-<h3 id="JVM-层面的优雅停机"><a href="#JVM-层面的优雅停机" class="headerlink" title="JVM 层面的优雅停机"></a>JVM 层面的优雅停机</h3><p><code>ShutdownHook</code> 在类加载时会注册了一个 JVM shutdown hook<br><pre><code class="hljs java"><span class="hljs-keyword">static</span> &#123;
-    Runtime.getRuntime().addShutdownHook(SHUTDOWN_HOOK);
-&#125;</code></pre></p>
-<p><code>ShutdownHook</code> 继承自 <code>Thread</code>，JVM 在正常关闭时执行 Thread#run 方法里面的逻辑，依次执行之前添加的所有 disposable 的对象的 destory 方法：<br><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
-    destroyAll();
-&#125;
-
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroyAll</span><span class="hljs-params">()</span> </span>&#123;
-
-    <span class="hljs-keyword">if</span> (LOGGER.isDebugEnabled()) &#123;
-        LOGGER.debug(<span class="hljs-string">"destroyAll starting"</span>);
-    &#125;
-    <span class="hljs-keyword">if</span> (!destroyed.compareAndSet(<span class="hljs-keyword">false</span>, <span class="hljs-keyword">true</span>) &amp;&amp; CollectionUtils.isEmpty(disposables)) &#123;
-        <span class="hljs-keyword">return</span>;
-    &#125;
-    <span class="hljs-keyword">for</span> (Disposable disposable : disposables) &#123;
-        disposable.destroy();
-    &#125;
-&#125;</code></pre></p>
-<h3 id="Spring-层面的优雅停机"><a href="#Spring-层面的优雅停机" class="headerlink" title="Spring 层面的优雅停机"></a>Spring 层面的优雅停机</h3><p>以上是 Seata <code>Server</code> 使用 <code>ShutdownHook</code> 的方式，<code>ShutdownHook</code> 还会被 Seata Client 端使用，具体是被 <code>DefaultSagaTransactionalTemplate</code> <code>GlobalTransactionScanner</code> 这两个类使用，我们看下在 <code>GlobalTransactionScanner</code> 里的具体使用：<br><pre><code class="hljs java"><span class="hljs-comment">// GlobalTransactionScanner 实现了 Spring 的 DisposableBean 接口</span>
-<span class="hljs-comment">// Spring Context 在关闭时会回调这些 DisposableBean 的 destory 方法</span>
-<span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">()</span> </span>&#123;
-    ShutdownHook.getInstance().destroyAll();
-&#125;
-
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initClient</span><span class="hljs-params">()</span> </span>&#123;
-    <span class="hljs-comment">//...</span>
-    <span class="hljs-comment">//init TM</span>
-    <span class="hljs-comment">//...</span>
-    <span class="hljs-comment">//init RM</span>
-    <span class="hljs-comment">//...</span>
-    registerSpringShutdownHook();
-&#125;
-
-<span class="hljs-comment">// 在初始化时，向 Seata ShutdownHook 注册 Disposable 对象，</span>
-<span class="hljs-comment">// 这些的 Disposable 是 Seata 自定义的，注意和 Spring 的 DisposableBean 区分</span>
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerSpringShutdownHook</span><span class="hljs-params">()</span> </span>&#123;
-    <span class="hljs-keyword">if</span> (applicationContext <span class="hljs-keyword">instanceof</span> ConfigurableApplicationContext) &#123;
-        ((ConfigurableApplicationContext) applicationContext).registerShutdownHook(); <span class="hljs-comment">// [1]</span>
-        ShutdownHook.removeRuntimeShutdownHook(); <span class="hljs-comment">// [2]</span>
-    &#125;
-    ShutdownHook.getInstance().addDisposable(TmRpcClient.getInstance(applicationId, txServiceGroup));
-    ShutdownHook.getInstance().addDisposable(RmRpcClient.getInstance(applicationId, txServiceGroup));
-&#125;</code></pre></p>
+<p>在 <code>Server</code> 的 main 方法里调用 <code>ShutdownHook</code> 的 addDisposable 方法，注册 disposable 对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// register ShutdownHook</span></span><br><span class="line">ShutdownHook.getInstance().addDisposable(coordinator);</span><br><span class="line">ShutdownHook.getInstance().addDisposable(rpcServer);</span><br></pre></td></tr></table></figure></p>
+<h3 id="JVM-层面的优雅停机"><a href="#JVM-层面的优雅停机" class="headerlink" title="JVM 层面的优雅停机"></a>JVM 层面的优雅停机</h3><p><code>ShutdownHook</code> 在类加载时会注册了一个 JVM shutdown hook<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">    Runtime.getRuntime().addShutdownHook(SHUTDOWN_HOOK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>ShutdownHook</code> 继承自 <code>Thread</code>，JVM 在正常关闭时执行 Thread#run 方法里面的逻辑，依次执行之前添加的所有 disposable 的对象的 destory 方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    destroyAll();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (LOGGER.isDebugEnabled()) &#123;</span><br><span class="line">        LOGGER.debug(<span class="string">"destroyAll starting"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!destroyed.compareAndSet(<span class="keyword">false</span>, <span class="keyword">true</span>) &amp;&amp; CollectionUtils.isEmpty(disposables)) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (Disposable disposable : disposables) &#123;</span><br><span class="line">        disposable.destroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Spring-层面的优雅停机"><a href="#Spring-层面的优雅停机" class="headerlink" title="Spring 层面的优雅停机"></a>Spring 层面的优雅停机</h3><p>以上是 Seata <code>Server</code> 使用 <code>ShutdownHook</code> 的方式，<code>ShutdownHook</code> 还会被 Seata Client 端使用，具体是被 <code>DefaultSagaTransactionalTemplate</code> <code>GlobalTransactionScanner</code> 这两个类使用，我们看下在 <code>GlobalTransactionScanner</code> 里的具体使用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// GlobalTransactionScanner 实现了 Spring 的 DisposableBean 接口</span></span><br><span class="line"><span class="comment">// Spring Context 在关闭时会回调这些 DisposableBean 的 destory 方法</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ShutdownHook.getInstance().destroyAll();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//init TM</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//init RM</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    registerSpringShutdownHook();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在初始化时，向 Seata ShutdownHook 注册 Disposable 对象，</span></span><br><span class="line"><span class="comment">// 这些的 Disposable 是 Seata 自定义的，注意和 Spring 的 DisposableBean 区分</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">registerSpringShutdownHook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (applicationContext <span class="keyword">instanceof</span> ConfigurableApplicationContext) &#123;</span><br><span class="line">        ((ConfigurableApplicationContext) applicationContext).registerShutdownHook(); <span class="comment">// [1]</span></span><br><span class="line">        ShutdownHook.removeRuntimeShutdownHook(); <span class="comment">// [2]</span></span><br><span class="line">    &#125;</span><br><span class="line">    ShutdownHook.getInstance().addDisposable(TmRpcClient.getInstance(applicationId, txServiceGroup));</span><br><span class="line">    ShutdownHook.getInstance().addDisposable(RmRpcClient.getInstance(applicationId, txServiceGroup));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>注意这里有两个有意思的地方，分别是代码里标注[1]和[2]，下面我们来逐一分析：</p>
-<h3 id="ConfigurableApplicationContext-registerShutdownHook"><a href="#ConfigurableApplicationContext-registerShutdownHook" class="headerlink" title="ConfigurableApplicationContext#registerShutdownHook"></a><code>ConfigurableApplicationContext#registerShutdownHook</code></h3><p>这是 Spring <code>AbstractApplicationContext</code> 里的实现逻辑：<br><pre><code class="hljs java"><span class="hljs-comment">/**
- * Register a shutdown hook with the JVM runtime, closing this context
- * on JVM shutdown unless it has already been closed at that time.
- * &lt;p&gt;Delegates to &#123;<span class="hljs-doctag">@code</span> doClose()&#125; for the actual closing procedure.
- * <span class="hljs-doctag">@see</span> Runtime#addShutdownHook
- * <span class="hljs-doctag">@see</span> #close()
- * <span class="hljs-doctag">@see</span> #doClose()
- */</span>
-<span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerShutdownHook</span><span class="hljs-params">()</span> </span>&#123;
-	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.shutdownHook == <span class="hljs-keyword">null</span>) &#123;
-		<span class="hljs-comment">// No shutdown hook registered yet.</span>
-		<span class="hljs-keyword">this</span>.shutdownHook = <span class="hljs-keyword">new</span> Thread() &#123;
-			<span class="hljs-meta">@Override</span>
-			<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
-				<span class="hljs-keyword">synchronized</span> (startupShutdownMonitor) &#123;
-					doClose();
-				&#125;
-			&#125;
-		&#125;;
-		Runtime.getRuntime().addShutdownHook(<span class="hljs-keyword">this</span>.shutdownHook);
-	&#125;
-&#125;</code></pre></p>
+<h3 id="ConfigurableApplicationContext-registerShutdownHook"><a href="#ConfigurableApplicationContext-registerShutdownHook" class="headerlink" title="ConfigurableApplicationContext#registerShutdownHook"></a><code>ConfigurableApplicationContext#registerShutdownHook</code></h3><p>这是 Spring <code>AbstractApplicationContext</code> 里的实现逻辑：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Register a shutdown hook with the JVM runtime, closing this context</span></span><br><span class="line"><span class="comment"> * on JVM shutdown unless it has already been closed at that time.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Delegates to &#123;<span class="doctag">@code</span> doClose()&#125; for the actual closing procedure.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> Runtime#addShutdownHook</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> #close()</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> #doClose()</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerShutdownHook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span>.shutdownHook == <span class="keyword">null</span>) &#123;</span><br><span class="line">		<span class="comment">// No shutdown hook registered yet.</span></span><br><span class="line">		<span class="keyword">this</span>.shutdownHook = <span class="keyword">new</span> Thread() &#123;</span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">				<span class="keyword">synchronized</span> (startupShutdownMonitor) &#123;</span><br><span class="line">					doClose();</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		Runtime.getRuntime().addShutdownHook(<span class="keyword">this</span>.shutdownHook);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这里的 <code>doClose</code> 方法就是 Spring Context 关闭时做的各种清理工作，包括刚才提到的回调各个 DisposableBean 的 destroy 方法。</p>
 <p>通过这行<code>Runtime.getRuntime().addShutdownHook(this.shutdownHook);</code> 我们可以知道 ApplicationContext 的 registerShutdownHook 方法最终还是把清理工作的时机交给 JVM 的 shutdown hook </p>
 <p>所以调用了 ApplicationContext#registerShutdownHook 之后就把原先 Seata <code>ShutdownHook</code> 注册的 JVM shutdown hook 移除掉，避免重复调用 <code>ShutdownHook#destoryAll</code>。</p>
-<p><code>ShutdownHook#removeRuntimeShutdownHook</code>:<br><pre><code class="hljs java"><span class="hljs-comment">/**
- * for spring context
- */</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">removeRuntimeShutdownHook</span><span class="hljs-params">()</span> </span>&#123;
-    Runtime.getRuntime().removeShutdownHook(SHUTDOWN_HOOK);
-&#125;</code></pre></p>
+<p><code>ShutdownHook#removeRuntimeShutdownHook</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * for spring context</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeRuntimeShutdownHook</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Runtime.getRuntime().removeShutdownHook(SHUTDOWN_HOOK);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h3 id="ConfigurableApplicationContext-close"><a href="#ConfigurableApplicationContext-close" class="headerlink" title="ConfigurableApplicationContext#close"></a><code>ConfigurableApplicationContext#close</code></h3><p>说到 <code>AbstractApplicationContext</code> 的 <code>registerShutdownHook</code> 方法，不得不提一下它的另一个 <code>close</code> 方法，<br>close 方法和 registerShutdownHook 一样，也是对 <code>doClose</code> 的委托，只是他们的调用 <code>doClose</code> 的时机不同:  </p>
 <ul>
 <li><code>registerShutdownHook</code> 是把调用时机交给 JVM 的 shutdown hook，在 JVM 关闭时执行</li>
 <li><code>close</code> 是直接执行，同时把 ApplicationContext 之前注册的 JVM shutdown hook 移除掉</li>
 </ul>
-<pre><code class="hljs java"><span class="hljs-comment">/**
- * Close this application context, destroying all beans in its bean factory.
- * &lt;p&gt;Delegates to &#123;<span class="hljs-doctag">@code</span> doClose()&#125; for the actual closing procedure.
- * Also removes a JVM shutdown hook, if registered, as it's not needed anymore.
- * <span class="hljs-doctag">@see</span> #doClose()
- * <span class="hljs-doctag">@see</span> #registerShutdownHook()
- */</span>
-<span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">close</span><span class="hljs-params">()</span> </span>&#123;
-	<span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>.startupShutdownMonitor) &#123;
-		doClose();
-		<span class="hljs-comment">// If we registered a JVM shutdown hook, we don't need it anymore now:</span>
-		<span class="hljs-comment">// We've already explicitly closed the context.</span>
-		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.shutdownHook != <span class="hljs-keyword">null</span>) &#123;
-			<span class="hljs-keyword">try</span> &#123;
-				Runtime.getRuntime().removeShutdownHook(<span class="hljs-keyword">this</span>.shutdownHook);
-			&#125;
-			<span class="hljs-keyword">catch</span> (IllegalStateException ex) &#123;
-				<span class="hljs-comment">// ignore - VM is already shutting down</span>
-			&#125;
-		&#125;
-	&#125;
-&#125;</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Close this application context, destroying all beans in its bean factory.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Delegates to &#123;<span class="doctag">@code</span> doClose()&#125; for the actual closing procedure.</span></span><br><span class="line"><span class="comment"> * Also removes a JVM shutdown hook, if registered, as it's not needed anymore.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> #doClose()</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> #registerShutdownHook()</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">synchronized</span> (<span class="keyword">this</span>.startupShutdownMonitor) &#123;</span><br><span class="line">		doClose();</span><br><span class="line">		<span class="comment">// If we registered a JVM shutdown hook, we don't need it anymore now:</span></span><br><span class="line">		<span class="comment">// We've already explicitly closed the context.</span></span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.shutdownHook != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				Runtime.getRuntime().removeShutdownHook(<span class="keyword">this</span>.shutdownHook);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">catch</span> (IllegalStateException ex) &#123;</span><br><span class="line">				<span class="comment">// ignore - VM is already shutting down</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里在加上 Spring 的清理逻辑之后似乎有点绕，但是不要慌，我们来整理一下:</p>
 <p>Seata 的 <code>ShutdownHook</code> 通过 <code>addDisposable</code> 注册 disposable 对象，这里 server 端和 client 端的用法都是一样的。</p>
 <p><code>ShutdownHook</code> 在类加载时会注册一个 JVM shutdown hook，在 JVM 正常关闭时，最终会调用 <code>ShutdownHook#distroyAll</code> 对象销毁所有先前注册过的 disposable 对象。</p>
@@ -342,56 +248,12 @@ ShutdownHook.getInstance().addDisposable(rpcServer);</code></pre></p>
 </li>
 </ul>
 <h3 id="可测试性架构"><a href="#可测试性架构" class="headerlink" title="可测试性架构"></a>可测试性架构</h3><p><code>ConfigurableApplicationContext#close</code> 方法可以让用户灵活地控制 Spring Context 的生命周期，比如一个 JVM 应用内存在多个 ApplicationContext 或者我们需要销毁某个 ApplicationContext 的时候，可以直接调用 close 方法，而不需要等到 JVM 关闭时才能执行 context 的清理工作。</p>
-<p>还有一个典型应用是我们在写基于 Spring Context 的集成测试的时候，在每个测试用例执行完毕后需要调用 <code>ConfigurableApplicationContext#close</code> 方法销毁 spring context：<br><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoSpringJUnitTest</span> </span>&#123;
-
-    ConfigurableApplicationContext ctx;
-
-    <span class="hljs-meta">@Test</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-comment">// 开始测试时创建 context</span>
-        ctx = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(TestConfig.class);
-        <span class="hljs-comment">// do some testing...</span>
-    &#125;
-
-    <span class="hljs-meta">@After</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">tearDown</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-comment">// 测试结束后销毁 context</span>
-        <span class="hljs-keyword">if</span> (ctx != <span class="hljs-keyword">null</span>) &#123;
-            ctx.close();
-        &#125;
-    &#125;
-&#125;</code></pre></p>
+<p>还有一个典型应用是我们在写基于 Spring Context 的集成测试的时候，在每个测试用例执行完毕后需要调用 <code>ConfigurableApplicationContext#close</code> 方法销毁 spring context：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoSpringJUnitTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    ConfigurableApplicationContext ctx;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 开始测试时创建 context</span></span><br><span class="line">        ctx = <span class="keyword">new</span> AnnotationConfigApplicationContext(TestConfig.class);</span><br><span class="line">        <span class="comment">// do some testing...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@After</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">tearDown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 测试结束后销毁 context</span></span><br><span class="line">        <span class="keyword">if</span> (ctx != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ctx.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这里暂时先不考虑使用 Spring-Test <code>@ContextConfiguration</code> 或者 <code>@SpringBootTest</code> 的情况，使用它们的话 Spring 会默认复用 context，详细用法见 <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#testcontext-framework" target="_blank" rel="noopener">Spring-Test 官方文档</a></p>
 <p>如果没有正确关闭 spring context 的话，在批量地执行多个测试用例时就有可能出现在一个 JVM 当中同时存在多个相同的 spring context，可能存在多个类型相同的后台任务，如异步任务调度、MQ Consumer，多个线程竞争同一资源，导致测试用例出现概率性失败。</p>
 <p>所以，把框架里的清理工作交给 Spring 来管理是非常明智的，这样用户可以在测试代码中灵活地控制其生命周期，代码的可测试性更强。</p>
 <p><strong>可测试性</strong>也是架构设计中一个非常重要的指标，易于测试的架构才是优雅的、有生命力的架构。 例如 Netty 中的 <code>EmbeddedChannel</code>，可以让使用者在不进行实际网络调用的情况下测试 Channel 的功能，这部分就不展开了，感兴趣的同学可以去看下 Netty 的单元测试。</p>
-<h3 id="Dubbo-的优雅停机"><a href="#Dubbo-的优雅停机" class="headerlink" title="Dubbo 的优雅停机"></a>Dubbo 的优雅停机</h3><p>Seata 基于 Spring 的优雅停机策略和 Dubbo 的优雅停机策略基本是一样的（注意下面代码中标注[1]和[2]的地方），个人猜测 Seata 大概率是借鉴了 Dubbo，复用了社区或者阿里内部的最佳实践。<br><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringExtensionFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ExtensionFactory</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(SpringExtensionFactory.class);
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Set&lt;ApplicationContext&gt; CONTEXTS = <span class="hljs-keyword">new</span> ConcurrentHashSet&lt;ApplicationContext&gt;();
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ApplicationListener SHUTDOWN_HOOK_LISTENER = <span class="hljs-keyword">new</span> ShutdownHookListener();
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addApplicationContext</span><span class="hljs-params">(ApplicationContext context)</span> </span>&#123;
-        CONTEXTS.add(context);
-        <span class="hljs-keyword">if</span> (context <span class="hljs-keyword">instanceof</span> ConfigurableApplicationContext) &#123;
-            <span class="hljs-comment">// [1] 注册 Spring Context 的 ShutdownHook</span>
-            ((ConfigurableApplicationContext) context).registerShutdownHook();
-            <span class="hljs-comment">// [2] 取消 Dubbo AbstractConfig 注册的 ShutdownHook 事件</span>
-            DubboShutdownHook.getDubboShutdownHook().unregister();
-        &#125;
-        BeanFactoryUtils.addApplicationListener(context, SHUTDOWN_HOOK_LISTENER);
-    &#125;
-
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShutdownHookListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationListener</span> </span>&#123;
-        <span class="hljs-meta">@Override</span>
-        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(ApplicationEvent event)</span> </span>&#123;
-            <span class="hljs-keyword">if</span> (event <span class="hljs-keyword">instanceof</span> ContextClosedEvent) &#123;
-                DubboShutdownHook shutdownHook = DubboShutdownHook.getDubboShutdownHook();
-                shutdownHook.doDestroy();
-            &#125;
-        &#125;
-    &#125;
-&#125;</code></pre></p>
+<h3 id="Dubbo-的优雅停机"><a href="#Dubbo-的优雅停机" class="headerlink" title="Dubbo 的优雅停机"></a>Dubbo 的优雅停机</h3><p>Seata 基于 Spring 的优雅停机策略和 Dubbo 的优雅停机策略基本是一样的（注意下面代码中标注[1]和[2]的地方），个人猜测 Seata 大概率是借鉴了 Dubbo，复用了社区或者阿里内部的最佳实践。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringExtensionFactory</span> <span class="keyword">implements</span> <span class="title">ExtensionFactory</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(SpringExtensionFactory.class);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Set&lt;ApplicationContext&gt; CONTEXTS = <span class="keyword">new</span> ConcurrentHashSet&lt;ApplicationContext&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ApplicationListener SHUTDOWN_HOOK_LISTENER = <span class="keyword">new</span> ShutdownHookListener();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">addApplicationContext</span><span class="params">(ApplicationContext context)</span> </span>&#123;</span><br><span class="line">        CONTEXTS.add(context);</span><br><span class="line">        <span class="keyword">if</span> (context <span class="keyword">instanceof</span> ConfigurableApplicationContext) &#123;</span><br><span class="line">            <span class="comment">// [1] 注册 Spring Context 的 ShutdownHook</span></span><br><span class="line">            ((ConfigurableApplicationContext) context).registerShutdownHook();</span><br><span class="line">            <span class="comment">// [2] 取消 Dubbo AbstractConfig 注册的 ShutdownHook 事件</span></span><br><span class="line">            DubboShutdownHook.getDubboShutdownHook().unregister();</span><br><span class="line">        &#125;</span><br><span class="line">        BeanFactoryUtils.addApplicationListener(context, SHUTDOWN_HOOK_LISTENER);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ShutdownHookListener</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ApplicationEvent event)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (event <span class="keyword">instanceof</span> ContextClosedEvent) &#123;</span><br><span class="line">                DubboShutdownHook shutdownHook = DubboShutdownHook.getDubboShutdownHook();</span><br><span class="line">                shutdownHook.doDestroy();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>这段代码解决了两个问题：</p>
 <ol>
