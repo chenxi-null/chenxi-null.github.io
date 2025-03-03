@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="chenxi">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言 Why  我们为什么要花额外的时间写测试，自动化测试可以给我们带来什么好处?  How  分享测试方法论和一些测试实践, 在企业级项目中如何做好测试, 网上多是 Hello World 级别的测试 Demo， It’s not enough!   为什么写测试？为什么花这么大精力写测试，需要利益驱动 测试用例扮演的角色：  ⛑️保护网 💡引路人  1. 提高项目质量可靠性交付代码质量保障">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TDD 在企业开发中的实践">
+<meta property="og:url" content="http://yoursite.com/2019/04/04/tdd-in-enterprice/index.html">
+<meta property="og:site_name" content="Chenxi&#39;s Blog">
+<meta property="og:description" content="前言 Why  我们为什么要花额外的时间写测试，自动化测试可以给我们带来什么好处?  How  分享测试方法论和一些测试实践, 在企业级项目中如何做好测试, 网上多是 Hello World 级别的测试 Demo， It’s not enough!   为什么写测试？为什么花这么大精力写测试，需要利益驱动 测试用例扮演的角色：  ⛑️保护网 💡引路人  1. 提高项目质量可靠性交付代码质量保障">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/279826-49f2f708aefb567f">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a04d4579c0bb421da34a63743377622f~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/87e91632cfd14474a74660e50839e0e1~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/10/25/16e00748a5dad9e7?w=2848&h=1606&f=png&s=451667">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/10/25/16e00756799f986f?w=2878&h=1544&f=png&s=644674">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/10/25/16e0076c87e80345?w=2878&h=1558&f=png&s=225975">
+<meta property="article:published_time" content="2019-04-04T07:30:00.000Z">
+<meta property="article:modified_time" content="2025-03-03T12:47:46.905Z">
+<meta property="article:author" content="Chenxi">
+<meta property="article:tag" content="TDD">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/279826-49f2f708aefb567f">
+  
+  
+  
+  <title>TDD 在企业开发中的实践 - Chenxi&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yoursite.com","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"tajs":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 25vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Chenxi&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">TDD 在企业开发中的实践</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-04-04 15:30" pubdate>
+          2019年4月4日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">TDD 在企业开发中的实践</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><p>Why<br>  我们为什么要花额外的时间写测试，自动化测试可以给我们带来什么好处?</p>
+</li>
+<li><p>How<br>  分享测试方法论和一些测试实践, 在企业级项目中如何做好测试, 网上多是 Hello World 级别的测试 Demo， It’s not enough!</p>
+</li>
+</ul>
+<h2 id="为什么写测试？"><a href="#为什么写测试？" class="headerlink" title="为什么写测试？"></a>为什么写测试？</h2><p>为什么花这么大精力写测试，需要利益驱动</p>
+<p>测试用例扮演的角色：</p>
+<ol>
+<li>⛑️保护网</li>
+<li>💡引路人</li>
+</ol>
+<h3 id="1-提高项目质量"><a href="#1-提高项目质量" class="headerlink" title="1. 提高项目质量"></a>1. 提高项目质量</h3><h4 id="可靠性交付"><a href="#可靠性交付" class="headerlink" title="可靠性交付"></a>可靠性交付</h4><p>代码质量保障  </p>
+<p>自动化回归测试, 第一时间发现问题</p>
+<p>对于黑盒测试和接口测试很难覆盖到的地方，可以进行细粒度&#x2F;模块化的测试，我们可以对系统进行拆分, 针对某个模块进行测试</p>
+<h4 id="提高代码质量"><a href="#提高代码质量" class="headerlink" title="提高代码质量"></a>提高代码质量</h4><p>测试是重构的前提: “测试保护网” 让人放心重构 —— 重构是避免代码逐步腐化的必要手段</p>
+<h4 id="测试即文档"><a href="#测试即文档" class="headerlink" title="测试即文档"></a>测试即文档</h4><p>测试是<strong>可执行</strong>的文档<br><strong>doc.txt vs doc.exe</strong></p>
+<p>并且，采用 BDD 风格写的测试用例的可读性更强，代码的可维护性更好</p>
+<h4 id="提高开发效率"><a href="#提高开发效率" class="headerlink" title="提高开发效率"></a>提高开发效率</h4><p>降低代码维护成本 (降低自己在项目中的地位🐶) , 提高后期开发迭代效率</p>
+<h3 id="2-自我提升"><a href="#2-自我提升" class="headerlink" title="2. 自我提升"></a>2. 自我提升</h3><h4 id="测试驱动设计"><a href="#测试驱动设计" class="headerlink" title="测试驱动设计"></a>测试驱动设计</h4><p>写出可测试性的代码, 提升模块化设计的能力，思考功能的边界、模块的松耦合, 加深对项目的理解</p>
+<h4 id="测试驱动成长"><a href="#测试驱动成长" class="headerlink" title="测试驱动成长"></a>测试驱动成长</h4><ul>
+<li>测试是必备技能，是持续集成的基础，几乎所有讲敏捷开发的书都会提到 TDD</li>
+<li>加深对各类技术的理解, 强迫你打开盒子，研究原理, e.g. 加深对 Spring 的理解</li>
+</ul>
+<hr>
+<p>如何更好地写测试?</p>
+<h2 id="TDD-开发模式"><a href="#TDD-开发模式" class="headerlink" title="TDD 开发模式"></a>TDD 开发模式</h2><blockquote>
+<p>TDD 有广义和狭义之分，常说的是狭义的 TDD，也就是 UTDD（Unit Test Driven Development）。<br>广义的 TDD 是 ATDD（Acceptance Test Driven Development），包括 BDD（Behavior Driven Development）和 Consumer-Driven Contracts Development 等。</p>
+<p>TDD(单元测试驱动开发) 是敏捷开发中的一项核心实践和技术，也是一种设计方法论。<br>TDD的原理是在开发功能代码之前，先编写单元测试用例代码，测试代码确定需要编写什么产品代码。<br>TDD 是 XP（Extreme Programming）的核心实践。它的主要推动者是 Kent Beck。 </p>
+</blockquote>
+<h3 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h3><ul>
+<li>提前澄清需求, 明确流程，</li>
+<li>测试不再成为一种负担, 而是设计的一部分</li>
+<li>帮助开发人员做更好设计(代码职责更明确，代码可测试性更强)</li>
+<li>快速反馈</li>
+</ul>
+<h3 id="How"><a href="#How" class="headerlink" title="How"></a>How</h3><p><img src="https://upload-images.jianshu.io/upload_images/279826-49f2f708aefb567f" srcset="/img/loading.gif" lazyload alt="the process of TDD"></p>
+<h3 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h3><ul>
+<li>red: 明确意图; 保证测试代码抛出预期的错误（对测试的测试）</li>
+<li>green<ul>
+<li>快速实现</li>
+<li>实现真正的产品代码</li>
+</ul>
+</li>
+<li>refactor</li>
+</ul>
+<h3 id="Principle"><a href="#Principle" class="headerlink" title="Principle"></a>Principle</h3><ul>
+<li>提前设计, 划分好任务的粒度, 小步走</li>
+<li>严格按照”先测试再实现”的顺序</li>
+</ul>
+<hr>
+<p>介绍完 TDD，我们来进行测试方法论及最佳实践的探讨，最终目标：</p>
+<ul>
+<li>测试的完备性：如何更好地保护代码</li>
+<li>开发效率：通过最佳实践、工具选择等减轻写测试的负担</li>
+<li>测试代码可读性和可维护性</li>
+</ul>
+<h2 id="测试方法论"><a href="#测试方法论" class="headerlink" title="测试方法论:"></a>测试方法论:</h2><h3 id="分类原则"><a href="#分类原则" class="headerlink" title="分类原则"></a>分类原则</h3><p>优先按“主题” (系统模块, Feature, Bug) 分类, 其次才是 Class</p>
+<h3 id="集成测试和单元测试的关系"><a href="#集成测试和单元测试的关系" class="headerlink" title="集成测试和单元测试的关系"></a>集成测试和单元测试的关系</h3><p>举个例子，比如要测试这个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeAndDeliverCake</span><span class="hljs-params">(FlavorEnum flavor)</span> &#123;<br>    <span class="hljs-comment">// 耗时短，测试用例复杂</span><br>    <span class="hljs-type">Cake</span> <span class="hljs-variable">cake</span> <span class="hljs-operator">=</span> makeCake(flavor);<br><br>    <span class="hljs-comment">// 耗时长，测试用例简单</span><br>    deliverCake(cake);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>test <code>makeCake</code>: </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> <span class="hljs-string">&quot;succeed to makeCake&quot;</span>() &#123;<br>    <span class="hljs-symbol">when:</span><br>    Cake actualCake = makeCake(falvor)<br>    <span class="hljs-symbol">then:</span><br>    expectedCake == actualCake<br><br>    <span class="hljs-symbol">where:</span><br>    falovr | expectedCake<br>    apple  | appleCake<br>    banana | bananaCake<br>    orange | orangeCake<br>&#125;<br><br><span class="hljs-keyword">def</span> <span class="hljs-string">&quot;failed to makeCake: 库存不足&quot;</span>() &#123;<br>    <span class="hljs-symbol">when:</span><br>    Cake actualCake = makeCake(falvor)<br>    <span class="hljs-symbol">then:</span><br>    <span class="hljs-keyword">def</span> e = thrown(IllegalArgumentException)<br>    e.message == <span class="hljs-string">&#x27;库存不足&#x27;</span><br><br>    <span class="hljs-symbol">where:</span><br>    falovr &lt;&lt; [mango, grape]  <br>&#125;<br><br><span class="hljs-keyword">def</span> <span class="hljs-string">&quot;failed to makeCake: 暂不支持这种口味&quot;</span>() &#123;<br>    <span class="hljs-symbol">when:</span><br>    Cake actualCake = makeCake(falvor)<br>    <span class="hljs-symbol">then:</span><br>    <span class="hljs-keyword">def</span> e = thrown(IllegalArgumentException)<br>    e.message == <span class="hljs-string">&#x27;暂不支持这种口味&#x27;</span><br><br>    <span class="hljs-symbol">where:</span><br>    falovr &lt;&lt; [dog, cat]  <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>test <code>makeAndDeliverCake</code>: </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> <span class="hljs-string">&quot;test makeAndDeliverCake&quot;</span>() &#123;<br>    <span class="hljs-symbol">given:</span><br>    <span class="hljs-comment">// mock cakeShop &amp; prepare some data</span><br><br>    <span class="hljs-symbol">when:</span><br>    makeAndDeliverCake(apple)<br><br>    <span class="hljs-symbol">then:</span><br>    <span class="hljs-keyword">new</span> PollingConditions().within(<span class="hljs-number">20</span>, &#123; cakeShop.reveive(appCake)&#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>单元测试里进行复杂的用例测试;<br>集成测试只做简单的”连通性”测试</p>
+<ol>
+<li><code>CakeDistributionTest</code>: only test <code>makeCake</code>  </li>
+<li><code>CakeDistributionIntegrationTest</code>: test <code>makeAndDeliverCake</code></li>
+</ol>
+<p>如果前期就写复杂的集成测试: 违背小步走原则，测试太耗时，影响开发节奏</p>
+<h3 id="测试即文档-1"><a href="#测试即文档-1" class="headerlink" title="测试即文档"></a>测试即文档</h3><p>测试用例的可读性!</p>
+<p>Spock 是一款 BDD 风格的测试框架，语法简洁，借助 <a href="https://martinfowler.com/bliki/GivenWhenThen.html">Given-When-Then</a> 风格的标签我们可以更清晰地定义测试代码所对应的功能代码，让我们更好地理解代码的意图：<br><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a04d4579c0bb421da34a63743377622f~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload></p>
+<p>Spock 来可以通过工具将测试用例导出为报告的形式！<br><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/87e91632cfd14474a74660e50839e0e1~tplv-k3u1fbpfcp-zoom-1.image" srcset="/img/loading.gif" lazyload></p>
+<h3 id="把测试代码当成功能代码来写"><a href="#把测试代码当成功能代码来写" class="headerlink" title="把测试代码当成功能代码来写"></a>把测试代码当成功能代码来写</h3><p>测试架构的设计，提升代码的可复用性，Spring 生命周期管理等</p>
+<ul>
+<li>使用对象工厂等方式管理测试数据</li>
+<li>通过工具类、基类等方式提取重复代码和重复配置</li>
+<li>善用工具，避免重复轮子，提高代码简洁度，如 JUnit 的 <code>Rule</code>，Spring-Test 提供的各种测试注解、工具类</li>
+</ul>
+<hr>
+<h2 id="测试场景及实践"><a href="#测试场景及实践" class="headerlink" title="测试场景及实践:"></a>测试场景及实践:</h2><h3 id="善用构建工具🔧"><a href="#善用构建工具🔧" class="headerlink" title="善用构建工具🔧"></a>善用构建工具🔧</h3><p>e.g. 使用 maven pom 文件中的 <code>profile</code> 标签进行多版本测试，比如我们要测试程序在不同 spring 版本下是否运行正常：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">profiles</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">profile</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>spring5<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>                    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.0.10.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>                <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">profile</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">profiles</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="Spring-容器"><a href="#Spring-容器" class="headerlink" title="Spring 容器"></a>Spring 容器</h3><p><a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/testing.html#testcontext-framework">Spring-Test 官方文档</a><br>基于 Spring 的单元&#x2F;集成测试也是个很大的话题，今天暂不展开</p>
+<h3 id="外部系统调用"><a href="#外部系统调用" class="headerlink" title="外部系统调用"></a>外部系统调用</h3><p>DB, Redis, ZK, MQ, Http-Server, Dubbo</p>
+<p>在测试中可以使用内存中间件，比如内存 DB (H2)，内存 Redis，内存 ZK (<code>curator-test</code>)</p>
+<p>例如 mock 一个 http server:</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">class</span> <span class="hljs-title class_">WireMockTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Specification</span> &#123;<br><br>    <span class="hljs-meta">@Rule</span><br>    WireMockRule wireMockRule = <span class="hljs-keyword">new</span> WireMockRule(<span class="hljs-number">18080</span>)<br><br>    <span class="hljs-keyword">def</span> wireMock = <span class="hljs-keyword">new</span> WireMockGroovy(<span class="hljs-number">18080</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-string">&quot;WireMockRule&quot;</span>() &#123;<br>        <span class="hljs-symbol">given:</span><br>        wireMockRule.stubFor(any(urlEqualTo(<span class="hljs-string">&quot;/some/thing?k1=v1&quot;</span>))<br>                .willReturn(aResponse()<br>                        .withHeader(<span class="hljs-string">&quot;Content-Type&quot;</span>, <span class="hljs-string">&quot;text/plain&quot;</span>)<br>                        .withBody(<span class="hljs-string">&quot;Hello world!&quot;</span>)));<br><br>        <span class="hljs-symbol">when:</span><br>        <span class="hljs-keyword">def</span> res = org.apache.http.client.fluent.Request.Post(<span class="hljs-string">&quot;http://localhost:18080/some/thing?k1=v1&quot;</span>)<br>                .execute().returnContent().asString()<br><br>        <span class="hljs-symbol">then:</span><br>        <span class="hljs-comment">// assert result ...</span><br>        <span class="hljs-symbol">and:</span><br>        verify(<span class="hljs-number">1</span>, postRequestedFor(urlEqualTo(<span class="hljs-string">&quot;/some/thing?k1=v1&quot;</span>)));<br>    &#125;<br><br>    <span class="hljs-comment">// http://wiremock.org/docs/stubbing/</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-string">&quot;WireMock (mock http server) | groovy style&quot;</span>() &#123;<br>        <span class="hljs-symbol">given:</span><br>        wireMock.stub &#123;<br>            request &#123;<br>                method <span class="hljs-string">&quot;GET&quot;</span><br>                url <span class="hljs-string">&quot;/book&quot;</span><br>            &#125;<br>            response &#123;<br>                status <span class="hljs-number">200</span><br>                body <span class="hljs-string">&quot;&quot;&quot;[</span><br><span class="hljs-string">                      &#123;&quot;title&quot;: &quot;Book 1&quot;, &quot;isbn&quot;: &quot;4711&quot;&#125;,</span><br><span class="hljs-string">                      &#123;&quot;title&quot;: &quot;Book 2&quot;, &quot;isbn&quot;: &quot;4712&quot;&#125;</span><br><span class="hljs-string">                    ]</span><br><span class="hljs-string">                 &quot;&quot;&quot;</span><br>                headers &#123; <span class="hljs-string">&quot;Content-Type&quot;</span> <span class="hljs-string">&quot;application/json&quot;</span> &#125;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-symbol">when:</span> <span class="hljs-string">&quot;we invoke the REST client to find all books&quot;</span><br>        <span class="hljs-keyword">def</span> res = request()<br><br>        <span class="hljs-symbol">then:</span> <span class="hljs-string">&quot;we expect two books to be found&quot;</span><br>        <span class="hljs-comment">// assert result ....</span><br>        <span class="hljs-symbol">and:</span> <span class="hljs-string">&quot;the mock to be invoked exactly once&quot;</span><br>        <span class="hljs-number">1</span> == wireMock.count &#123;<br>            method <span class="hljs-string">&quot;GET&quot;</span><br>            url <span class="hljs-string">&quot;/book&quot;</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h3 id="异步场景"><a href="#异步场景" class="headerlink" title="异步场景"></a>异步场景</h3><ul>
+<li>Java: <a href="https://github.com/awaitility/awaitility">Awaitility</a></li>
+<li>Spock: <code>PollingConditions</code>, <code>AsyncConditions</code></li>
+</ul>
+<h3 id="Interaction"><a href="#Interaction" class="headerlink" title="Interaction"></a>Interaction</h3><p><strong>interaction_based_testing</strong> —— 基于交互行为的测试</p>
+<p>assert 对象的某个方法是否被调用过</p>
+<p>实现方式：</p>
+<ul>
+<li><p>Mock 实例方法，比如 Java 的 <code>Mockito</code>, Spock 自带的 Mock API 等</p>
+<ul>
+<li>理解 Mock &amp; Stub &amp; Spy 这三者的定义和区别  <a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_interaction_based_testing">spock-doc_interaction_based_testing</a></li>
+</ul>
+</li>
+<li><p>Mock 静态方法: 目前只有 <code>PowerMock</code> 支持</p>
+</li>
+<li><p>JUnit Rule <code>SystemOutRule</code>，通过断言控制台日志的方式来判断某个方法是否被调用过，不是很优雅，适合测试旧代码或者实在很难测试的场景</p>
+</li>
+<li><p>或者自己实现</p>
+</li>
+</ul>
+<h3 id="其他场景"><a href="#其他场景" class="headerlink" title="其他场景"></a>其他场景</h3><p><a href="https://docs.qameta.io/allure/#_flaky_tests">flaky-test</a></p>
+<ul>
+<li>被测试的事件不稳定, 有一定概率失败</li>
+<li>单独运行时正常，一起运行时失败，需要做好对象的清理工作</li>
+</ul>
+<hr>
+<h2 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具:"></a>测试工具:</h2><h3 id="测试框架："><a href="#测试框架：" class="headerlink" title="测试框架："></a>测试框架：</h3><ul>
+<li><a href="http://spockframework.org/spock/docs/1.2/all_in_one.html#_spock_primer">Spock</a></li>
+<li><a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-assertions">JUnit 5</a>，不推荐 <code>JUnit4</code></li>
+</ul>
+<p>工具目的：提升写测试的效率；让测试代码可读性更强    </p>
+<h3 id="测试执行报告"><a href="#测试执行报告" class="headerlink" title="测试执行报告:"></a>测试执行报告:</h3><p>推荐一款工具 —— <a href="http://allure.qatools.ru/">Allure</a></p>
+<p>maven 原生的命令行输出不好阅读:<br><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e00748a5dad9e7?w=2848&h=1606&f=png&s=451667" srcset="/img/loading.gif" lazyload alt="命令行输出的测试结果不好阅读"></p>
+<p>Allure 提供了 maven 插件的形式，运行 <code>mvn allure:server</code> 命令，可以在本地生成网页，展示测试报告，测试用例的执行结果更清晰、直观：<br><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e00756799f986f?w=2878&h=1544&f=png&s=644674" srcset="/img/loading.gif" lazyload alt="Allure 展示执行结果"></p>
+<p>Allure 还可以和 Jenkins 集成，查看测试执行结果的趋势变化，更好地支持持续集成：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/10/25/16e0076c87e80345?w=2878&h=1558&f=png&s=225975" srcset="/img/loading.gif" lazyload alt="Allure 展示测试用例耗时"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/TDD/" class="category-chain-item">TDD</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/TDD/" class="print-no-link">#TDD</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>TDD 在企业开发中的实践</div>
+      <div>http://yoursite.com/2019/04/04/tdd-in-enterprice/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>chenxi</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年4月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/07/02/about-code-comment/" title="编程随想录 — 代码注释">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编程随想录 — 代码注释</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/01/28/Spock-Tutorial-for-Javaer/" title="A Spock Tutorial for Java Developers">
+                        <span class="hidden-mobile">A Spock Tutorial for Java Developers</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
