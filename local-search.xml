@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>聊聊时下大热的 MCP</title>
+    <link href="/2025/04/03/20250403-mcp/"/>
+    <url>/2025/04/03/20250403-mcp/</url>
+    
+    <content type="html"><![CDATA[<p>作为近期 AI 技术热点的 MCP 为很多公众号和 AI 工具带来了不少流量。这些 AI 工具包括本身热度就很高的编程工具 Cursor、Windsurf，还有 AI 客户端工具，如 Claude Desktop、开源的 Cherry Studio，还包括阿里云的网关服务 Higress，也及时借着这波流量宣传自家产品。</p><p>MCP 是 C&#x2F;S 架构，其中 MCP Client 的作用在于对原有大模型的能力进行增强，使其找到合适的 MCP Server 和对应的 Tool，例如通过 filesystem 这一 MPC Server 来读或写（文件读、写分别代表一种 Tool）本地文件。大模型本身感知不到 MCP，这里是 MCP Client 端对其进行了封装，使对话具备了 MCP 能力，这里 Client 端实现必然使用了提示词改写，还可能用到了 Function Call。</p><img src="/images/mcp.png" width="500"/><h4 id="MCP-带来的市场繁荣"><a href="#MCP-带来的市场繁荣" class="headerlink" title="MCP 带来的市场繁荣"></a>MCP 带来的市场繁荣</h4><p>目前 Client 端的参与者还是少数，这次火爆的点在于 MCP Server 市场的繁荣，MCP 作为 Function Call 的继承者，他们两者的本质是实现大模型连接现实世界的能力，理论上现实世界已有的平台都可以 MCP 化，如 Figima、Web Search、数据库、本地浏览器、在线文档平台、项目管理平台等等。Higress 还推出了一键将存量应用转成 MCP Server 的功能。我还看到了所谓“一行代码让 Python FastAPI 应用秒变 MCP 服务器”的文章标题。可以想见，未来一段时间，MCP 的 Server 应用市场会发展非常迅速，相应的也会出现很多 Infra 层的能力沉淀，如存量应用迁移成 MCP Serer、安全协议、流量监控等，这部分是网关层和 Web 服务层的市场，比如 Cloudflare 和 阿里云都已宣布支持远程 MCP Server 部署。</p><p>相比较 Function Call，MCP 的革新在于将原有的连接（LLM 连接现实世界）能力标准化，解决原先 Function Call 重复开发和开发成本高的问题。标准化的结果是市场化，带来的是整个 MCP 市场的繁荣。</p><h4 id="对-AI-应用开发者的影响"><a href="#对-AI-应用开发者的影响" class="headerlink" title="对 AI 应用开发者的影响"></a>对 AI 应用开发者的影响</h4><p>对于 AI 应用开发者来说，等到 MCP Client 端的框架能力成熟之后，AI 应用的开发会大幅简化，不需要为实现 Function Call 而精心设计 Prompt 和调用链，后面仅需要一条提示词来实现，整个过程完全 out of the box。这里我们需要等待 LLM 框架的发展。</p><h4 id="得-Agent-者得天下"><a href="#得-Agent-者得天下" class="headerlink" title="得 Agent 者得天下"></a>得 Agent 者得天下</h4><p>目前可说是各个大模型厂商群雄逐鹿的下半场，在模型层，各大厂商比拼的是模型效果、Token 成本。在应用层，消费者还会关注大模型串联现实世界的能力。当时 Cursor 能够后来居上赶超微软的 GitHub Copilot，靠的就是它超强的整库（代码库）分析能力。Cursor 不局限于用户给定的几个文件，而是具备分析整个代码仓库的能力，通过精巧的代码索引技术，能够和代码库高度集成，提供更加准确的项目级代码生成能力。在自动补全场景中，Cursor 甚至会去“偷偷”分析用户剪切板里的内容，尽力预判用户意图，提供更准确的补全，大大提高了程序员编程的流畅度和幸福感。</p><p>后来 Cursor 又逐渐推出了 Compose 和 Agent 模式，甚至能在响应过程中自动执行命令行命令，再根据命令行输出进一步作出分析、决策。其实这种 Agent 模式最开始是 Windsurf 和 Cline 先推出的。所以有段时间，大概是 24 年 11 月，Windsurf 的热度曾经盖过 Cursor，当时我就有一个程序员朋友果断“弃科（Cursor）从文（Windsurf）”了。可见 AI 智能体的 Agent 能力是留住用户的关键。Agent 模式越成熟，连接现实世界的能力越强大，相应地，用户被打断和切换工作空间的频率就越低。用户的工作流越自动化，工作效率就提升越明显。</p><p>自 LLM 问世以来，编程工具无疑是大模型应用层领域最成功的典范。在 Anthropic 提出 MCP 协议之前，类似 Cursor、Windsurf 这类的代码编辑器就已经在事实上深度实践了 MCP。MCP 全称 Model Context Protocol（模型上下文协议），而代码编辑器的 Context 就是代码库和用户输入。对比大多数主打好玩有趣的 AI 产品不同，AI 编程工具直击痛点，真正解决程序员的工程问题，甚至是从 0 到 1 地构建项目，大幅节省了工程师查阅文档、StackOverflow、Debug、学习新技术、还有实际编码的时间。<br>所以我相信在未来很长一段时间内，AI 代码编辑器还会是大模型应用领域的领跑者。</p><h4 id="关于未来"><a href="#关于未来" class="headerlink" title="关于未来"></a>关于未来</h4><p>MCP 的影响有两方面：</p><ol><li>一方面 MCP 的技术成熟会降低消费者构建复杂 AI 应用的门槛；</li><li>另一方面 MCP 市场的成熟会催生更多脑洞，逐步提高 AI 产品的探索深度。</li></ol><p>对于第一点我认为这毕竟只是工程实践上一定程度的效率提升，类似框架（如 LangChain）之于原生开发，MCP 起到的更多是锦上添花的作用，它对整个 AI 应用开发所产生的影响还很有限。<br>对于第二点，目前我看到的很多 MCP 实践还仅仅是停留在玩具层面，当然我很希望能够早日再出现一个像 Cursor 一样的杀手级 AI 应用。我们现在能做的就是耐心等待（或者亲自下场以身入局），让子弹再飞一会儿。</p><h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><ul><li><a href="https://mp.weixin.qq.com/s/kcQ1lifA8oH2ee16QxDYYg">MCP 货币化浅析 | Higress</a></li><li><a href="https://cobusgreyling.medium.com/using-langchain-with-model-context-protocol-mcp-e89b87ee3c4c">Using LangChain With Model Context Protocol (MCP) | Medium</a></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>AI</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>AI</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>《大明王朝 1566》读后感</title>
     <link href="/2025/02/20/book-ming1566/"/>
     <url>/2025/02/20/book-ming1566/</url>
